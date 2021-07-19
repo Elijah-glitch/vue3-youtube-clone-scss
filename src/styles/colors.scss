@@ -1,0 +1,9 @@
+body {
+  // LOGO
+  --logo-text-color: #ffffff;
+}
+
+body.dark-mode {
+  // LOGO
+  --logo-text-color: #2c3e50;
+}
