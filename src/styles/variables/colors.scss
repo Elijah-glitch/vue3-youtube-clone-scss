@@ -1,0 +1,17 @@
+body {
+  // BODY
+  --body-bg-color: #ffffff;
+  // LOGO
+  --logo-text-color: #2c3e50;
+  // ICONS
+}
+
+body.dark-mode {
+  // BODY
+  --body-bg-color: #181919;
+  // LOGO
+  --logo-text-color: #ffffff;
+
+  // ICONS
+  --navbar-bar-color: #ffffff;
+}

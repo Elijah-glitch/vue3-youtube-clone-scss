@@ -4,7 +4,7 @@
       :width="`90px`"
       :height="`20px`"
       :iconName="Logo"
-      :viewBox="`0 0 90px 20px`"
+      :viewBox="`0 0 90 20`"
       ><logo-icon
     /></icon-base>
   </div>
@@ -21,8 +21,11 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
-.logo svg {
-  fill: var(--logo-text-color);
+<style lang="scss" scoped>
+.logo {
+  height: 20px;
+  & svg {
+    fill: var(--logo-text-color);
+  }
 }
 </style>
