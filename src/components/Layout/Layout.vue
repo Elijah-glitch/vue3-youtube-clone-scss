@@ -11,6 +11,15 @@
       </div>
       <div class="navbar-middle">
         <input placeholder="Search" class="search-bar" />
+        <button class="search-button">
+          <icon-base
+            :width="`20px`"
+            :height="`20px`"
+            :iconName="search"
+            class="search-icon"
+            ><icon-search
+          /></icon-base>
+        </button>
       </div>
       <div class="navbar-right"></div>
     </div>
@@ -21,12 +30,13 @@
 import { defineComponent } from "vue";
 import IconBase from "@/components/Icon/BaseIcon.vue";
 import BarIcon from "@/components/Icon/Icons/Bar.vue";
+import IconSearch from "@/components/Icon/Icons/Search.vue";
 import TransparentButton from "@/components/Input/Button/TransparentButton/TransparentButton.vue";
 import MainLogo from "@/components/Logo/LogoMain.vue";
 
 export default defineComponent({
   name: "Layout",
-  components: { IconBase, BarIcon, TransparentButton, MainLogo },
+  components: { IconBase, BarIcon, TransparentButton, MainLogo, IconSearch },
 });
 </script>
 
@@ -47,10 +57,10 @@ export default defineComponent({
     }
 
     & .navbar-middle {
+      display: flex;
+      width: 100%;
       max-width: 640px;
       min-width: 136px;
-
-      flex: 0.8;
 
       & .search-bar {
         height: 26px;
@@ -69,6 +79,33 @@ export default defineComponent({
 
         &::placeholder {
           color: var(--searchbox-placeholder-color);
+        }
+      }
+
+      & .search-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 72.5px;
+        padding: 1px 6px;
+        background: var(--searchbtn-bg-color);
+        outline: none;
+        border: 1px solid var(--searchbtn-border-color);
+        cursor: pointer;
+        & .search-icon g {
+          fill: var(--search-icon-color);
+        }
+
+        &:hover {
+          & .search-icon g {
+            fill: var(--search-icon-hover-color);
+          }
+
+          background: var(--searchbtn-bg-hover-color);
+          border: 1px solid var(--searchbtn-hover-border-color);
+        }
+        &:focus {
+          background: var(--searchbtn-bg-focus-color);
         }
       }
     }

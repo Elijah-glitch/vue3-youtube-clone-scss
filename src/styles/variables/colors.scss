@@ -6,6 +6,9 @@ body {
   // LOGO
   --logo-text-color: #2c3e50;
   // ICONS
+  --navbar-bar-color: #ffffff;
+  --search-icon-color: #828282;
+  --search-icon-hover-color: #373737;
 
   // SEARCH BOX
   --searchbox-border-color: hsla(0, 0%, 53.3%, 0.4);
@@ -13,6 +16,12 @@ body {
   --searchbox-bg-color: #ffffff;
   --searchbox-placeholder-color: #666;
   --searchbox-caret-color: black;
+  // SEARCH BUTTON
+  --searchbtn-bg-color: #f8f8f8;
+  --searchbtn-bg-hover-color: #f0f0f0;
+  --searchbtn-bg-focus-color: #e9e9e9;
+  --searchbtn-border-color: #d3d3d3;
+  --searchbtn-hover-border-color: #c6c6c6;
 
   // LAYOUT
   --layout-bg-color: #ffffff;
@@ -28,6 +37,8 @@ body.dark-mode {
 
   // ICONS
   --navbar-bar-color: #ffffff;
+  --search-icon-color: #6f6f6f;
+  --search-icon-hover-color: #868687;
 
   // SEARCH BOX
   --searchbox-border-color: hsla(0, 0%, 53.3%, 0.4);
@@ -35,6 +46,12 @@ body.dark-mode {
   --searchbox-bg-color: #121313;
   --searchbox-placeholder-color: #666;
   --searchbox-caret-color: white;
+  // SEARCH BUTTON
+  --searchbtn-bg-color: #313030;
+  --searchbtn-bg-hover-color: hsla(0, 0%, 100%, 0.08);
+  --searchbtn-bg-focus-color: hsla(0, 0%, 100%, 0.08);
+  --searchbtn-border-color: hsl(0, 0%, 18.82%);
+  --searchbtn-hover-border-color: hsl(0, 0%, 18.82%);
 
   // LAYOUT
   --layout-bg-color: #202121;
