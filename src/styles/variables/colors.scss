@@ -1,17 +1,41 @@
 body {
   // BODY
-  --body-bg-color: #ffffff;
+  --body-bg-color: #f8f9f8;
+  // TEXT
+  --text-color: #030303;
   // LOGO
   --logo-text-color: #2c3e50;
   // ICONS
+
+  // SEARCH BOX
+  --searchbox-border-color: hsla(0, 0%, 53.3%, 0.4);
+  --searchbox-focus-border-color: #3ea6ff;
+  --searchbox-bg-color: #ffffff;
+  --searchbox-placeholder-color: #666;
+  --searchbox-caret-color: black;
+
+  // LAYOUT
+  --layout-bg-color: #ffffff;
 }
 
 body.dark-mode {
   // BODY
   --body-bg-color: #181919;
+  // TEXT
+  --text-color: #ffffff;
   // LOGO
   --logo-text-color: #ffffff;
 
   // ICONS
   --navbar-bar-color: #ffffff;
+
+  // SEARCH BOX
+  --searchbox-border-color: hsla(0, 0%, 53.3%, 0.4);
+  --searchbox-focus-border-color: #3ea6ff;
+  --searchbox-bg-color: #121313;
+  --searchbox-placeholder-color: #666;
+  --searchbox-caret-color: white;
+
+  // LAYOUT
+  --layout-bg-color: #202121;
 }
