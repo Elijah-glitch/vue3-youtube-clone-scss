@@ -1,12 +1,14 @@
 body {
   // BODY
   --body-bg-color: #f8f9f8;
+  //DEFAULT COLORS
+  --white: #606161;
   // TEXT
   --text-color: #030303;
   // LOGO
   --logo-text-color: #2c3e50;
   // ICONS
-  --navbar-bar-color: #ffffff;
+  --navbar-bar-color: #606161;
   --search-icon-color: #828282;
   --search-icon-hover-color: #373737;
 
@@ -14,7 +16,7 @@ body {
   --searchbox-border-color: hsla(0, 0%, 53.3%, 0.4);
   --searchbox-focus-border-color: #3ea6ff;
   --searchbox-bg-color: #ffffff;
-  --searchbox-placeholder-color: #666;
+  --searchbox-placeholder-color: #888888;
   --searchbox-caret-color: black;
   // SEARCH BUTTON
   --searchbtn-bg-color: #f8f8f8;
@@ -30,6 +32,8 @@ body {
 body.dark-mode {
   // BODY
   --body-bg-color: #181919;
+  //DEFAULT COLORS
+  --white: #ffffff;
   // TEXT
   --text-color: #ffffff;
   // LOGO
@@ -44,7 +48,7 @@ body.dark-mode {
   --searchbox-border-color: hsla(0, 0%, 53.3%, 0.4);
   --searchbox-focus-border-color: #3ea6ff;
   --searchbox-bg-color: #121313;
-  --searchbox-placeholder-color: #666;
+  --searchbox-placeholder-color: #888888;
   --searchbox-caret-color: white;
   // SEARCH BUTTON
   --searchbtn-bg-color: #313030;

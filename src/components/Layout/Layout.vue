@@ -3,7 +3,7 @@
     <div class="navbar">
       <div class="navbar-left">
         <transparent-button :rippleEffect="true" :padding="`8px`">
-          <icon-base :iconName="Bar"><bar-icon /></icon-base>
+          <icon-base><bar-icon /></icon-base>
         </transparent-button>
         <transparent-button :padding="`16px 14px 16px 16px`">
           <main-logo />
@@ -21,7 +21,32 @@
           /></icon-base>
         </button>
       </div>
-      <div class="navbar-right"></div>
+      <div class="navbar-right">
+        <transparent-button
+          :rippleEffect="true"
+          :padding="`8px`"
+          :margin="`0 8px 0 0`"
+        >
+          <icon-base><icon-add-video /></icon-base>
+        </transparent-button>
+        <transparent-button
+          :rippleEffect="true"
+          :padding="`8px`"
+          :margin="`0 8px 0 0`"
+        >
+          <icon-base><icon-apps /></icon-base>
+        </transparent-button>
+        <transparent-button
+          :rippleEffect="true"
+          :padding="`8px`"
+          :margin="`0 8px 0 0`"
+        >
+          <icon-base><icon-notification /></icon-base>
+        </transparent-button>
+        <transparent-button :padding="`0 14px`">
+          <avatar-main />
+        </transparent-button>
+      </div>
     </div>
   </div>
 </template>
@@ -29,22 +54,37 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import IconBase from "@/components/Icon/BaseIcon.vue";
+import IconApps from "@/components/Icon/Icons/Apps.vue";
+import IconAddVideo from "@/components/Icon/Icons/AddVideo.vue";
+import IconNotification from "@/components/Icon/Icons/Notification.vue";
 import BarIcon from "@/components/Icon/Icons/Bar.vue";
 import IconSearch from "@/components/Icon/Icons/Search.vue";
 import TransparentButton from "@/components/Input/Button/TransparentButton/TransparentButton.vue";
+import AvatarMain from "@/components/Avatar/AvatarMain/AvatarMain.vue";
 import MainLogo from "@/components/Logo/LogoMain.vue";
 
 export default defineComponent({
   name: "Layout",
-  components: { IconBase, BarIcon, TransparentButton, MainLogo, IconSearch },
+  components: {
+    IconBase,
+    BarIcon,
+    TransparentButton,
+    MainLogo,
+    IconSearch,
+    IconApps,
+    IconAddVideo,
+    IconNotification,
+    AvatarMain,
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 .layout {
+  overflow: hidden;
   .navbar {
     height: 56px;
-    width: 99vw;
+    width: 100vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -65,7 +105,7 @@ export default defineComponent({
       & .search-bar {
         height: 26px;
         width: 100%;
-        padding: 2px 6px;
+        padding: 2px 10px;
         max-width: 575px;
         border: 1px solid var(--searchbox-border-color);
         outline: none;
@@ -107,6 +147,18 @@ export default defineComponent({
         &:focus {
           background: var(--searchbtn-bg-focus-color);
         }
+      }
+    }
+
+    & .navbar-right {
+      display: flex;
+      margin-right: 20px;
+      & button {
+        margin-right: 8px;
+      }
+
+      & g {
+        fill: var(--white);
       }
     }
   }

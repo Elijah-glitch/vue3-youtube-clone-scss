@@ -7,7 +7,6 @@
     :aria-labelledby="iconName"
     role="presentation"
   >
-    <title :id="iconName" lang="en">{{ iconName }} icon</title>
     <g :fill="iconColor">
       <slot />
     </g>
@@ -20,10 +19,6 @@ import { defineComponent } from "@vue/runtime-core";
 export default defineComponent({
   name: "IconBase",
   props: {
-    iconName: {
-      type: String,
-      default: "box",
-    },
     width: {
       type: [Number, String],
       default: "24px",

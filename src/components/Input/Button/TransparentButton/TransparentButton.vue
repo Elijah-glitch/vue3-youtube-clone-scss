@@ -1,7 +1,9 @@
 <template>
-  <button :style="paddingValue" class="button">
+  <button :style="style" class="button">
     <div v-if="rippleEffect" class="ripple"></div>
-    <slot />
+    <span class="icon">
+      <slot />
+    </span>
   </button>
 </template>
 
@@ -10,19 +12,23 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "TransparentButton",
+  data() {
+    return {
+      style: `padding:${this.padding}; margin:${this.margin};`,
+    };
+  },
   props: {
     padding: {
+      type: String,
+      default: "0",
+    },
+    margin: {
       type: String,
       default: "0",
     },
     rippleEffect: {
       type: Boolean,
       default: false,
-    },
-  },
-  computed: {
-    paddingValue(): String {
-      return `padding:${this.padding};`;
     },
   },
 });
@@ -38,12 +44,16 @@ export default defineComponent({
   cursor: pointer;
   position: relative;
 
+  & .icon {
+    z-index: 1;
+  }
+
   & .ripple {
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    z-index: -1;
+    z-index: 0;
   }
 
   &:not(:active) .ripple {
