@@ -81,7 +81,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .layout {
-  overflow: hidden;
+  overflow-x: hidden;
   .navbar {
     height: 56px;
     width: 100vw;
