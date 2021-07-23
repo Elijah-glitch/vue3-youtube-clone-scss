@@ -27,6 +27,9 @@ body {
 
   // LAYOUT
   --layout-bg-color: #ffffff;
+
+  // DROPDOWN
+  --dropdown-bg: #fefffe;
 }
 
 body.dark-mode {
@@ -59,4 +62,7 @@ body.dark-mode {
 
   // LAYOUT
   --layout-bg-color: #202121;
+
+  // DROPDOWN
+  --dropdown-bg: #202021;
 }

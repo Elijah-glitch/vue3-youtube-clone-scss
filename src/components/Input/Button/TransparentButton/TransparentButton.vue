@@ -1,9 +1,7 @@
 <template>
   <button :style="style" class="button">
     <div v-if="rippleEffect" class="ripple"></div>
-    <span class="icon">
-      <slot />
-    </span>
+    <slot />
   </button>
 </template>
 
@@ -44,10 +42,6 @@ export default defineComponent({
   cursor: pointer;
   position: relative;
 
-  & .icon {
-    z-index: 1;
-  }
-
   & .ripple {
     position: absolute;
     width: 100%;
@@ -57,7 +51,7 @@ export default defineComponent({
   }
 
   &:not(:active) .ripple {
-    animation: borderEffect 0.3s;
+    animation: borderEffect 0.5s;
   }
 
   &:active .ripple {

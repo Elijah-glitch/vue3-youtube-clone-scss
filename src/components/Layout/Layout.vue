@@ -3,7 +3,7 @@
     <div class="navbar">
       <div class="navbar-left">
         <transparent-button :rippleEffect="true" :padding="`8px`">
-          <icon-base><bar-icon /></icon-base>
+          <icon-base class="icon"><bar-icon /></icon-base>
         </transparent-button>
         <transparent-button :padding="`16px 14px 16px 16px`">
           <main-logo />
@@ -22,26 +22,41 @@
         </button>
       </div>
       <div class="navbar-right">
+        <dropdown-container>
+          <transparent-button
+            :rippleEffect="true"
+            :padding="`8px`"
+            :margin="`0 8px 0 0`"
+          >
+            <icon-base class="icon"><icon-add-video /></icon-base>
+          </transparent-button>
+          <dropdown-item
+            :visible="true"
+            :direction="`right`"
+            class="dropdown-item-links"
+          >
+            <dropdown-link-main>
+              <icon-base class="dropdown-link-main-icon">
+                <icon-youtube-tv />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Youtube TV </span>
+            </dropdown-link-main>
+          </dropdown-item>
+        </dropdown-container>
+
         <transparent-button
           :rippleEffect="true"
           :padding="`8px`"
           :margin="`0 8px 0 0`"
         >
-          <icon-base><icon-add-video /></icon-base>
+          <icon-base class="icon"><icon-apps /></icon-base>
         </transparent-button>
         <transparent-button
           :rippleEffect="true"
           :padding="`8px`"
           :margin="`0 8px 0 0`"
         >
-          <icon-base><icon-apps /></icon-base>
-        </transparent-button>
-        <transparent-button
-          :rippleEffect="true"
-          :padding="`8px`"
-          :margin="`0 8px 0 0`"
-        >
-          <icon-base><icon-notification /></icon-base>
+          <icon-base class="icon"><icon-notification /></icon-base>
         </transparent-button>
         <transparent-button :padding="`0 14px`">
           <avatar-main />
@@ -54,13 +69,17 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import IconBase from "@/components/Icon/BaseIcon.vue";
+import IconYoutubeTv from "@/components/Icon/Icons/YoutubeTV.vue";
 import IconApps from "@/components/Icon/Icons/Apps.vue";
 import IconAddVideo from "@/components/Icon/Icons/AddVideo.vue";
 import IconNotification from "@/components/Icon/Icons/Notification.vue";
 import BarIcon from "@/components/Icon/Icons/Bar.vue";
 import IconSearch from "@/components/Icon/Icons/Search.vue";
 import TransparentButton from "@/components/Input/Button/TransparentButton/TransparentButton.vue";
+import DropdownLinkMain from "@/components/Input/Button/Dropdown/DropdownLinkMain.vue";
 import AvatarMain from "@/components/Avatar/AvatarMain/AvatarMain.vue";
+import DropdownContainer from "@/components/Dropdown/DropdownContainer/DropdownContainer.vue";
+import DropdownItem from "@/components/Dropdown/DropdownItem/DropdownItem.vue";
 import MainLogo from "@/components/Logo/LogoMain.vue";
 
 export default defineComponent({
@@ -75,6 +94,10 @@ export default defineComponent({
     IconAddVideo,
     IconNotification,
     AvatarMain,
+    DropdownContainer,
+    DropdownItem,
+    DropdownLinkMain,
+    IconYoutubeTv,
   },
 });
 </script>
@@ -82,6 +105,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .layout {
   overflow-x: hidden;
+  min-height: 100vh;
+  & .icon {
+    z-index: 1;
+  }
   .navbar {
     height: 56px;
     width: 100vw;
@@ -153,6 +180,11 @@ export default defineComponent({
     & .navbar-right {
       display: flex;
       margin-right: 20px;
+
+      & .dropdown-item-links {
+        width: 220px;
+      }
+
       & button {
         margin-right: 8px;
       }
