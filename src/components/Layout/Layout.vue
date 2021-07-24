@@ -23,9 +23,29 @@
             :rippleEffect="true"
             :padding="`8px`"
             :margin="`0 8px 0 0`"
+            @click="changeDropdownValue('addVideoVisible', true)"
           >
             <icon-base class="icon"><icon-add-video /></icon-base>
           </transparent-button>
+          <dropdown-item
+            :visible="dropdownVisibleValues.addVideoVisible"
+            :direction="'right'"
+            class="dropdown-item-links"
+            :onclose="() => changeDropdownValue('addVideoVisible', false)"
+          >
+            <dropdown-link-main margin-top>
+              <icon-base class="dropdown-link-main-icon">
+                <icon-youtube-tv />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Upload video </span>
+            </dropdown-link-main>
+            <dropdown-link-main margin-bottom>
+              <icon-base class="dropdown-link-main-icon">
+                <icon-youtube-tv />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Go live </span>
+            </dropdown-link-main>
+          </dropdown-item>
         </dropdown-container>
         <dropdown-container>
           <transparent-button
@@ -74,13 +94,52 @@
             </dropdown-link-main>
           </dropdown-item>
         </dropdown-container>
-        <transparent-button
-          :rippleEffect="true"
-          :padding="`8px`"
-          :margin="`0 8px 0 0`"
-        >
-          <icon-base class="icon"><icon-notification /></icon-base>
-        </transparent-button>
+        <dropdown-container>
+          <transparent-button
+            :rippleEffect="true"
+            :padding="`8px`"
+            :margin="`0 8px 0 0`"
+            @click="changeDropdownValue('notificationVisible', true)"
+          >
+            <icon-base class="icon"><icon-notification /></icon-base>
+          </transparent-button>
+          <dropdown-item
+            :visible="dropdownVisibleValues.notificationVisible"
+            :direction="'left'"
+            class="dropdown-notification-container"
+            :onclose="() => changeDropdownValue('notificationVisible', false)"
+          >
+            <div class="dropdown-notification-header">
+              <h1>Notifications</h1>
+              <transparent-button
+                :rippleEffect="true"
+                :padding="`8px`"
+                :margin="`0 8px 0 0`"
+              >
+                <icon-base class="icon"><icon-settings /></icon-base>
+              </transparent-button>
+            </div>
+            <div class="dropdown-notification-item-container">
+              <a
+                href="#"
+                v-for="item in notificationTexts"
+                :key="item"
+                class="dropdown-notification-item"
+              >
+                <img
+                  src="@/assets/pp2.jpg"
+                  class="dropdown-notification-item-pp"
+                />
+                <span class="dropdown-notification-item-text">{{ item }}</span>
+                <img
+                  src="@/assets/thumbnail.jpeg"
+                  class="dropdown-notification-item-thumb"
+                />
+              </a>
+            </div>
+          </dropdown-item>
+        </dropdown-container>
+
         <transparent-button :padding="`0 14px`">
           <avatar-main />
         </transparent-button>
@@ -90,7 +149,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import IconBase from "@/components/Icon/BaseIcon.vue";
 import IconYoutubeMusic from "@/components/Icon/Icons/YoutubeMusic.vue";
 import IconYoutubeKids from "@/components/Icon/Icons/YoutubeKids.vue";
@@ -99,6 +158,7 @@ import IconYoutubeTv from "@/components/Icon/Icons/YoutubeTV.vue";
 import IconApps from "@/components/Icon/Icons/Apps.vue";
 import IconAddVideo from "@/components/Icon/Icons/AddVideo.vue";
 import IconNotification from "@/components/Icon/Icons/Notification.vue";
+import IconSettings from "@/components/Icon/Icons/Settings.vue";
 import BarIcon from "@/components/Icon/Icons/Bar.vue";
 import IconSearch from "@/components/Icon/Icons/Search.vue";
 import TransparentButton from "@/components/Input/Button/TransparentButton/TransparentButton.vue";
@@ -111,7 +171,7 @@ import MainLogo from "@/components/Logo/LogoMain.vue";
 interface DropdownVisibleValues {
   appsVisible: boolean;
   addVideoVisible: boolean;
-  notificaitonVisible: boolean;
+  notificationVisible: boolean;
 }
 
 export default defineComponent({
@@ -133,21 +193,31 @@ export default defineComponent({
     IconYoutube,
     IconYoutubeMusic,
     IconYoutubeKids,
+    IconSettings,
   },
   setup() {
     const dropdownVisibleValues = reactive({
       appsVisible: false,
       addVideoVisible: false,
-      notificaitonVisible: false,
+      notificationVisible: false,
     } as DropdownVisibleValues);
 
+    const notificationTexts = ref<Array<String>>([
+      "Albert Einstein just uploaded a video: Everybody is a genius. But if you judge a fish by its ability to climb a tree, it will live its whole life believing that is stupid.",
+      "Albert Einstein just uploaded a video: Logic will get you from A to B. Imagination will take you everywhere.”",
+      "Albert Einstein just uploaded a video: I found out atom for the benefit of humanity but they kill each other with it.",
+      "Albert Einstein just uploaded a video: Strive not to be a success, but rather to be of value.",
+      "Albert Einstein just uploaded a video: Do you wonder what the difference between ignorance and genius is ? A Genius has limits but an ignorant doesn’t have any.",
+      "Albert Einstein just uploaded a video: I going holiday to Istanbul with Heisenberg.",
+    ]);
+
     const changeDropdownValue = (
-      valueName: "appsVisible" | "addVideoVisible" | "notificaitonVisible",
+      valueName: "appsVisible" | "addVideoVisible" | "notificationVisible",
       newValue: boolean
     ) => {
       dropdownVisibleValues[valueName] = newValue;
     };
-    return { dropdownVisibleValues, changeDropdownValue };
+    return { dropdownVisibleValues, changeDropdownValue, notificationTexts };
   },
 });
 </script>
@@ -241,6 +311,59 @@ export default defineComponent({
 
       & g {
         fill: var(--white);
+      }
+
+      & .dropdown-notification-container {
+        width: 478px;
+        max-height: 642px;
+        height: 100vh;
+        & .dropdown-notification-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 49px;
+          border-bottom: 1px solid var(--border-color);
+          & h1 {
+            margin-left: 16px;
+          }
+        }
+
+        & .dropdown-notification-item-container {
+          overflow-y: scroll;
+          max-height: 592px;
+          height: 100%;
+          & .dropdown-notification-item {
+            padding: 16px 16px 16px 0;
+            display: flex;
+
+            &:hover {
+              background: var(--bg-hover);
+            }
+
+            & .dropdown-notification-item-pp {
+              width: 48px;
+              height: 48px;
+              margin: 0 16px;
+              border-radius: 50%;
+            }
+
+            & .dropdown-notification-item-text {
+              display: inline-block;
+              letter-spacing: 0.2px;
+              padding-bottom: 8px;
+              line-height: 20px;
+              font-size: 15px;
+              width: 232px;
+            }
+
+            & .dropdown-notification-item-thumb {
+              margin: 0 16px;
+              width: 86px;
+              max-height: 64.5px;
+              object-fit: contain;
+            }
+          }
+        }
       }
     }
   }

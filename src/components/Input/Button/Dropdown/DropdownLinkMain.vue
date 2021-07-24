@@ -66,22 +66,22 @@ export default defineComponent({
   width: 100%;
   height: 40px;
   text-decoration: none;
-  background: var(--dropdown-login-main-bg);
+  background: initial;
 
   &:hover {
-    background: var(--dropdown-login-main-bg-hover);
+    background: var(--dropdown-link-main-bg-hover);
   }
 
   &.dropdown-link-focus:hover {
-    background: var(--dropdown-login-main-bg-focus-hover);
+    background: var(--dropdown-link-main-bg-focus-hover);
   }
 
   &:focus {
-    background: var(--dropdown-login-main-bg-focus);
+    background: var(--dropdown-link-main-bg-focus);
   }
 
   &:active {
-    background: var(--dropdown-login-main-bg-active);
+    background: var(--dropdown-link-main-bg-active);
   }
 
   & .dropdown-link-main-icon {
