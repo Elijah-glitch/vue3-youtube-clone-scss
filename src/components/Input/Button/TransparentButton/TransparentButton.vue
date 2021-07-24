@@ -1,6 +1,6 @@
 <template>
   <button :style="style" class="button">
-    <div v-if="rippleEffect" class="ripple"></div>
+    <div v-show="rippleEffect" class="ripple"></div>
     <slot />
   </button>
 </template>

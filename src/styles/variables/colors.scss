@@ -30,6 +30,16 @@ body {
 
   // DROPDOWN
   --dropdown-bg: #fefffe;
+
+  // DROPDOWN LINK MAIN
+  --dropdown-login-main-bg: #ffffff;
+  --dropdown-login-main-bg-focus: #e1e0e0;
+  --dropdown-login-main-bg-active: #d5d4d4;
+  --dropdown-login-main-bg-focus-hover: #d5d4d4;
+  --dropdown-login-main-bg-hover: #f3f2f3;
+
+  // BORDER
+  --border-color: rgba(0, 0, 0, 0.1);
 }
 
 body.dark-mode {
@@ -65,4 +75,12 @@ body.dark-mode {
 
   // DROPDOWN
   --dropdown-bg: #202021;
+  // DROPDOWN LINK MAIN
+  --dropdown-login-main-bg: #181818;
+  --dropdown-login-main-bg-focus: #3b3a3b;
+  --dropdown-login-main-bg-active: #4e4e4f;
+  --dropdown-login-main-bg-focus-hover: #4e4e4f;
+  --dropdown-login-main-bg-hover: #373737;
+  // BORDER
+  --border-color: rgba(255, 255, 255, 0.1);
 }

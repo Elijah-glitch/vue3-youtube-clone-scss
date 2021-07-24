@@ -1,7 +1,8 @@
 <template>
   <div
-    class="dropdown-item dropdown-item-click"
-    v-if="isVisible"
+    class="dropdown-item"
+    v-show="visible"
+    ref="dropdownItem"
     :direction="direction"
   >
     <slot />
@@ -9,7 +10,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, PropType } from "@vue/runtime-core";
+import {
+  defineComponent,
+  ref,
+  onMounted,
+  PropType,
+  watch,
+} from "@vue/runtime-core";
 
 export default defineComponent({
   name: "DropdownItem",
@@ -21,39 +28,44 @@ export default defineComponent({
     },
     visible: {
       type: Boolean,
-      default: false,
+    },
+    onclose: {
+      type: Function,
+      default: () => true,
     },
   },
   setup(props) {
     //Close dropdown when click out of dropdown element BEGIN
     const hasClickListener = ref<boolean>(false);
-    const isVisible = ref<boolean>(props.visible);
-    const onClickBg = function onClickBg(): void {
-      isVisible.value = false;
-    };
-    onMounted(() => {
-      if (!hasClickListener.value) {
-        const clickHandler = (e: MouseEvent) => {
-          if (isVisible.value) {
-            if (
-              !(e!.target as HTMLElement).classList.contains(
-                "dropdown-item-click"
-              )
-            )
-              return (isVisible.value = false);
-          }
-        };
+    const dropdownItem = ref<HTMLElement>();
 
-        return document.addEventListener("click", clickHandler);
+    const clickHandler = (e: MouseEvent) => {
+      if (props.visible) {
+        if (!e.composedPath().includes(dropdownItem.value as HTMLElement))
+          return props.onclose();
       }
-      return;
-    });
+    };
+
+    watch(
+      props,
+      (newValue) => {
+        if (newValue.visible && !hasClickListener.value) {
+          hasClickListener.value = true;
+          setTimeout(() => {
+            return document.addEventListener("click", clickHandler);
+          }, 0);
+        } else if (!newValue.visible) {
+          hasClickListener.value = false;
+          return document.removeEventListener("click", clickHandler);
+        }
+      },
+      { immediate: true }
+    );
     //Close dropdown when click out of dropdown element END
 
     return {
       hasClickListener,
-      isVisible,
-      onClickBg,
+      dropdownItem,
     };
   },
 });
@@ -62,7 +74,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .dropdown-item-base {
   position: absolute;
-  bottom: -15px;
+  top: 100%;
   background-color: var(--dropdown-bg);
   z-index: 3;
 }

@@ -12,11 +12,7 @@
       <div class="navbar-middle">
         <input placeholder="Search" class="search-bar" />
         <button class="search-button">
-          <icon-base
-            :width="`20px`"
-            :height="`20px`"
-            :iconName="search"
-            class="search-icon"
+          <icon-base :width="`20px`" :height="`20px`" class="search-icon"
             ><icon-search
           /></icon-base>
         </button>
@@ -30,27 +26,54 @@
           >
             <icon-base class="icon"><icon-add-video /></icon-base>
           </transparent-button>
-          <dropdown-item
-            :visible="true"
-            :direction="`right`"
-            class="dropdown-item-links"
+        </dropdown-container>
+        <dropdown-container>
+          <transparent-button
+            :rippleEffect="true"
+            :padding="`8px`"
+            :margin="`0 8px 0 0`"
+            @click="changeDropdownValue('appsVisible', true)"
           >
-            <dropdown-link-main>
+            <icon-base class="icon"><icon-apps /></icon-base>
+          </transparent-button>
+          <dropdown-item
+            :visible="dropdownVisibleValues.appsVisible"
+            :direction="'left'"
+            class="dropdown-item-links"
+            :onclose="() => changeDropdownValue('appsVisible', false)"
+          >
+            <dropdown-link-main margin-top margin-bottom>
               <icon-base class="dropdown-link-main-icon">
                 <icon-youtube-tv />
               </icon-base>
-              <span class="dropdown-link-main-text"> Youtube TV </span>
+              <span class="dropdown-link-main-text"> YouTube TV </span>
+            </dropdown-link-main>
+            <dropdown-link-main margin-top border-top>
+              <icon-base class="dropdown-link-main-icon">
+                <icon-youtube-music />
+              </icon-base>
+              <span class="dropdown-link-main-text"> YouTube Music </span>
+            </dropdown-link-main>
+            <dropdown-link-main margin-bottom border-bottom>
+              <icon-base class="dropdown-link-main-icon">
+                <icon-youtube-kids />
+              </icon-base>
+              <span class="dropdown-link-main-text"> YouTube Kids </span>
+            </dropdown-link-main>
+            <dropdown-link-main margin-top>
+              <icon-base class="dropdown-link-main-icon">
+                <icon-youtube />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Creator Academy </span>
+            </dropdown-link-main>
+            <dropdown-link-main margin-bottom>
+              <icon-base class="dropdown-link-main-icon">
+                <icon-youtube />
+              </icon-base>
+              <span class="dropdown-link-main-text"> YouTube for Artists </span>
             </dropdown-link-main>
           </dropdown-item>
         </dropdown-container>
-
-        <transparent-button
-          :rippleEffect="true"
-          :padding="`8px`"
-          :margin="`0 8px 0 0`"
-        >
-          <icon-base class="icon"><icon-apps /></icon-base>
-        </transparent-button>
         <transparent-button
           :rippleEffect="true"
           :padding="`8px`"
@@ -67,8 +90,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
 import IconBase from "@/components/Icon/BaseIcon.vue";
+import IconYoutubeMusic from "@/components/Icon/Icons/YoutubeMusic.vue";
+import IconYoutubeKids from "@/components/Icon/Icons/YoutubeKids.vue";
+import IconYoutube from "@/components/Icon/Icons/Youtube.vue";
 import IconYoutubeTv from "@/components/Icon/Icons/YoutubeTV.vue";
 import IconApps from "@/components/Icon/Icons/Apps.vue";
 import IconAddVideo from "@/components/Icon/Icons/AddVideo.vue";
@@ -81,6 +107,12 @@ import AvatarMain from "@/components/Avatar/AvatarMain/AvatarMain.vue";
 import DropdownContainer from "@/components/Dropdown/DropdownContainer/DropdownContainer.vue";
 import DropdownItem from "@/components/Dropdown/DropdownItem/DropdownItem.vue";
 import MainLogo from "@/components/Logo/LogoMain.vue";
+
+interface DropdownVisibleValues {
+  appsVisible: boolean;
+  addVideoVisible: boolean;
+  notificaitonVisible: boolean;
+}
 
 export default defineComponent({
   name: "Layout",
@@ -98,6 +130,24 @@ export default defineComponent({
     DropdownItem,
     DropdownLinkMain,
     IconYoutubeTv,
+    IconYoutube,
+    IconYoutubeMusic,
+    IconYoutubeKids,
+  },
+  setup() {
+    const dropdownVisibleValues = reactive({
+      appsVisible: false,
+      addVideoVisible: false,
+      notificaitonVisible: false,
+    } as DropdownVisibleValues);
+
+    const changeDropdownValue = (
+      valueName: "appsVisible" | "addVideoVisible" | "notificaitonVisible",
+      newValue: boolean
+    ) => {
+      dropdownVisibleValues[valueName] = newValue;
+    };
+    return { dropdownVisibleValues, changeDropdownValue };
   },
 });
 </script>
