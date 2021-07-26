@@ -90,7 +90,7 @@ export default defineComponent({
 
   & .dropdown-link-main-text {
     color: var(--text-color);
-    font-size: 16px;
+    font-size: 15px;
     font-family: var(--font-roboto);
   }
 }

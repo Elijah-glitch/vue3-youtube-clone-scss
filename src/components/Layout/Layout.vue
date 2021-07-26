@@ -28,7 +28,7 @@
             <icon-base class="icon"><icon-add-video /></icon-base>
           </transparent-button>
           <dropdown-item
-            :visible="dropdownVisibleValues.addVideoVisible"
+            :visible="dropdownVisibleValues.addVideoVisible.value"
             :direction="'right'"
             class="dropdown-item-links"
             :onclose="() => changeDropdownValue('addVideoVisible', false)"
@@ -57,7 +57,7 @@
             <icon-base class="icon"><icon-apps /></icon-base>
           </transparent-button>
           <dropdown-item
-            :visible="dropdownVisibleValues.appsVisible"
+            :visible="dropdownVisibleValues.appsVisible.value"
             :direction="'left'"
             class="dropdown-item-links"
             :onclose="() => changeDropdownValue('appsVisible', false)"
@@ -104,7 +104,7 @@
             <icon-base class="icon"><icon-notification /></icon-base>
           </transparent-button>
           <dropdown-item
-            :visible="dropdownVisibleValues.notificationVisible"
+            :visible="dropdownVisibleValues.notificationVisible.value"
             :direction="'left'"
             class="dropdown-notification-container"
             :onclose="() => changeDropdownValue('notificationVisible', false)"
@@ -122,19 +122,67 @@
             <div class="dropdown-notification-item-container">
               <a
                 href="#"
-                v-for="item in notificationTexts"
+                v-for="(item, index) in notificationTexts"
                 :key="item"
                 class="dropdown-notification-item"
               >
-                <img
-                  src="@/assets/pp2.jpg"
-                  class="dropdown-notification-item-pp"
-                />
-                <span class="dropdown-notification-item-text">{{ item }}</span>
-                <img
-                  src="@/assets/thumbnail.jpeg"
-                  class="dropdown-notification-item-thumb"
-                />
+                <div class="dropdown-notification-item-left">
+                  <img
+                    src="@/assets/pp2.jpg"
+                    class="dropdown-notification-item-pp"
+                  />
+                  <span class="dropdown-notification-item-text">{{
+                    item
+                  }}</span>
+                  <img
+                    src="@/assets/thumbnail.jpeg"
+                    class="dropdown-notification-item-thumb"
+                  />
+                </div>
+                <div class="dropdown-notification-item-right">
+                  <dropdown-container>
+                    <transparent-button
+                      :rippleEffect="true"
+                      :padding="`8px`"
+                      :margin="'0 0 0 8px'"
+                      class="dropdown-notification-item-sub-options"
+                      @click="changeDropdownValueSubSettings(index, true)"
+                    >
+                      <icon-base
+                        class="dropdown-notification-item-sub-options-icon"
+                        ><icon-three-dot-v
+                      /></icon-base>
+                    </transparent-button>
+                    <dropdown-item
+                      :visible="
+                        dropdownVisibleValues.notificationSubSettingsVisible
+                          .value[index]
+                      "
+                      :direction="'left'"
+                      class="dropdown-notification-sub-options-container"
+                      :onclose="
+                        () => changeDropdownValueSubSettings(index, false)
+                      "
+                    >
+                      <dropdown-link-main margin-top>
+                        <icon-base
+                          class="dropdown-link-main-icon unvisible-icon"
+                        >
+                          <icon-un-visible />
+                        </icon-base>
+                        <span class="dropdown-link-main-text">
+                          Hide this notification
+                        </span>
+                      </dropdown-link-main>
+                      <dropdown-link-main margin-bottom>
+                        <icon-base class="dropdown-link-main-icon"> </icon-base>
+                        <span class="dropdown-link-main-text">
+                          Turn off all from Albert Einstein
+                        </span>
+                      </dropdown-link-main>
+                    </dropdown-item>
+                  </dropdown-container>
+                </div>
               </a>
             </div>
           </dropdown-item>
@@ -149,7 +197,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, reactive, ref, toRefs } from "vue";
 import IconBase from "@/components/Icon/BaseIcon.vue";
 import IconYoutubeMusic from "@/components/Icon/Icons/YoutubeMusic.vue";
 import IconYoutubeKids from "@/components/Icon/Icons/YoutubeKids.vue";
@@ -159,6 +207,8 @@ import IconApps from "@/components/Icon/Icons/Apps.vue";
 import IconAddVideo from "@/components/Icon/Icons/AddVideo.vue";
 import IconNotification from "@/components/Icon/Icons/Notification.vue";
 import IconSettings from "@/components/Icon/Icons/Settings.vue";
+import IconThreeDotV from "@/components/Icon/Icons/ThreeDotV.vue";
+import IconUnVisible from "@/components/Icon/Icons/UnVisible.vue";
 import BarIcon from "@/components/Icon/Icons/Bar.vue";
 import IconSearch from "@/components/Icon/Icons/Search.vue";
 import TransparentButton from "@/components/Input/Button/TransparentButton/TransparentButton.vue";
@@ -172,6 +222,7 @@ interface DropdownVisibleValues {
   appsVisible: boolean;
   addVideoVisible: boolean;
   notificationVisible: boolean;
+  notificationSubSettingsVisible: Array<boolean>;
 }
 
 export default defineComponent({
@@ -194,14 +245,10 @@ export default defineComponent({
     IconYoutubeMusic,
     IconYoutubeKids,
     IconSettings,
+    IconThreeDotV,
+    IconUnVisible,
   },
   setup() {
-    const dropdownVisibleValues = reactive({
-      appsVisible: false,
-      addVideoVisible: false,
-      notificationVisible: false,
-    } as DropdownVisibleValues);
-
     const notificationTexts = ref<Array<String>>([
       "Albert Einstein just uploaded a video: Everybody is a genius. But if you judge a fish by its ability to climb a tree, it will live its whole life believing that is stupid.",
       "Albert Einstein just uploaded a video: Logic will get you from A to B. Imagination will take you everywhere.”",
@@ -211,13 +258,39 @@ export default defineComponent({
       "Albert Einstein just uploaded a video: I going holiday to Istanbul with Heisenberg.",
     ]);
 
+    const dropdownVisibleValuesReactive = reactive({
+      appsVisible: false,
+      addVideoVisible: false,
+      notificationVisible: false,
+      notificationSubSettingsVisible: notificationTexts.value.map(() => false),
+    } as DropdownVisibleValues);
+
+    const dropdownVisibleValues = toRefs(dropdownVisibleValuesReactive);
+
     const changeDropdownValue = (
-      valueName: "appsVisible" | "addVideoVisible" | "notificationVisible",
+      valueName:
+        | "appsVisible"
+        | "addVideoVisible"
+        | "notificationVisible"
+        | "notificationSubSettingsVisible",
       newValue: boolean
     ) => {
-      dropdownVisibleValues[valueName] = newValue;
+      dropdownVisibleValues[valueName].value = newValue;
     };
-    return { dropdownVisibleValues, changeDropdownValue, notificationTexts };
+
+    const changeDropdownValueSubSettings = (
+      index: number,
+      newValue: boolean
+    ) => {
+      dropdownVisibleValues["notificationSubSettingsVisible"].value[index] =
+        newValue;
+    };
+    return {
+      dropdownVisibleValues,
+      changeDropdownValue,
+      changeDropdownValueSubSettings,
+      notificationTexts,
+    };
   },
 });
 </script>
@@ -317,6 +390,7 @@ export default defineComponent({
         width: 478px;
         max-height: 642px;
         height: 100vh;
+
         & .dropdown-notification-header {
           display: flex;
           justify-content: space-between;
@@ -330,37 +404,85 @@ export default defineComponent({
 
         & .dropdown-notification-item-container {
           overflow-y: scroll;
+          overflow-x: hidden;
           max-height: 592px;
           height: 100%;
+          position: relative;
+          width: 478px;
+
+          &::-webkit-scrollbar {
+            width: 8px;
+            background: transparent;
+          }
+
+          &:hover::-webkit-scrollbar-thumb {
+            background: var(--notification-scrollbar-bg);
+          }
+
           & .dropdown-notification-item {
             padding: 16px 16px 16px 0;
             display: flex;
+            justify-content: flex-start;
 
             &:hover {
               background: var(--bg-hover);
+              & .dropdown-notification-item-right {
+                visibility: visible;
+              }
             }
 
-            & .dropdown-notification-item-pp {
-              width: 48px;
-              height: 48px;
-              margin: 0 16px;
-              border-radius: 50%;
+            & .dropdown-notification-item-left {
+              display: flex;
+
+              & .dropdown-notification-item-pp {
+                width: 48px;
+                height: 48px;
+                margin: 0 16px;
+                border-radius: 50%;
+              }
+
+              & .dropdown-notification-item-text {
+                display: inline-block;
+                letter-spacing: 0.2px;
+                padding-bottom: 8px;
+                line-height: 20px;
+                font-size: 15px;
+                width: 232px;
+              }
+
+              & .dropdown-notification-item-thumb {
+                margin: 0 0 0 16px;
+                width: 86px;
+                max-height: 64.5px;
+                object-fit: contain;
+              }
             }
 
-            & .dropdown-notification-item-text {
-              display: inline-block;
-              letter-spacing: 0.2px;
-              padding-bottom: 8px;
-              line-height: 20px;
-              font-size: 15px;
-              width: 232px;
-            }
+            & .dropdown-notification-item-right {
+              display: flex;
+              justify-content: center;
+              visibility: hidden;
+              height: 100%;
+              & .dropdown-notification-item-sub-options {
+                width: 40px;
+                height: 40px;
+                &:hover {
+                  & .dropdown-notification-item-sub-options-icon {
+                    fill: var(--icon-hover-color);
+                  }
+                }
 
-            & .dropdown-notification-item-thumb {
-              margin: 0 16px;
-              width: 86px;
-              max-height: 64.5px;
-              object-fit: contain;
+                & .dropdown-notification-item-sub-options-icon {
+                  fill: var(--icon-color);
+                }
+              }
+            }
+            & .dropdown-notification-sub-options-container {
+              width: 284px;
+
+              & .unvisible-icon {
+                fill: var(--icon-color);
+              }
             }
           }
         }
