@@ -7,16 +7,32 @@
       :class="{ 'dropdown-link-focus': isUserFocusLink }"
       class="dropdown-link"
     >
-      <slot />
+      <div class="dropdown-link-left">
+        <slot />
+      </div>
+      <div v-show="showArrow" class="dropdown-link-right">
+        <base-icon class="dropdown-link-right-icon">
+          <icon-right-arrow
+        /></base-icon>
+      </div>
     </a>
   </div>
 </template>
 
 <script lang="ts">
+import BaseIcon from "@/components/Icon/BaseIcon.vue";
+import IconRightArrow from "@/components/Icon/Icons/RightArrow.vue";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
+  components: { BaseIcon, IconRightArrow },
   name: "DropdownButtonMain",
+  props: {
+    showArrow: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
     const isUserFocusLink = ref<boolean>(false);
     const onUserFocusLink = () => {
@@ -62,12 +78,11 @@ export default defineComponent({
 .dropdown-link {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%;
   height: 40px;
   text-decoration: none;
   background: initial;
-
   &:hover {
     background: var(--dropdown-link-main-bg-hover);
   }
@@ -84,14 +99,31 @@ export default defineComponent({
     background: var(--dropdown-link-main-bg-active);
   }
 
-  & .dropdown-link-main-icon {
-    margin: 0 16px;
+  & .dropdown-link-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    & .dropdown-link-main-icon {
+      margin: 0 16px;
+    }
+
+    & .dropdown-link-main-text {
+      color: var(--text-color);
+      font-size: 15px;
+      font-family: var(--font-roboto);
+    }
+    & .dropdown-link-main-just-text {
+      color: var(--text-color);
+      font-size: 15px;
+      margin: 0 0 0 16px;
+      font-family: var(--font-roboto);
+    }
   }
 
-  & .dropdown-link-main-text {
-    color: var(--text-color);
-    font-size: 15px;
-    font-family: var(--font-roboto);
+  & .dropdown-link-right-icon {
+    fill: var(--icon-color);
+    margin-right: 16px;
   }
 }
 </style>

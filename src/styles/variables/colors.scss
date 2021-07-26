@@ -5,6 +5,7 @@ body {
   --white: #606161;
   // TEXT
   --text-color: #030303;
+  --link-color: #3da0f4;
   // LOGO
   --logo-text-color: #2c3e50;
   // BACKGROUND
@@ -56,6 +57,7 @@ body.dark-mode {
   --white: #ffffff;
   // TEXT
   --text-color: #ffffff;
+  --link-color: #3da0f4;
   // LOGO
   --logo-text-color: #ffffff;
   // BACKGROUND
@@ -65,7 +67,7 @@ body.dark-mode {
   --navbar-bar-color: #ffffff;
   --search-icon-color: #6f6f6f;
   --search-icon-hover-color: #868687;
-  --icon-color: #919190;
+  --icon-color: #909090;
   --icon-hover-color: #ffffff;
 
   // SEARCH BOX

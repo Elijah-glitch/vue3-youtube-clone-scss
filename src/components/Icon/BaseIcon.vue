@@ -7,7 +7,7 @@
     :aria-labelledby="iconName"
     role="presentation"
   >
-    <g :fill="iconColor">
+    <g>
       <slot />
     </g>
   </svg>
@@ -26,10 +26,6 @@ export default defineComponent({
     height: {
       type: [Number, String],
       default: "24px",
-    },
-    iconColor: {
-      type: String,
-      default: "currentColor",
     },
     viewBox: {
       type: String,

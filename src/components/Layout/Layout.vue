@@ -187,10 +187,120 @@
             </div>
           </dropdown-item>
         </dropdown-container>
-
-        <transparent-button :padding="`0 14px`">
-          <avatar-main />
-        </transparent-button>
+        <dropdown-container>
+          <transparent-button
+            @click="changeDropdownValue('profileVisible', true)"
+            :padding="`0 14px`"
+          >
+            <avatar-main />
+          </transparent-button>
+          <dropdown-item
+            :visible="dropdownVisibleValues.profileVisible.value"
+            :direction="'left'"
+            class="dropdown-profile-visible"
+            :onclose="() => changeDropdownValue('profileVisible', false)"
+          >
+            <div class="dropdown-profile-visible-header">
+              <div class="dropdown-profile-visible-header-pp-container">
+                <img
+                  class="dropdown-profile-visible-header-pp"
+                  src="@/assets/pp.png"
+                />
+              </div>
+              <div class="dropdown-profile-visible-header-account">
+                <h1>Mustafa Emin</h1>
+                <a href="#">Manage your Google Account</a>
+              </div>
+            </div>
+            <dropdown-link-main margin-top>
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-user />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Your channel </span>
+            </dropdown-link-main>
+            <dropdown-link-main>
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-coin />
+              </icon-base>
+              <span class="dropdown-link-main-text">
+                Purchases and memberships
+              </span>
+            </dropdown-link-main>
+            <dropdown-link-main>
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-studio />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Youtube Studio </span>
+            </dropdown-link-main>
+            <dropdown-link-main :showArrow="true">
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-users />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Switch account </span>
+            </dropdown-link-main>
+            <dropdown-link-main margin-bottom border-bottom>
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-sign-out />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Sign out </span>
+            </dropdown-link-main>
+            <dropdown-link-main :showArrow="true" margin-top>
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-dark-light />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Appearance: Dark </span>
+            </dropdown-link-main>
+            <dropdown-link-main :showArrow="true">
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-language />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Language: English </span>
+            </dropdown-link-main>
+            <dropdown-link-main :showArrow="true">
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-world />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Location: Turkey </span>
+            </dropdown-link-main>
+            <dropdown-link-main>
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-settings />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Settings </span>
+            </dropdown-link-main>
+            <dropdown-link-main>
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-user-shield />
+              </icon-base>
+              <span class="dropdown-link-main-text">
+                Your data in YouTube
+              </span>
+            </dropdown-link-main>
+            <dropdown-link-main>
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-help />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Help </span>
+            </dropdown-link-main>
+            <dropdown-link-main>
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-feedback />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Send feedback </span>
+            </dropdown-link-main>
+            <dropdown-link-main margin-bottom border-bottom>
+              <icon-base class="dropdown-link-main-icon icon-right"
+                ><icon-keyboard />
+              </icon-base>
+              <span class="dropdown-link-main-text"> Keyboard shortcuts </span>
+            </dropdown-link-main>
+            <dropdown-link-main margin-top :showArrow="true">
+              <span class="dropdown-link-main-just-text">
+                Restricted Mode: Off
+              </span>
+            </dropdown-link-main>
+          </dropdown-item>
+        </dropdown-container>
       </div>
     </div>
   </div>
@@ -209,6 +319,18 @@ import IconNotification from "@/components/Icon/Icons/Notification.vue";
 import IconSettings from "@/components/Icon/Icons/Settings.vue";
 import IconThreeDotV from "@/components/Icon/Icons/ThreeDotV.vue";
 import IconUnVisible from "@/components/Icon/Icons/UnVisible.vue";
+import IconCoin from "@/components/Icon/Icons/Coin.vue";
+import IconStudio from "@/components/Icon/Icons/Studio.vue";
+import IconUsers from "@/components/Icon/Icons/Users.vue";
+import IconSignOut from "@/components/Icon/Icons/SignOut.vue";
+import IconUser from "@/components/Icon/Icons/User.vue";
+import IconDarkLight from "@/components/Icon/Icons/DarkLight.vue";
+import IconLanguage from "@/components/Icon/Icons/Language.vue";
+import IconWorld from "@/components/Icon/Icons/World.vue";
+import IconUserShield from "@/components/Icon/Icons/UserShield.vue";
+import IconHelp from "@/components/Icon/Icons/Help.vue";
+import IconFeedback from "@/components/Icon/Icons/Feedback.vue";
+import IconKeyboard from "@/components/Icon/Icons/Keyboard.vue";
 import BarIcon from "@/components/Icon/Icons/Bar.vue";
 import IconSearch from "@/components/Icon/Icons/Search.vue";
 import TransparentButton from "@/components/Input/Button/TransparentButton/TransparentButton.vue";
@@ -222,6 +344,7 @@ interface DropdownVisibleValues {
   appsVisible: boolean;
   addVideoVisible: boolean;
   notificationVisible: boolean;
+  profileVisible: boolean;
   notificationSubSettingsVisible: Array<boolean>;
 }
 
@@ -247,6 +370,18 @@ export default defineComponent({
     IconSettings,
     IconThreeDotV,
     IconUnVisible,
+    IconUser,
+    IconCoin,
+    IconStudio,
+    IconUsers,
+    IconSignOut,
+    IconDarkLight,
+    IconLanguage,
+    IconWorld,
+    IconUserShield,
+    IconHelp,
+    IconFeedback,
+    IconKeyboard,
   },
   setup() {
     const notificationTexts = ref<Array<String>>([
@@ -263,6 +398,7 @@ export default defineComponent({
       addVideoVisible: false,
       notificationVisible: false,
       notificationSubSettingsVisible: notificationTexts.value.map(() => false),
+      profileVisible: false,
     } as DropdownVisibleValues);
 
     const dropdownVisibleValues = toRefs(dropdownVisibleValuesReactive);
@@ -272,7 +408,8 @@ export default defineComponent({
         | "appsVisible"
         | "addVideoVisible"
         | "notificationVisible"
-        | "notificationSubSettingsVisible",
+        | "notificationSubSettingsVisible"
+        | "profileVisible",
       newValue: boolean
     ) => {
       dropdownVisibleValues[valueName].value = newValue;
@@ -373,6 +510,10 @@ export default defineComponent({
     & .navbar-right {
       display: flex;
       margin-right: 20px;
+
+      & .icon-right {
+        fill: var(--icon-color);
+      }
 
       & .dropdown-item-links {
         width: 220px;
@@ -483,6 +624,36 @@ export default defineComponent({
               & .unvisible-icon {
                 fill: var(--icon-color);
               }
+            }
+          }
+        }
+      }
+
+      & .dropdown-profile-visible {
+        & .dropdown-profile-visible-header {
+          display: flex;
+          padding: 16px;
+          border-bottom: 1px solid var(--border-color);
+          & .dropdown-profile-visible-header-pp-container {
+            margin-right: 16px;
+            & .dropdown-profile-visible-header-pp {
+              height: 40px;
+              width: 40px;
+              border-radius: 50%;
+            }
+          }
+
+          & .dropdown-profile-visible-header-account {
+            & h1 {
+              margin-top: 4px;
+            }
+
+            & a {
+              display: inline-block;
+              white-space: nowrap;
+              margin-top: 14px;
+              font-size: 15px;
+              color: var(--link-color);
             }
           }
         }
