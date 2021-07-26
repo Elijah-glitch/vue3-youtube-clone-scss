@@ -1,9 +1,7 @@
 <template>
-<layout>
-  <div class="home">
-   
-  </div>
-   </layout>
+  <layout :showSidebar="true">
+    <div class="home">sgdsgmsdgm</div>
+  </layout>
 </template>
 
 <script lang="ts">
@@ -15,7 +13,7 @@ export default defineComponent({
   name: "Home",
   components: {
     HelloWorld,
-    Layout
+    Layout,
   },
 });
 </script>

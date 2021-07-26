@@ -2,7 +2,7 @@
   <div class="layout">
     <div class="navbar">
       <div class="navbar-left">
-        <transparent-button :rippleEffect="true" :padding="`8px`">
+        <transparent-button :rippleEffect="true" :padding="`0 8px 0 4px`">
           <icon-base class="icon"><bar-icon /></icon-base>
         </transparent-button>
         <transparent-button :padding="`16px 14px 16px 16px`">
@@ -303,6 +303,35 @@
         </dropdown-container>
       </div>
     </div>
+    <div class="content">
+      <div v-show="showSidebar" class="sidebar">
+        <a href="#" class="sidebar-item sidebar-active">
+          <icon-base class="sidebar-icon">
+            <icon-home />
+          </icon-base>
+          <span>Home</span>
+        </a>
+        <a href="#" class="sidebar-item">
+          <icon-base class="sidebar-icon">
+            <icon-explore />
+          </icon-base>
+          <span>Explore</span>
+        </a>
+        <a href="#" class="sidebar-item">
+          <icon-base class="sidebar-icon">
+            <icon-subscriptions />
+          </icon-base>
+          <span>Subscriptions</span>
+        </a>
+        <a href="#" class="sidebar-item">
+          <icon-base class="sidebar-icon">
+            <icon-library />
+          </icon-base>
+          <span>Library</span>
+        </a>
+      </div>
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -331,6 +360,10 @@ import IconUserShield from "@/components/Icon/Icons/UserShield.vue";
 import IconHelp from "@/components/Icon/Icons/Help.vue";
 import IconFeedback from "@/components/Icon/Icons/Feedback.vue";
 import IconKeyboard from "@/components/Icon/Icons/Keyboard.vue";
+import IconHome from "@/components/Icon/Icons/Home.vue";
+import IconExplore from "@/components/Icon/Icons/Explore.vue";
+import IconSubscriptions from "@/components/Icon/Icons/Subscriptions.vue";
+import IconLibrary from "@/components/Icon/Icons/Library.vue";
 import BarIcon from "@/components/Icon/Icons/Bar.vue";
 import IconSearch from "@/components/Icon/Icons/Search.vue";
 import TransparentButton from "@/components/Input/Button/TransparentButton/TransparentButton.vue";
@@ -382,6 +415,16 @@ export default defineComponent({
     IconHelp,
     IconFeedback,
     IconKeyboard,
+    IconHome,
+    IconExplore,
+    IconSubscriptions,
+    IconLibrary,
+  },
+  props: {
+    showSidebar: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup() {
     const notificationTexts = ref<Array<String>>([
@@ -656,6 +699,46 @@ export default defineComponent({
               color: var(--link-color);
             }
           }
+        }
+      }
+    }
+  }
+
+  & .content {
+    display: flex;
+    & .sidebar {
+      height: 100vh;
+      width: 72px;
+      background: var(--layout-bg-color);
+      & .sidebar-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        padding: 14px 0;
+        &:hover {
+          background: var(--sidebar-item-hover-bg);
+        }
+
+        & .sidebar-icon {
+          fill: var(--sidebar-icon-color);
+          margin-bottom: 8px;
+        }
+        &.sidebar-active {
+          & svg {
+            fill: var(--sidebar-icon-active-color);
+          }
+          & span {
+            display: inline-block;
+            font-size: 10px;
+            color: var(--sidebar-icon-active-color);
+          }
+        }
+
+        & span {
+          display: inline-block;
+          font-size: 10px;
         }
       }
     }

@@ -32,6 +32,10 @@ body {
 
   // LAYOUT
   --layout-bg-color: #ffffff;
+  // SIDEBAR
+  --sidebar-icon-color: #616061;
+  --sidebar-icon-active-color: #ff0000;
+  --sidebar-item-hover-bg: #f3f2f3;
 
   // DROPDOWN
   --dropdown-bg: #fefffe;
@@ -85,6 +89,10 @@ body.dark-mode {
 
   // LAYOUT
   --layout-bg-color: #202121;
+  // SIDEBAR
+  --sidebar-icon-color: #909191;
+  --sidebar-icon-active-color: #ffffff;
+  --sidebar-item-hover-bg: #383939;
 
   // DROPDOWN
   --dropdown-bg: #202021;
