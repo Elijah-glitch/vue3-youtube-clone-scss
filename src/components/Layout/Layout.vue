@@ -304,8 +304,125 @@
       </div>
     </div>
     <div class="content">
-      <div v-show="showSidebar" class="sidebar">
-        <a href="#" class="sidebar-item sidebar-active">
+      <div v-show="true" class="sidebar-large">
+        <dropdown-link-main
+          href="#"
+          class="sidebar-large-item sidebar-large-item-active"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-home />
+          </icon-base>
+          <span>Home</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-explore />
+          </icon-base>
+          <span>Explore</span>
+        </dropdown-link-main>
+        <dropdown-link-main
+          margin-bottom
+          border-bottom
+          href="#"
+          class="sidebar-large-item"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-subscriptions />
+          </icon-base>
+          <span>Subscriptions</span>
+        </dropdown-link-main>
+        <dropdown-link-main margin-top href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-library />
+          </icon-base>
+          <span>Library</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-history />
+          </icon-base>
+          <span>History</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-play-bordered />
+          </icon-base>
+          <span>Your videos</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-clock />
+          </icon-base>
+          <span>Watch later</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-like />
+          </icon-base>
+          <span>Liked videos</span>
+        </dropdown-link-main>
+        <dropdown-link-main
+          margin-bottom
+          border-bottom
+          href="#"
+          class="sidebar-large-item"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-down-arrow />
+          </icon-base>
+          <span>Show more</span>
+        </dropdown-link-main>
+        <text-one type-second :margin="'18px 0 0 24px'">SUBSCRIPTIONS</text-one>
+        <!-- SUBS -->
+        <dropdown-link-main margin-top href="#" class="sidebar-large-subs-item">
+          <img src="@/assets/pp2.jpg" class="sidebar-large-subs-item-img" />
+          <span>Albert Einstein</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/isaac-newton.jpg"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Isaac Newton</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/marie-curie.png"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Marie Curie</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/nikola-tesla.jpg"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Nikola Tesla</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/charles-darwin.jpg"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Charles Darwin</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/dennis-ritchie.jpg"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Dennis Ritchie</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/galileo-galilei.jpg"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Galileo Galilei</span>
+        </dropdown-link-main>
+      </div>
+      <div v-show="false" class="sidebar">
+        <a href="#" class="">
           <icon-base class="sidebar-icon">
             <icon-home />
           </icon-base>
@@ -364,14 +481,20 @@ import IconHome from "@/components/Icon/Icons/Home.vue";
 import IconExplore from "@/components/Icon/Icons/Explore.vue";
 import IconSubscriptions from "@/components/Icon/Icons/Subscriptions.vue";
 import IconLibrary from "@/components/Icon/Icons/Library.vue";
+import IconHistory from "@/components/Icon/Icons/History.vue";
 import BarIcon from "@/components/Icon/Icons/Bar.vue";
 import IconSearch from "@/components/Icon/Icons/Search.vue";
+import IconPlayBordered from "@/components/Icon/Icons/PlayBordered.vue";
+import IconClock from "@/components/Icon/Icons/Clock.vue";
+import IconLike from "@/components/Icon/Icons/Like.vue";
+import IconDownArrow from "@/components/Icon/Icons/DownArrow.vue";
 import TransparentButton from "@/components/Input/Button/TransparentButton/TransparentButton.vue";
 import DropdownLinkMain from "@/components/Input/Button/Dropdown/DropdownLinkMain.vue";
 import AvatarMain from "@/components/Avatar/AvatarMain/AvatarMain.vue";
 import DropdownContainer from "@/components/Dropdown/DropdownContainer/DropdownContainer.vue";
 import DropdownItem from "@/components/Dropdown/DropdownItem/DropdownItem.vue";
 import MainLogo from "@/components/Logo/LogoMain.vue";
+import TextOne from "../Text/TextOne.vue";
 
 interface DropdownVisibleValues {
   appsVisible: boolean;
@@ -419,6 +542,12 @@ export default defineComponent({
     IconExplore,
     IconSubscriptions,
     IconLibrary,
+    IconHistory,
+    IconPlayBordered,
+    IconClock,
+    IconLike,
+    IconDownArrow,
+    TextOne,
   },
   props: {
     showSidebar: {
@@ -706,6 +835,74 @@ export default defineComponent({
 
   & .content {
     display: flex;
+
+    & .sidebar-large {
+      width: 240px;
+      min-height: 100vh;
+      background: var(--layout-bg-color);
+      overflow-y: auto;
+
+      & .sidebar-large-item {
+        display: flex;
+        align-items: center;
+
+        & .sidebar-large-icon {
+          fill: var(--sidebar-icon-color);
+          margin: 0 24px;
+        }
+
+        & span {
+          display: inline-block;
+          font-size: 15px;
+        }
+
+        &.sidebar-large-item-active {
+          background: var(--dropdown-link-main-bg-focus);
+          & .sidebar-large-icon {
+            fill: var(--sidebar-icon-active-color);
+            margin: 0 24px;
+          }
+
+          & span {
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+          }
+        }
+      }
+
+      & .sidebar-large-subs-item {
+        display: flex;
+        align-items: center;
+
+        & .sidebar-large-subs-item-img {
+          margin: 0 24px;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+        }
+
+        & span {
+          display: inline-block;
+          font-size: 15px;
+        }
+
+        &.sidebar-large-item-active {
+          background: var(--dropdown-link-main-bg-focus);
+          & .sidebar-large-icon {
+            fill: var(--sidebar-icon-active-color);
+            margin: 0 24px;
+          }
+
+          & span {
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
     & .sidebar {
       height: 100vh;
       width: 72px;
