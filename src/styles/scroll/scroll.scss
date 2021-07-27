@@ -1,0 +1,34 @@
+.sc-scroll-one {
+  &::-webkit-scrollbar {
+    width: 16px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 4px solid transparent;
+    background-clip: content-box;
+    background-color: var(--sc-scroll-one-bg);
+  }
+}
+
+.sc-scroll-two {
+  &::-webkit-scrollbar {
+    width: 8px;
+    background: transparent;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background: var(--sc-scroll-two-bg);
+  }
+}
+
+.sc-scroll-three {
+  &::-webkit-scrollbar {
+    width: 16px;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 4px solid transparent;
+    background-clip: content-box;
+    background-color: var(--sc-scroll-three-bg);
+  }
+}

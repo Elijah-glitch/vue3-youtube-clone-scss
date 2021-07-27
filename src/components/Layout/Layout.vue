@@ -119,7 +119,7 @@
                 <icon-base class="icon"><icon-settings /></icon-base>
               </transparent-button>
             </div>
-            <div class="dropdown-notification-item-container">
+            <div class="dropdown-notification-item-container sc-scroll-two">
               <a
                 href="#"
                 v-for="(item, index) in notificationTexts"
@@ -304,7 +304,7 @@
       </div>
     </div>
     <div class="content">
-      <div v-show="true" class="sidebar-large">
+      <div v-show="true" class="sidebar-large sc-scroll-three">
         <dropdown-link-main
           href="#"
           class="sidebar-large-item sidebar-large-item-active"
@@ -420,6 +420,80 @@
           />
           <span>Galileo Galilei</span>
         </dropdown-link-main>
+        <dropdown-link-main
+          margin-bottom
+          border-bottom
+          href="#"
+          class="sidebar-large-item"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-down-arrow />
+          </icon-base>
+          <span>Show more</span>
+        </dropdown-link-main>
+        <!-- MORE -->
+        <text-one type-second :margin="'18px 0 0 24px'"
+          >MORE FROM YOUTUBE</text-one
+        >
+        <dropdown-link-main margin-top href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-youtube-gray />
+          </icon-base>
+          <span>YouTube Premium</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-gaming />
+          </icon-base>
+          <span>Gaming</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-live />
+          </icon-base>
+          <span>Live</span>
+        </dropdown-link-main>
+        <dropdown-link-main
+          margin-bottom
+          border-bottom
+          href="#"
+          class="sidebar-large-item"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-champ-cup />
+          </icon-base>
+          <span>Sports</span>
+        </dropdown-link-main>
+        <dropdown-link-main margin-top href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-settings />
+          </icon-base>
+          <span>Settings</span>
+        </dropdown-link-main>
+
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-flag />
+          </icon-base>
+          <span>Report history</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-help />
+          </icon-base>
+          <span>Help</span>
+        </dropdown-link-main>
+        <dropdown-link-main
+          margin-bottom
+          border-bottom
+          href="#"
+          class="sidebar-large-item"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-feedback />
+          </icon-base>
+          <span>Send feedback</span>
+        </dropdown-link-main>
       </div>
       <div v-show="false" class="sidebar">
         <a href="#" class="">
@@ -487,6 +561,11 @@ import IconSearch from "@/components/Icon/Icons/Search.vue";
 import IconPlayBordered from "@/components/Icon/Icons/PlayBordered.vue";
 import IconClock from "@/components/Icon/Icons/Clock.vue";
 import IconLike from "@/components/Icon/Icons/Like.vue";
+import IconYoutubeGray from "@/components/Icon/Icons/YoutubeGray.vue";
+import IconLive from "@/components/Icon/Icons/Live.vue";
+import IconFlag from "@/components/Icon/Icons/Flag.vue";
+import IconGaming from "@/components/Icon/Icons/Gaming.vue";
+import IconChampCup from "@/components/Icon/Icons/ChampCup.vue";
 import IconDownArrow from "@/components/Icon/Icons/DownArrow.vue";
 import TransparentButton from "@/components/Input/Button/TransparentButton/TransparentButton.vue";
 import DropdownLinkMain from "@/components/Input/Button/Dropdown/DropdownLinkMain.vue";
@@ -548,6 +627,11 @@ export default defineComponent({
     IconLike,
     IconDownArrow,
     TextOne,
+    IconLive,
+    IconFlag,
+    IconGaming,
+    IconChampCup,
+    IconYoutubeGray,
   },
   props: {
     showSidebar: {
@@ -723,15 +807,6 @@ export default defineComponent({
           position: relative;
           width: 478px;
 
-          &::-webkit-scrollbar {
-            width: 8px;
-            background: transparent;
-          }
-
-          &:hover::-webkit-scrollbar-thumb {
-            background: var(--notification-scrollbar-bg);
-          }
-
           & .dropdown-notification-item {
             padding: 16px 16px 16px 0;
             display: flex;
@@ -838,9 +913,10 @@ export default defineComponent({
 
     & .sidebar-large {
       width: 240px;
-      min-height: 100vh;
+      max-height: 100%;
+      height: 100vh;
       background: var(--layout-bg-color);
-      overflow-y: auto;
+      overflow-y: scroll;
 
       & .sidebar-large-item {
         display: flex;

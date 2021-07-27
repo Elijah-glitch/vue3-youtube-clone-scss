@@ -53,7 +53,9 @@ body {
   --border-color: rgba(0, 0, 0, 0.1);
 
   // SCROLLBAR
-  --notification-scrollbar-bg: #cdcdcc;
+  --sc-scroll-one-bg: #aaa;
+  --sc-scroll-two-bg: #cdcdcc;
+  --sc-scroll-three-bg: #cdcdcc;
 }
 
 body.dark-mode {
@@ -110,5 +112,7 @@ body.dark-mode {
   --border-color: rgba(255, 255, 255, 0.1);
 
   // SCROLLBAR
-  --notification-scrollbar-bg: #616061;
+  --sc-scroll-one-bg: #aaa;
+  --sc-scroll-two-bg: #616061;
+  --sc-scroll-three-bg: #616061;
 }
