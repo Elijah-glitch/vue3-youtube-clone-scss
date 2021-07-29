@@ -1,0 +1,11 @@
+@mixin MQ800 {
+  @media screen and (max-width: 800px) {
+    @content;
+  }
+}
+
+@mixin MQ800Min {
+  @media screen and (min-width: 800px) {
+    @content;
+  }
+}

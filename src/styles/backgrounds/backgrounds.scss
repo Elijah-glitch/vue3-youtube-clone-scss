@@ -1,0 +1,9 @@
+.opacity-bg {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: var(--opacity-bg-z);
+  background-color: var(--opacity-bg);
+}

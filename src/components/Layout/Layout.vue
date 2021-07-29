@@ -2,7 +2,22 @@
   <div class="layout">
     <div class="navbar">
       <div class="navbar-left">
-        <transparent-button :rippleEffect="true" :padding="`0 8px 0 4px`">
+        <transparent-button
+          class="sidebar-block-button"
+          :rippleEffect="true"
+          :padding="`7px 8px 7px 4px`"
+          :class="{ 'sidebar-block-active': sidebarBlock }"
+          :sidebarActive="sidebarBlock ? 'true' : 'false'"
+          @click="showBlockSidebarToggle()"
+        >
+          <icon-base class="icon"><bar-icon /></icon-base>
+        </transparent-button>
+        <transparent-button
+          class="sidebar-drawer-button"
+          :rippleEffect="true"
+          :padding="`7px 8px 7px 4px`"
+          @click="showDrawerSidebarToggle()"
+        >
           <icon-base class="icon"><bar-icon /></icon-base>
         </transparent-button>
         <transparent-button :padding="`16px 14px 16px 16px`">
@@ -303,8 +318,12 @@
         </dropdown-container>
       </div>
     </div>
+
     <div class="content">
-      <div v-show="true" class="sidebar-large sc-scroll-three">
+      <div
+        v-show="sidebarBlock && showSidebarBlock"
+        class="sidebar-large sc-scroll-three"
+      >
         <dropdown-link-main
           href="#"
           class="sidebar-large-item sidebar-large-item-active"
@@ -495,8 +514,225 @@
           <span>Send feedback</span>
         </dropdown-link-main>
       </div>
-      <div v-show="false" class="sidebar">
-        <a href="#" class="">
+      <!-- SIDEBAR LARGE DRAWER -->
+      <div
+        v-show="showSidebarDrawer"
+        @click="showDrawerSidebarToggle()"
+        class="opacity-bg"
+      ></div>
+      <div
+        class="sidebar-large sidebar-large-drawer-container sc-scroll-three"
+        :class="{
+          'sidebar-large-drawer': !showSidebarDrawer,
+          'sidebar-large-drawer-active': showSidebarDrawer,
+        }"
+      >
+        <div class="sidebar-drawer-header">
+          <transparent-button
+            class="sidebar-drawer-header-button"
+            :rippleEffect="true"
+            :padding="`7px 8px 7px 4px`"
+            @click="showDrawerSidebarToggle()"
+          >
+            <icon-base class="icon"><bar-icon /></icon-base>
+          </transparent-button>
+          <transparent-button :padding="`16px 14px 16px 16px`">
+            <main-logo />
+          </transparent-button>
+        </div>
+        <dropdown-link-main
+          href="#"
+          class="sidebar-large-item sidebar-large-item-active"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-home />
+          </icon-base>
+          <span>Home</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-explore />
+          </icon-base>
+          <span>Explore</span>
+        </dropdown-link-main>
+        <dropdown-link-main
+          margin-bottom
+          border-bottom
+          href="#"
+          class="sidebar-large-item"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-subscriptions />
+          </icon-base>
+          <span>Subscriptions</span>
+        </dropdown-link-main>
+        <dropdown-link-main margin-top href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-library />
+          </icon-base>
+          <span>Library</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-history />
+          </icon-base>
+          <span>History</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-play-bordered />
+          </icon-base>
+          <span>Your videos</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-clock />
+          </icon-base>
+          <span>Watch later</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-like />
+          </icon-base>
+          <span>Liked videos</span>
+        </dropdown-link-main>
+        <dropdown-link-main
+          margin-bottom
+          border-bottom
+          href="#"
+          class="sidebar-large-item"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-down-arrow />
+          </icon-base>
+          <span>Show more</span>
+        </dropdown-link-main>
+        <text-one type-second :margin="'18px 0 0 24px'">SUBSCRIPTIONS</text-one>
+        <!-- SUBS -->
+        <dropdown-link-main margin-top href="#" class="sidebar-large-subs-item">
+          <img src="@/assets/pp2.jpg" class="sidebar-large-subs-item-img" />
+          <span>Albert Einstein</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/isaac-newton.jpg"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Isaac Newton</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/marie-curie.png"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Marie Curie</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/nikola-tesla.jpg"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Nikola Tesla</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/charles-darwin.jpg"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Charles Darwin</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/dennis-ritchie.jpg"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Dennis Ritchie</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-subs-item">
+          <img
+            src="@/assets/galileo-galilei.jpg"
+            class="sidebar-large-subs-item-img"
+          />
+          <span>Galileo Galilei</span>
+        </dropdown-link-main>
+        <dropdown-link-main
+          margin-bottom
+          border-bottom
+          href="#"
+          class="sidebar-large-item"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-down-arrow />
+          </icon-base>
+          <span>Show more</span>
+        </dropdown-link-main>
+        <!-- MORE -->
+        <text-one type-second :margin="'18px 0 0 24px'"
+          >MORE FROM YOUTUBE</text-one
+        >
+        <dropdown-link-main margin-top href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-youtube-gray />
+          </icon-base>
+          <span>YouTube Premium</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-gaming />
+          </icon-base>
+          <span>Gaming</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-live />
+          </icon-base>
+          <span>Live</span>
+        </dropdown-link-main>
+        <dropdown-link-main
+          margin-bottom
+          border-bottom
+          href="#"
+          class="sidebar-large-item"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-champ-cup />
+          </icon-base>
+          <span>Sports</span>
+        </dropdown-link-main>
+        <dropdown-link-main margin-top href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-settings />
+          </icon-base>
+          <span>Settings</span>
+        </dropdown-link-main>
+
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-flag />
+          </icon-base>
+          <span>Report history</span>
+        </dropdown-link-main>
+        <dropdown-link-main href="#" class="sidebar-large-item">
+          <icon-base class="sidebar-large-icon">
+            <icon-help />
+          </icon-base>
+          <span>Help</span>
+        </dropdown-link-main>
+        <dropdown-link-main
+          margin-bottom
+          border-bottom
+          href="#"
+          class="sidebar-large-item"
+        >
+          <icon-base class="sidebar-large-icon">
+            <icon-feedback />
+          </icon-base>
+          <span>Send feedback</span>
+        </dropdown-link-main>
+      </div>
+      <!-- SIDEBAR SMALL -->
+      <div v-show="sidebarBlock && !showSidebarBlock" class="sidebar">
+        <a href="#" class="sidebar-item sidebar-item-active">
           <icon-base class="sidebar-icon">
             <icon-home />
           </icon-base>
@@ -634,7 +870,7 @@ export default defineComponent({
     IconYoutubeGray,
   },
   props: {
-    showSidebar: {
+    sidebarBlock: {
       type: Boolean,
       default: false,
     },
@@ -678,17 +914,32 @@ export default defineComponent({
       dropdownVisibleValues["notificationSubSettingsVisible"].value[index] =
         newValue;
     };
+    // SHOW SIDEBAR
+    const showSidebarDrawer = ref<boolean>(false);
+    const showDrawerSidebarToggle = () => {
+      showSidebarDrawer.value = !showSidebarDrawer.value;
+    };
+
+    const showSidebarBlock = ref<boolean>(false);
+    const showBlockSidebarToggle = () => {
+      showSidebarBlock.value = !showSidebarBlock.value;
+    };
     return {
       dropdownVisibleValues,
       changeDropdownValue,
       changeDropdownValueSubSettings,
       notificationTexts,
+      showSidebarDrawer,
+      showDrawerSidebarToggle,
+      showSidebarBlock,
+      showBlockSidebarToggle,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/mediaQueries/mediaQueries.scss";
 .layout {
   overflow-x: hidden;
   min-height: 100vh;
@@ -707,6 +958,27 @@ export default defineComponent({
       display: flex;
       align-items: center;
       margin-left: 20px;
+
+      & .sidebar-block-button[sidebarActive="false"] {
+        display: none !important;
+      }
+
+      @include MQ800 {
+        & .sidebar-block-button[sidebarActive="true"] {
+          display: none;
+        }
+        & .sidebar-block-button[sidebarActive="true"] + .sidebar-drawer-button {
+          display: flex;
+        }
+      }
+      @include MQ800Min {
+        & .sidebar-block-button[sidebarActive="true"] {
+          display: flex;
+        }
+        & .sidebar-block-button[sidebarActive="true"] + .sidebar-drawer-button {
+          display: none;
+        }
+      }
     }
 
     & .navbar-middle {
@@ -911,6 +1183,29 @@ export default defineComponent({
   & .content {
     display: flex;
 
+    .sidebar-large-drawer-base {
+      position: absolute;
+      transition: transform 0.2s;
+      z-index: var(--opacity-bg-item-z);
+      top: 0;
+
+      & .sidebar-drawer-header {
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+      }
+    }
+
+    & .sidebar-large-drawer {
+      @extend .sidebar-large-drawer-base;
+      transform: translateX(-100%);
+    }
+
+    & .sidebar-large-drawer-active {
+      @extend .sidebar-large-drawer-base;
+      transform: translateX(0);
+    }
+
     & .sidebar-large {
       width: 240px;
       max-height: 100%;
@@ -998,8 +1293,8 @@ export default defineComponent({
           fill: var(--sidebar-icon-color);
           margin-bottom: 8px;
         }
-        &.sidebar-active {
-          & svg {
+        &.sidebar-item-active {
+          & .sidebar-icon {
             fill: var(--sidebar-icon-active-color);
           }
           & span {
@@ -1013,6 +1308,11 @@ export default defineComponent({
           display: inline-block;
           font-size: 10px;
         }
+      }
+    }
+    @include MQ800 {
+      .sidebar {
+        display: none;
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <layout :showSidebar="true">
+  <layout :sidebarBlock="true">
     <div class="home">sgdsgmsdgm</div>
   </layout>
 </template>
