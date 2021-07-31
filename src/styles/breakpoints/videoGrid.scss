@@ -1,0 +1,31 @@
+@import "../mediaQueries/mediaQueries.scss";
+
+@include MQ510 {
+  body {
+    --videos-per-item-row: 1 !important;
+  }
+}
+
+@include MQMaxMin890 {
+  body {
+    --videos-per-item-row: 2 !important;
+  }
+}
+
+@include MQMaxMin1144 {
+  body {
+    --videos-per-item-row: 3 !important;
+  }
+}
+
+@include MQMaxMin1785 {
+  body {
+    --videos-per-item-row: 4 !important;
+  }
+}
+
+@include MQ1785Min {
+  body {
+    --videos-per-item-row: 5 !important;
+  }
+}
