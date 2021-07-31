@@ -1,3 +1,9 @@
+@mixin MQ510 {
+  @media screen and (max-width: 510px) {
+    @content;
+  }
+}
+
 @mixin MQ800 {
   @media screen and (max-width: 800px) {
     @content;
@@ -6,6 +12,30 @@
 
 @mixin MQ800Min {
   @media screen and (min-width: 800px) {
+    @content;
+  }
+}
+
+@mixin MQMaxMin890 {
+  @media screen and (max-width: 890px) and (min-width: 510px) {
+    @content;
+  }
+}
+
+@mixin MQMaxMin1144 {
+  @media screen and (max-width: 1144px) and (min-width: 890px) {
+    @content;
+  }
+}
+
+@mixin MQMaxMin1785 {
+  @media screen and (max-width: 1785px) and (min-width: 1144px) {
+    @content;
+  }
+}
+
+@mixin MQ1785Min {
+  @media screen and (min-width: 1785px) {
     @content;
   }
 }

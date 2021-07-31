@@ -1,5 +1,7 @@
+@import "./mediaQueries/mediaQueries.scss";
 @import "./scroll/scroll.scss";
 @import "./backgrounds/backgrounds.scss";
+@import "./breakpoints/index.scss";
 // BODY
 body {
   background-color: var(--body-bg-color);
