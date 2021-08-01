@@ -45,11 +45,15 @@ export default defineComponent({
   justify-content: center;
   width: 100%;
   & .video-card-container {
-    justify-content: flex-start;
+    // THESE VALUES SET IN STYLES BREAKPOINTS FILE
+    margin: 24px auto 0 auto;
+    justify-content: var(--videos-container-justify-content);
+    width: calc(100% - 16px * 2);
+    max-width: calc(var(--videos-per-item-row) * 320px + 16);
     & .video-card-item {
       width: calc(100% / var(--videos-per-item-row) - 16px - 0.01px);
-      max-width: 320px;
       margin: 0 8px 40px 8px;
+      max-width: var(--videos-item-max-width);
       & img {
         width: 100%;
       }
