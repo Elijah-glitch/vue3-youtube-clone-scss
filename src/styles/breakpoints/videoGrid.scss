@@ -1,31 +1,43 @@
 @import "../mediaQueries/mediaQueries.scss";
 
+body {
+  --videos-item-max-width: 320px;
+  --videos-container-justify-content: flex-start;
+}
+
 @include MQ510 {
   body {
-    --videos-per-item-row: 1 !important;
+    --videos-per-item-row: 1;
+    --videos-container-justify-content: center;
   }
 }
 
 @include MQMaxMin890 {
   body {
-    --videos-per-item-row: 2 !important;
+    --videos-per-item-row: 2;
   }
 }
 
 @include MQMaxMin1144 {
   body {
-    --videos-per-item-row: 3 !important;
+    --videos-per-item-row: 3;
+  }
+}
+
+@include MQ1465Min {
+  body {
+    --videos-item-max-width: 360px;
   }
 }
 
 @include MQMaxMin1785 {
   body {
-    --videos-per-item-row: 4 !important;
+    --videos-per-item-row: 4;
   }
 }
 
 @include MQ1785Min {
   body {
-    --videos-per-item-row: 5 !important;
+    --videos-per-item-row: 5;
   }
 }
