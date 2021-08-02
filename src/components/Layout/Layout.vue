@@ -322,7 +322,11 @@
     <div class="content">
       <div
         v-show="sidebarBlock && showSidebarBlock"
-        class="sidebar-large sc-scroll-three"
+        class="sidebar-large-fill-box"
+      ></div>
+      <div
+        v-show="sidebarBlock && showSidebarBlock"
+        class="sidebar-large sidebar-large-block sc-scroll-three"
       >
         <dropdown-link-main
           href="#"
@@ -731,6 +735,10 @@
         </dropdown-link-main>
       </div>
       <!-- SIDEBAR SMALL -->
+      <div
+        class="sidebar-fill-box"
+        v-show="sidebarBlock && !showSidebarBlock"
+      ></div>
       <div v-show="sidebarBlock && !showSidebarBlock" class="sidebar">
         <a href="#" class="sidebar-item sidebar-item-active">
           <icon-base class="sidebar-icon">
@@ -757,7 +765,9 @@
           <span>Library</span>
         </a>
       </div>
-      <slot />
+      <div class="content-container">
+        <slot />
+      </div>
     </div>
   </div>
 </template>
@@ -940,14 +950,26 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "@/styles/mediaQueries/mediaQueries.scss";
+
 .layout {
   overflow-x: hidden;
   min-height: 100vh;
   & .icon {
     z-index: 1;
   }
+  & .navbar,
+  & .sidebar,
+  & .sidebar-large {
+    position: fixed !important;
+  }
+
+  & .sidebar,
+  & .sidebar-large {
+    top: var(--height-of-navbar);
+  }
+
   .navbar {
-    height: 56px;
+    height: var(--height-of-navbar);
     width: 100vw;
     display: flex;
     justify-content: space-between;
@@ -1183,6 +1205,11 @@ export default defineComponent({
   & .content {
     display: flex;
 
+    & .content-container {
+      width: 100%;
+      margin-top: var(--height-of-navbar);
+    }
+
     .sidebar-large-drawer-base {
       position: absolute;
       transition: transform 0.2s;
@@ -1204,6 +1231,13 @@ export default defineComponent({
     & .sidebar-large-drawer-active {
       @extend .sidebar-large-drawer-base;
       transform: translateX(0);
+    }
+
+    & .sidebar-large-fill-box {
+      // +10PX is scroll width
+      width: 250px;
+      max-height: 100%;
+      height: 100vh;
     }
 
     & .sidebar-large {
@@ -1274,6 +1308,11 @@ export default defineComponent({
       }
     }
 
+    & .sidebar-fill-box {
+      height: 100vh;
+      width: 72px;
+    }
+
     & .sidebar {
       height: 100vh;
       width: 72px;
@@ -1311,7 +1350,10 @@ export default defineComponent({
       }
     }
     @include MQ800 {
-      .sidebar {
+      .sidebar,
+      .sidebar-fill-box,
+      .sidebar-large-block,
+      .sidebar-large-fill-box {
         display: none;
       }
     }
