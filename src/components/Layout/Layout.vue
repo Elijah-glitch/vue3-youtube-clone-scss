@@ -1,6 +1,21 @@
 <template>
   <div class="layout">
     <div class="navbar">
+      <div
+        class="navbar-searchSmallSize"
+        :active="isSmallSearchActive ? 'active' : 'deactive'"
+      >
+        <transparent-button
+          class="navbar-searchSmallSizeBackButton"
+          :rippleEffect="true"
+          :padding="`7px 8px 7px 4px`"
+          :margin="`0 0 0 5px`"
+          @click="fullWidthSearchVisibleToggle()"
+        >
+          <icon-base class="icon"><icon-back-line-arrow /></icon-base>
+        </transparent-button>
+        <search-bar class="navbar-searchSmallSizeSearchBar" />
+      </div>
       <div class="navbar-left">
         <transparent-button
           class="sidebar-block-button"
@@ -10,7 +25,7 @@
           :sidebarActive="sidebarBlock ? 'true' : 'false'"
           @click="showBlockSidebarToggle()"
         >
-          <icon-base class="icon"><bar-icon /></icon-base>
+          <icon-base class="icon"><icon-bar /></icon-base>
         </transparent-button>
         <transparent-button
           class="sidebar-drawer-button"
@@ -18,21 +33,25 @@
           :padding="`7px 8px 7px 4px`"
           @click="showDrawerSidebarToggle()"
         >
-          <icon-base class="icon"><bar-icon /></icon-base>
+          <icon-base class="icon"><icon-bar /></icon-base>
         </transparent-button>
         <transparent-button :padding="`16px 14px 16px 16px`">
           <main-logo />
         </transparent-button>
       </div>
       <div class="navbar-middle">
-        <input placeholder="Search" class="search-bar" />
-        <button class="search-button">
-          <icon-base :width="`20px`" :height="`20px`" class="search-icon"
-            ><icon-search
-          /></icon-base>
-        </button>
+        <search-bar class="searchBar" />
       </div>
       <div class="navbar-right">
+        <transparent-button
+          :rippleEffect="true"
+          :padding="`8px`"
+          :margin="`0 8px 0 0`"
+          @click="fullWidthSearchVisibleToggle()"
+          class="navbar-right-search-button"
+        >
+          <icon-base class="icon"><icon-search /></icon-base>
+        </transparent-button>
         <dropdown-container>
           <transparent-button
             :rippleEffect="true"
@@ -538,7 +557,7 @@
             :padding="`7px 8px 7px 4px`"
             @click="showDrawerSidebarToggle()"
           >
-            <icon-base class="icon"><bar-icon /></icon-base>
+            <icon-base class="icon"><icon-bar /></icon-base>
           </transparent-button>
           <transparent-button :padding="`16px 14px 16px 16px`">
             <main-logo />
@@ -802,7 +821,7 @@ import IconExplore from "@/components/Icon/Icons/Explore.vue";
 import IconSubscriptions from "@/components/Icon/Icons/Subscriptions.vue";
 import IconLibrary from "@/components/Icon/Icons/Library.vue";
 import IconHistory from "@/components/Icon/Icons/History.vue";
-import BarIcon from "@/components/Icon/Icons/Bar.vue";
+import IconBar from "@/components/Icon/Icons/Bar.vue";
 import IconSearch from "@/components/Icon/Icons/Search.vue";
 import IconPlayBordered from "@/components/Icon/Icons/PlayBordered.vue";
 import IconClock from "@/components/Icon/Icons/Clock.vue";
@@ -813,6 +832,7 @@ import IconFlag from "@/components/Icon/Icons/Flag.vue";
 import IconGaming from "@/components/Icon/Icons/Gaming.vue";
 import IconChampCup from "@/components/Icon/Icons/ChampCup.vue";
 import IconDownArrow from "@/components/Icon/Icons/DownArrow.vue";
+import IconBackLineArrow from "@/components/Icon/Icons/BackLineArrow.vue";
 import TransparentButton from "@/components/Input/Button/TransparentButton/TransparentButton.vue";
 import DropdownLinkMain from "@/components/Input/Button/Dropdown/DropdownLinkMain.vue";
 import AvatarMain from "@/components/Avatar/AvatarMain/AvatarMain.vue";
@@ -820,6 +840,7 @@ import DropdownContainer from "@/components/Dropdown/DropdownContainer/DropdownC
 import DropdownItem from "@/components/Dropdown/DropdownItem/DropdownItem.vue";
 import MainLogo from "@/components/Logo/LogoMain.vue";
 import TextOne from "../Text/TextOne.vue";
+import SearchBar from "@/components/Input/Search/SearchBar.vue";
 
 interface DropdownVisibleValues {
   appsVisible: boolean;
@@ -833,7 +854,7 @@ export default defineComponent({
   name: "Layout",
   components: {
     IconBase,
-    BarIcon,
+    IconBar,
     TransparentButton,
     MainLogo,
     IconSearch,
@@ -878,6 +899,8 @@ export default defineComponent({
     IconGaming,
     IconChampCup,
     IconYoutubeGray,
+    IconBackLineArrow,
+    SearchBar,
   },
   props: {
     sidebarBlock: {
@@ -934,6 +957,12 @@ export default defineComponent({
     const showBlockSidebarToggle = () => {
       showSidebarBlock.value = !showSidebarBlock.value;
     };
+
+    // SHOW SMALL SEARCH BAR
+    const isSmallSearchActive = ref<boolean>(false);
+    const fullWidthSearchVisibleToggle = () => {
+      isSmallSearchActive.value = !isSmallSearchActive.value;
+    };
     return {
       dropdownVisibleValues,
       changeDropdownValue,
@@ -943,6 +972,8 @@ export default defineComponent({
       showDrawerSidebarToggle,
       showSidebarBlock,
       showBlockSidebarToggle,
+      isSmallSearchActive,
+      fullWidthSearchVisibleToggle,
     };
   },
 });
@@ -976,6 +1007,20 @@ export default defineComponent({
     align-items: center;
     background: var(--layout-bg-color);
 
+    & .navbar-searchSmallSize {
+      display: flex;
+      width: 95%;
+
+      &[active="active"] + .navbar-left,
+      &[active="active"] + .navbar-left + .navbar-middle,
+      &[active="active"] + .navbar-left + .navbar-middle + .navbar-right {
+        display: none;
+      }
+      & .navbar-searchSmallSizeSearchBar {
+        margin-left: 20px;
+      }
+    }
+
     & .navbar-left {
       display: flex;
       align-items: center;
@@ -1008,52 +1053,13 @@ export default defineComponent({
       width: 100%;
       max-width: 640px;
       min-width: 136px;
-
-      & .search-bar {
-        height: 26px;
-        width: 100%;
-        padding: 2px 10px;
-        max-width: 575px;
-        border: 1px solid var(--searchbox-border-color);
-        outline: none;
-        background: var(--searchbox-bg-color);
-        font-size: 16px;
-        caret-color: var(--searchbox-caret-color);
-
-        &:focus {
-          border: 1px solid var(--searchbox-focus-border-color);
-        }
-
-        &::placeholder {
-          color: var(--searchbox-placeholder-color);
-        }
+      @include MQ656 {
+        display: none;
       }
 
-      & .search-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 72.5px;
-        padding: 1px 6px;
-        background: var(--searchbtn-bg-color);
-        outline: none;
-        border: 1px solid var(--searchbtn-border-color);
-        cursor: pointer;
-        & .search-icon g {
-          fill: var(--search-icon-color);
-        }
-
-        &:hover {
-          & .search-icon g {
-            fill: var(--search-icon-hover-color);
-          }
-
-          background: var(--searchbtn-bg-hover-color);
-          border: 1px solid var(--searchbtn-hover-border-color);
-        }
-        &:focus {
-          background: var(--searchbtn-bg-focus-color);
-        }
+      & .searchBar {
+        max-width: 640px;
+        min-width: 136px;
       }
     }
 
@@ -1075,6 +1081,14 @@ export default defineComponent({
 
       & g {
         fill: var(--white);
+      }
+
+      & .navbar-right-search-button {
+        display: none;
+
+        @include MQ656 {
+          display: flex;
+        }
       }
 
       & .dropdown-notification-container {
