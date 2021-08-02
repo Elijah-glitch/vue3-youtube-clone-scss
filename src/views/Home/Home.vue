@@ -2,8 +2,17 @@
   <layout :sidebarBlock="true">
     <div class="container">
       <card-video-container class="video-card-container">
-        <card-video v-for="item in titles" :key="item" class="video-card-item">
-          <img src="https://picsum.photos/1280/720" alt="item" />
+        <card-video
+          v-for="(item, index) in titles"
+          :key="item"
+          class="video-card-item"
+        >
+          <img
+            :src="`https://source.unsplash.com/random/1280x720?sig=${
+              index + 1
+            }`"
+            :alt="item"
+          />
         </card-video>
       </card-video-container>
     </div>
@@ -33,6 +42,14 @@ export default defineComponent({
       "Title 1",
       "Title 1",
       "Title 1",
+      "Title 1",
+      "Title 1",
+      "Title 1",
+      "Title 1",
+      "Title 1",
+      "Title 1",
+      "Title 1",
+      "Title 1",
     ]);
     return { titles };
   },
@@ -46,7 +63,7 @@ export default defineComponent({
   width: 100%;
   & .video-card-container {
     // THESE VALUES SET IN STYLES BREAKPOINTS FILE
-    margin: 24px auto 0 auto;
+    margin: 24px 0 0 0;
     justify-content: var(--videos-container-justify-content);
     width: calc(100% - 16px * 2);
     max-width: calc(var(--videos-per-item-row) * 320px + 16);
