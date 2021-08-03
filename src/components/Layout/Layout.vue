@@ -58,6 +58,7 @@
             :padding="`8px`"
             :margin="`0 8px 0 0`"
             @click="changeDropdownValue('addVideoVisible', true)"
+            class="navbarRight-addVideoButton"
           >
             <icon-base class="icon"><icon-add-video /></icon-base>
           </transparent-button>
@@ -87,6 +88,7 @@
             :padding="`8px`"
             :margin="`0 8px 0 0`"
             @click="changeDropdownValue('appsVisible', true)"
+            class="navbarRight-appsButton"
           >
             <icon-base class="icon"><icon-apps /></icon-base>
           </transparent-button>
@@ -134,6 +136,7 @@
             :padding="`8px`"
             :margin="`0 8px 0 0`"
             @click="changeDropdownValue('notificationVisible', true)"
+            class="navbarRight-notificationButton"
           >
             <icon-base class="icon"><icon-notification /></icon-base>
           </transparent-button>
@@ -169,7 +172,9 @@
                     item
                   }}</span>
                   <img
-                    src="@/assets/thumbnail.jpeg"
+                    :src="`https://source.unsplash.com/random/1280x720?sig=${
+                      index + 1
+                    }`"
                     class="dropdown-notification-item-thumb"
                   />
                 </div>
@@ -223,8 +228,9 @@
         </dropdown-container>
         <dropdown-container>
           <transparent-button
+            :padding="'0 14px'"
             @click="changeDropdownValue('profileVisible', true)"
-            :padding="`0 14px`"
+            class="navbarRight-profileButton"
           >
             <avatar-main />
           </transparent-button>
@@ -909,7 +915,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const notificationTexts = ref<Array<String>>([
+    const notificationTexts = ref<Array<string>>([
       "Albert Einstein just uploaded a video: Everybody is a genius. But if you judge a fish by its ability to climb a tree, it will live its whole life believing that is stupid.",
       "Albert Einstein just uploaded a video: Logic will get you from A to B. Imagination will take you everywhere.”",
       "Albert Einstein just uploaded a video: I found out atom for the benefit of humanity but they kill each other with it.",

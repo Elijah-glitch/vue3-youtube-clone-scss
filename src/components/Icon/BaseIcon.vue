@@ -4,7 +4,6 @@
     :width="width"
     :height="height"
     :viewBox="viewBox"
-    :aria-labelledby="iconName"
     role="presentation"
   >
     <g>
