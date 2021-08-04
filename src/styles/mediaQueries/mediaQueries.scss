@@ -10,6 +10,12 @@
   }
 }
 
+@mixin MQ656Min {
+  @media screen and (min-width: 656px) {
+    @content;
+  }
+}
+
 @mixin MQ800 {
   @media screen and (max-width: 800px) {
     @content;
