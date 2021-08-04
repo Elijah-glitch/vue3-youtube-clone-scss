@@ -987,6 +987,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "@/styles/mediaQueries/mediaQueries.scss";
+@import "@/styles/scroll/scroll.scss";
 
 .layout {
   overflow-x: hidden;
@@ -1014,14 +1015,30 @@ export default defineComponent({
     background: var(--layout-bg-color);
 
     & .navbar-searchSmallSize {
-      display: flex;
+      display: none;
+      align-items: center;
       width: 95%;
+
+      @include MQ656 {
+        &[active="active"] {
+          display: flex;
+        }
+      }
 
       &[active="active"] + .navbar-left,
       &[active="active"] + .navbar-left + .navbar-middle,
       &[active="active"] + .navbar-left + .navbar-middle + .navbar-right {
         display: none;
       }
+
+      @include MQ656Min {
+        & + .navbar-left,
+        & + .navbar-left + .navbar-middle,
+        & + .navbar-left + .navbar-middle + .navbar-right {
+          display: flex !important;
+        }
+      }
+
       & .navbar-searchSmallSizeSearchBar {
         margin-left: 20px;
       }
@@ -1191,6 +1208,10 @@ export default defineComponent({
       }
 
       & .dropdown-profile-visible {
+        overflow-y: auto;
+        overflow-x: hidden;
+        @extend .sc-scroll-two;
+        height: 90vh;
         & .dropdown-profile-visible-header {
           display: flex;
           padding: 16px;
