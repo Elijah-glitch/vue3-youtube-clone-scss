@@ -1,5 +1,5 @@
 <template>
-  <img :style="style" class="avatar" src="@/assets/pp.png" />
+  <img :style="style" class="avatar" :src="getAvatarImg()" :alt="alt" />
 </template>
 
 <script lang="ts">
@@ -21,13 +21,27 @@ export default defineComponent({
       type: String,
       default: "32px",
     },
+    src: {
+      type: String,
+      default: "pp.png",
+    },
+    alt: {
+      type: String,
+      default: "",
+    },
+  },
+  setup(props) {
+    function getAvatarImg() {
+      return require("@/assets/" + props.src);
+    }
+    return { getAvatarImg };
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .avatar {
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 50%;
 }
 </style>
