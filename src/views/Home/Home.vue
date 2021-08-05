@@ -28,61 +28,62 @@
                 :rippleEffect="true"
                 :padding="`7px 8px 7px 4px`"
                 class="options-button"
-                @click="toggleVideoOptionsVisible()"
+                @click="(e) => openVideoOptions(e.target, index)"
               >
                 <base-icon> <icon-three-dot-v /></base-icon>
               </transparent-button>
               <dropdown-item
                 class="video-options-dropdown"
-                :visible="videoOptionsVisible"
-                :direction="'left'"
-                :onclose="() => toggleVideoOptionsVisible()"
+                :visible="videoOptionsValues[index].visible"
+                :direction="videoOptionsValues[index].dropdownDirection"
+                :onclose="() => closeVideoOptions(index)"
               >
                 <dropdown-link-main margin-top>
-                  <icon-base class="dropdown-link-main-icon"
+                  <base-icon class="dropdown-link-main-icon"
                     ><icon-add-to-queue />
-                  </icon-base>
+                  </base-icon>
                   <span class="dropdown-link-main-text"> Add to queue </span>
                 </dropdown-link-main>
                 <dropdown-link-main>
-                  <icon-base class="dropdown-link-main-icon"
+                  <base-icon class="dropdown-link-main-icon"
                     ><icon-watch />
-                  </icon-base>
+                  </base-icon>
                   <span class="dropdown-link-main-text">
                     Save to Watch later
                   </span>
                 </dropdown-link-main>
                 <dropdown-link-main border-bottom margin-bottom>
-                  <icon-base class="dropdown-link-main-icon"
+                  <base-icon class="dropdown-link-main-icon"
                     ><icon-save-to-playlist />
-                  </icon-base>
+                  </base-icon>
                   <span class="dropdown-link-main-text">
                     Save to playlist
                   </span>
                 </dropdown-link-main>
                 <dropdown-link-main>
-                  <icon-base class="dropdown-link-main-icon"
+                  <base-icon class="dropdown-link-main-icon"
                     ><icon-forbidden />
-                  </icon-base>
+                  </base-icon>
                   <span class="dropdown-link-main-text"> Not interested </span>
                 </dropdown-link-main>
                 <dropdown-link-main>
-                  <icon-base class="dropdown-link-main-icon"
+                  <base-icon class="dropdown-link-main-icon"
                     ><icon-minus-in-circle />
-                  </icon-base>
+                  </base-icon>
                   <span class="dropdown-link-main-text">
                     Don't recommend channel
                   </span>
                 </dropdown-link-main>
                 <dropdown-link-main margin-bottom>
-                  <icon-base class="dropdown-link-main-icon"
+                  <base-icon class="dropdown-link-main-icon"
                     ><icon-flag />
-                  </icon-base>
+                  </base-icon>
                   <span class="dropdown-link-main-text"> Report </span>
                 </dropdown-link-main>
               </dropdown-item>
             </dropdown-container>
           </div>
+          <a class="video-channelName" href="#"> {{ item.channelName }} </a>
         </card-video>
       </card-video-container>
     </div>
@@ -99,6 +100,7 @@ import TransparentButton from "@/components/Input/Button/TransparentButton/Trans
 import DropdownContainer from "@/components/Dropdown/DropdownContainer/DropdownContainer.vue";
 import DropdownItem from "@/components/Dropdown/DropdownItem/DropdownItem.vue";
 import DropdownLinkMain from "@/components/Input/Button/Dropdown/DropdownLinkMain.vue";
+import { isRightBlankHaveEnoughSpace } from "@/utils/spaceCheck";
 // ICONS
 import BaseIcon from "@/components/Icon/BaseIcon.vue";
 import IconThreeDotV from "@/components/Icon/Icons/ThreeDotV.vue";
@@ -112,6 +114,12 @@ import IconFlag from "@/components/Icon/Icons/Flag.vue";
 interface Videos {
   title: string;
   photo: string;
+  channelName: string;
+}
+
+interface VideosOptionsValues {
+  visible: boolean;
+  dropdownDirection: "right" | "left";
 }
 
 export default defineComponent({
@@ -141,99 +149,133 @@ export default defineComponent({
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "charles-darwin.jpg",
+        channelName: "Charles Darwin",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "dennis-ritchie.jpg",
+        channelName: "Dennis Ritchie",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "galileo-galilei.jpg",
+        channelName: "Galileo Galilei",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "isaac-newton.jpg",
+        channelName: "Isaac Newton",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "marie-curie.png",
+        channelName: "Marie Curie",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "nikola-tesla.jpg",
+        channelName: "Nikola Tesla",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "charles-darwin.jpg",
+        channelName: "Charles Darwin",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "dennis-ritchie.jpg",
+        channelName: "Dennis Ritchie",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "galileo-galilei.jpg",
+        channelName: "Galileo Galilei",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "isaac-newton.jpg",
+        channelName: "Isaac Newton",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "marie-curie.png",
+        channelName: "Marie Curie",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "nikola-tesla.jpg",
+        channelName: "Nikola Tesla",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "charles-darwin.jpg",
+        channelName: "Charles Darwin",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "dennis-ritchie.jpg",
+        channelName: "Dennis Ritchie",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "galileo-galilei.jpg",
+        channelName: "Galileo Galilei",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "isaac-newton.jpg",
+        channelName: "Isaac Newton",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "marie-curie.png",
+        channelName: "Marie Curie",
       },
       {
         title:
           "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
         photo: "nikola-tesla.jpg",
+        channelName: "Nikola Tesla",
       },
     ]);
     // VIDEO OPTIONS
-    const videoOptionsVisible = ref<boolean>(false);
-    const toggleVideoOptionsVisible = () => {
-      return (videoOptionsVisible.value = !videoOptionsVisible.value);
+    const videoOptionsValues = ref<Array<VideosOptionsValues>>(
+      videos.value.map(() => {
+        return { visible: false, dropdownDirection: "left" };
+      })
+    );
+    const openVideoOptions = (e: HTMLElement, index: number) => {
+      const isDirectionRight = isRightBlankHaveEnoughSpace(e, 258);
+      videoOptionsValues.value[index].dropdownDirection = isDirectionRight
+        ? "right"
+        : "left";
+      setTimeout(() => {
+        videoOptionsValues.value[index].visible =
+          !videoOptionsValues.value[index].visible;
+      }, 0);
+      return;
     };
-    return { videos, videoOptionsVisible, toggleVideoOptionsVisible };
+    const closeVideoOptions = (index: number) => {
+      return (videoOptionsValues.value[index].visible =
+        !videoOptionsValues.value[index].visible);
+    };
+    return { videos, videoOptionsValues, openVideoOptions, closeVideoOptions };
   },
 });
 </script>
@@ -277,6 +319,7 @@ export default defineComponent({
         & h4 {
           display: inline-block;
           font-weight: 500;
+          font-size: 15px;
           white-space: normal;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -292,7 +335,17 @@ export default defineComponent({
         & .options-button {
           visibility: hidden;
           position: absolute;
-          right: -12px;
+          right: -30px;
+          top: 0;
+        }
+      }
+
+      & .video-channelName {
+        font-size: 14px;
+        color: var(--text-second-color);
+
+        &:hover {
+          color: var(--white);
         }
       }
     }
