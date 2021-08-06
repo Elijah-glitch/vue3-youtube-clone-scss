@@ -999,6 +999,7 @@ export default defineComponent({
   & .sidebar,
   & .sidebar-large {
     position: fixed !important;
+    z-index: var(--layout-z);
   }
 
   & .sidebar,
