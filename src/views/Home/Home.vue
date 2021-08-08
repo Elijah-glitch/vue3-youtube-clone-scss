@@ -94,9 +94,18 @@
                 </dropdown-container>
               </div>
               <div class="video-card-title-right-row2">
-                <a class="video-channelName" href="#">
-                  {{ item.channelName }}
-                </a>
+                <detail-popup-container>
+                  <a class="video-channelName" href="#">
+                    {{ item.channelName }}
+                  </a>
+                  <detail-popup-item
+                    :left="'-4px'"
+                    :hDirection="'middle'"
+                    :vDirection="'top'"
+                  >
+                    {{ item.channelName }}
+                  </detail-popup-item>
+                </detail-popup-container>
                 <div class="video-card-title-right-row2-bottom">
                   <span class="video-card-title-right-row2-bottom-text1">
                     {{ generateNumber(1, 100) }}K views</span
@@ -125,6 +134,8 @@ import DropdownContainer from "@/components/Dropdown/DropdownContainer/DropdownC
 import DropdownItem from "@/components/Dropdown/DropdownItem/DropdownItem.vue";
 import DropdownLinkMain from "@/components/Input/Button/Dropdown/DropdownLinkMain.vue";
 import CardVideoImg from "@/components/Card/CardVideo/CardVideoImg.vue";
+import DetailPopupContainer from "@/components/Popup/DetailPopupContainer.vue";
+import DetailPopupItem from "@/components/Popup/DetailPopupItem.vue";
 import { isRightBlankHaveEnoughSpace } from "@/utils/spaceCheck";
 import { generateNumber } from "@/utils/numberGenerators";
 // ICONS
@@ -163,6 +174,8 @@ export default defineComponent({
     DropdownItem,
     DropdownLinkMain,
     CardVideoImg,
+    DetailPopupContainer,
+    DetailPopupItem,
     // ICONS
     BaseIcon,
     IconThreeDotV,

@@ -5,15 +5,18 @@
         class="navbar-searchSmallSize"
         :active="isSmallSearchActive ? 'active' : 'deactive'"
       >
-        <transparent-button
-          class="navbar-searchSmallSizeBackButton"
-          :rippleEffect="true"
-          :padding="`7px 8px 7px 4px`"
-          :margin="`0 0 0 5px`"
-          @click="fullWidthSearchVisibleToggle()"
-        >
-          <icon-base class="icon"><icon-back-line-arrow /></icon-base>
-        </transparent-button>
+        <detail-popup-container>
+          <transparent-button
+            class="navbar-searchSmallSizeBackButton"
+            :rippleEffect="true"
+            :padding="`7px 8px 7px 4px`"
+            :margin="`0 0 0 10px`"
+            @click="fullWidthSearchVisibleToggle()"
+          >
+            <icon-base class="icon"><icon-back-line-arrow /></icon-base>
+          </transparent-button>
+          <detail-popup-item :left="'4px'">Back</detail-popup-item>
+        </detail-popup-container>
         <search-bar class="navbar-searchSmallSizeSearchBar" />
       </div>
       <div class="navbar-left">
@@ -43,25 +46,31 @@
         <search-bar class="searchBar" />
       </div>
       <div class="navbar-right">
-        <transparent-button
-          :rippleEffect="true"
-          :padding="`8px`"
-          :margin="`0 8px 0 0`"
-          @click="fullWidthSearchVisibleToggle()"
-          class="navbar-right-search-button"
-        >
-          <icon-base class="icon"><icon-search /></icon-base>
-        </transparent-button>
-        <dropdown-container>
+        <detail-popup-container>
           <transparent-button
             :rippleEffect="true"
             :padding="`8px`"
             :margin="`0 8px 0 0`"
-            @click="changeDropdownValue('addVideoVisible', true)"
-            class="navbarRight-addVideoButton"
+            @click="fullWidthSearchVisibleToggle()"
+            class="navbar-right-search-button"
           >
-            <icon-base class="icon"><icon-add-video /></icon-base>
+            <icon-base class="icon"><icon-search /></icon-base>
           </transparent-button>
+          <detail-popup-item :left="'-8px'"> Search </detail-popup-item>
+        </detail-popup-container>
+        <dropdown-container>
+          <detail-popup-container>
+            <transparent-button
+              :rippleEffect="true"
+              :padding="`8px`"
+              :margin="`0 8px 0 0`"
+              @click="changeDropdownValue('addVideoVisible', true)"
+              class="navbarRight-addVideoButton"
+            >
+              <icon-base class="icon"><icon-add-video /></icon-base>
+            </transparent-button>
+            <detail-popup-item :left="'-8px'"> Create </detail-popup-item>
+          </detail-popup-container>
           <dropdown-item
             :visible="dropdownVisibleValues.addVideoVisible.value"
             :direction="'right'"
@@ -83,15 +92,24 @@
           </dropdown-item>
         </dropdown-container>
         <dropdown-container>
-          <transparent-button
-            :rippleEffect="true"
-            :padding="`8px`"
-            :margin="`0 8px 0 0`"
-            @click="changeDropdownValue('appsVisible', true)"
-            class="navbarRight-appsButton"
-          >
-            <icon-base class="icon"><icon-apps /></icon-base>
-          </transparent-button>
+          <detail-popup-container>
+            <transparent-button
+              :rippleEffect="true"
+              :padding="`8px`"
+              :margin="`0 8px 0 0`"
+              @click="changeDropdownValue('appsVisible', true)"
+              class="navbarRight-appsButton"
+            >
+              <icon-base class="icon"><icon-apps /></icon-base>
+            </transparent-button>
+            <detail-popup-item
+              :left="'-60%'"
+              :vDirection="'bottom'"
+              :hDirection="'middle'"
+            >
+              YouTube apps
+            </detail-popup-item>
+          </detail-popup-container>
           <dropdown-item
             :visible="dropdownVisibleValues.appsVisible.value"
             :direction="'left'"
@@ -131,15 +149,21 @@
           </dropdown-item>
         </dropdown-container>
         <dropdown-container>
-          <transparent-button
-            :rippleEffect="true"
-            :padding="`8px`"
-            :margin="`0 8px 0 0`"
-            @click="changeDropdownValue('notificationVisible', true)"
-            class="navbarRight-notificationButton"
-          >
-            <icon-base class="icon"><icon-notification /></icon-base>
-          </transparent-button>
+          <detail-popup-container>
+            <transparent-button
+              :rippleEffect="true"
+              :padding="`8px`"
+              :margin="`0 8px 0 0`"
+              @click="changeDropdownValue('notificationVisible', true)"
+              class="navbarRight-notificationButton"
+            >
+              <icon-base class="icon"><icon-notification /></icon-base>
+            </transparent-button>
+            <detail-popup-item :vDirection="'bottom'" :hDirection="'right'">
+              Notifications
+            </detail-popup-item>
+          </detail-popup-container>
+
           <dropdown-item
             :visible="dropdownVisibleValues.notificationVisible.value"
             :direction="'left'"
@@ -847,6 +871,8 @@ import DropdownItem from "@/components/Dropdown/DropdownItem/DropdownItem.vue";
 import MainLogo from "@/components/Logo/LogoMain.vue";
 import TextOne from "../Text/TextOne.vue";
 import SearchBar from "@/components/Input/Search/SearchBar.vue";
+import DetailPopupItem from "@/components/Popup/DetailPopupItem.vue";
+import DetailPopupContainer from "@/components/Popup/DetailPopupContainer.vue";
 
 interface DropdownVisibleValues {
   appsVisible: boolean;
@@ -907,6 +933,8 @@ export default defineComponent({
     IconYoutubeGray,
     IconBackLineArrow,
     SearchBar,
+    DetailPopupItem,
+    DetailPopupContainer,
   },
   props: {
     sidebarBlock: {
@@ -1002,6 +1030,10 @@ export default defineComponent({
     z-index: var(--layout-z);
   }
 
+  & .sidebar-large-drawer-container {
+    z-index: var(--sidebar-drawer-z) !important;
+  }
+
   & .sidebar,
   & .sidebar-large {
     top: var(--height-of-navbar);
@@ -1041,7 +1073,7 @@ export default defineComponent({
       }
 
       & .navbar-searchSmallSizeSearchBar {
-        margin-left: 20px;
+        margin-left: 10px;
       }
     }
 

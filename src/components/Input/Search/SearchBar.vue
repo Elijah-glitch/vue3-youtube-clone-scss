@@ -1,11 +1,15 @@
 <template>
   <div class="searchBar-container">
     <input placeholder="Search" class="searchBar-input" />
-    <button class="searchBar-searchButton">
-      <icon-base :width="`20px`" :height="`20px`" class="search-icon"
-        ><icon-search
-      /></icon-base>
-    </button>
+
+    <detail-popup-container>
+      <button class="searchBar-searchButton">
+        <icon-base :width="`20px`" :height="`20px`" class="search-icon"
+          ><icon-search
+        /></icon-base>
+      </button>
+      <detail-popup-item :left="'10%'">Search</detail-popup-item>
+    </detail-popup-container>
   </div>
 </template>
 
@@ -13,10 +17,12 @@
 import { defineComponent } from "vue";
 import IconSearch from "@/components/Icon/Icons/Search.vue";
 import IconBase from "@/components/Icon/BaseIcon.vue";
+import DetailPopupContainer from "@/components/Popup/DetailPopupContainer.vue";
+import DetailPopupItem from "@/components/Popup/DetailPopupItem.vue";
 
 export default defineComponent({
   name: "SearchBar",
-  components: { IconSearch, IconBase },
+  components: { IconSearch, IconBase, DetailPopupContainer, DetailPopupItem },
 });
 </script>
 
