@@ -67,6 +67,10 @@ body {
   // CARD
   --card-img-time-bg: rgba(0, 0, 0, 0.8);
   --card-img-time-color: #ffffff;
+
+  // POPUP
+  --popup-detail-bg: #616161;
+  --popup-detail-color: #ffffff;
 }
 
 body.dark-mode {
@@ -133,4 +137,8 @@ body.dark-mode {
   // CARD
   --card-img-time-bg: rgba(0, 0, 0, 0.8);
   --card-img-time-color: #ffffff;
+
+  // POPUP
+  --popup-detail-bg: #616161;
+  --popup-detail-color: #ffffff;
 }
