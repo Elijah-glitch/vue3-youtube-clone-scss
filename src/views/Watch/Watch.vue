@@ -17,128 +17,257 @@
           </div>
 
           <div class="video-controls">
-            <!-- PLAY PAUSE BUTTON -->
-            <detail-video-popup-container>
-              <button
-                v-show="!videoValues.isVideoPlaying.value"
-                class="video-play-pause"
-                @click="onTogglePlayWithButton()"
+            <div class="video-controls-left">
+              <!-- PLAY PAUSE BUTTON -->
+              <detail-video-popup-container>
+                <button
+                  v-show="!videoValues.isVideoPlaying.value"
+                  class="video-play-pause"
+                  @click="onTogglePlayWithButton()"
+                >
+                  <icon-base
+                    :viewBox="'0 0 36 36'"
+                    :width="'46px'"
+                    :height="'40px'"
+                    class="video-controls-icon"
+                  >
+                    <icon-play />
+                  </icon-base>
+                </button>
+                <button
+                  v-show="videoValues.isVideoPlaying.value"
+                  class="video-play-pause"
+                  @click="onTogglePlayWithButton()"
+                >
+                  <icon-base
+                    :viewBox="'0 0 36 36'"
+                    :width="'46px'"
+                    :height="'40px'"
+                    class="video-controls-icon"
+                  >
+                    <icon-pause />
+                  </icon-base>
+                </button>
+                <detail-video-popup-item :left="'8px'" :vDirection="'top'">
+                  {{ videoValues.isVideoPlaying.value ? "Pause" : "Play" }}
+                </detail-video-popup-item>
+              </detail-video-popup-container>
+              <!-- NEXT VIDEO BUTTON -->
+              <detail-video-popup-container>
+                <button class="video-controls-button">
+                  <icon-base
+                    :viewBox="'0 0 36 36'"
+                    :width="'46px'"
+                    :height="'40px'"
+                    class="video-controls-icon"
+                  >
+                    <icon-next-video />
+                  </icon-base>
+                </button>
+                <detail-video-popup-item :left="'-8px'" :vDirection="'top'">
+                  Next video
+                </detail-video-popup-item>
+              </detail-video-popup-container>
+              <!-- VOLUME -->
+              <div
+                @mouseover="onVolumeMouseOver()"
+                @mouseout="onVolumeMouseOut()"
+                class="video-volume-container"
               >
-                <icon-base
-                  :viewBox="'0 0 36 36'"
-                  :width="'46px'"
-                  :height="'40px'"
-                  class="video-controls-icon"
+                <detail-video-popup-container>
+                  <button
+                    class="video-controls-button"
+                    v-show="videoValues.volumeLevel.value === 'max'"
+                    @click="onToggleMute()"
+                  >
+                    <icon-base
+                      :viewBox="'0 0 36 36'"
+                      :width="'46px'"
+                      :height="'40px'"
+                      class="video-controls-icon"
+                    >
+                      <icon-volume-max />
+                    </icon-base>
+                  </button>
+                  <button
+                    class="video-controls-button"
+                    v-show="videoValues.volumeLevel.value === 'min'"
+                    @click="onToggleMute()"
+                  >
+                    <icon-base
+                      :viewBox="'0 0 36 36'"
+                      :width="'46px'"
+                      :height="'40px'"
+                      class="video-controls-icon"
+                    >
+                      <icon-volume-min />
+                    </icon-base>
+                  </button>
+                  <button
+                    class="video-controls-button"
+                    v-show="videoValues.volumeLevel.value === 'mute'"
+                    @click="onToggleMute()"
+                  >
+                    <icon-base
+                      :viewBox="'0 0 36 36'"
+                      :width="'46px'"
+                      :height="'40px'"
+                      class="video-controls-icon"
+                    >
+                      <icon-volume-mute />
+                    </icon-base>
+                  </button>
+                  <detail-video-popup-item :left="'-8px'" :vDirection="'top'">
+                    {{
+                      videoValues.volumeLevel.value === "mute"
+                        ? "Unmute"
+                        : "Mute"
+                    }}
+                  </detail-video-popup-item>
+                </detail-video-popup-container>
+                <div
+                  class="video-volume-input-container"
+                  :class="{
+                    'volume-mouseover-active':
+                      videoValues.volumeMouseOver.value,
+                    'volume-mouseover-deactive':
+                      !videoValues.volumeMouseOver.value,
+                  }"
                 >
-                  <icon-play />
-                </icon-base>
-              </button>
-              <button
-                v-show="videoValues.isVideoPlaying.value"
-                class="video-play-pause"
-                @click="onTogglePlayWithButton()"
-              >
-                <icon-base
-                  :viewBox="'0 0 36 36'"
-                  :width="'46px'"
-                  :height="'40px'"
-                  class="video-controls-icon"
-                >
-                  <icon-pause />
-                </icon-base>
-              </button>
-              <detail-video-popup-item :left="'8px'" :vDirection="'top'">
-                {{ videoValues.isVideoPlaying.value ? "Pause" : "Play" }}
-              </detail-video-popup-item>
-            </detail-video-popup-container>
-            <!-- NEXT VIDEO BUTTON -->
-            <detail-video-popup-container>
-              <button class="video-next-video">
-                <icon-base
-                  :viewBox="'0 0 36 36'"
-                  :width="'46px'"
-                  :height="'40px'"
-                  class="video-controls-icon"
-                >
-                  <icon-next-video />
-                </icon-base>
-              </button>
-              <detail-video-popup-item :left="'-8px'" :vDirection="'top'">
-                Next video
-              </detail-video-popup-item>
-            </detail-video-popup-container>
-            <!-- VOLUME BUTTON -->
-            <detail-video-popup-container>
-              <button
-                class="video-volume"
-                v-show="videoValues.volumeLevel.value === 'max'"
-                @click="onToggleMute()"
-              >
-                <icon-base
-                  :viewBox="'0 0 36 36'"
-                  :width="'46px'"
-                  :height="'40px'"
-                  class="video-controls-icon"
-                >
-                  <icon-volume-max />
-                </icon-base>
-              </button>
-              <button
-                class="video-volume"
-                v-show="videoValues.volumeLevel.value === 'min'"
-                @click="onToggleMute()"
-              >
-                <icon-base
-                  :viewBox="'0 0 36 36'"
-                  :width="'46px'"
-                  :height="'40px'"
-                  class="video-controls-icon"
-                >
-                  <icon-volume-min />
-                </icon-base>
-              </button>
-              <button
-                class="video-volume"
-                v-show="videoValues.volumeLevel.value === 'mute'"
-                @click="onToggleMute()"
-              >
-                <icon-base
-                  :viewBox="'0 0 36 36'"
-                  :width="'46px'"
-                  :height="'40px'"
-                  class="video-controls-icon"
-                >
-                  <icon-volume-mute />
-                </icon-base>
-              </button>
-              <detail-video-popup-item :left="'-8px'" :vDirection="'top'">
-                {{
-                  videoValues.volumeLevel.value === "mute" ? "Unmute" : "Mute"
-                }}
-              </detail-video-popup-item>
-            </detail-video-popup-container>
-            <div class="video-volume-input-container">
-              <input
-                class="video-volume-input-track"
-                ref="videoVolumeTrackEl"
-                type="range"
-                :value="videoValues.volume.value"
-              />
-              <input
-                class="video-volume-input-thumb"
-                @input="(e) => onChangeVolume(e)"
-                type="range"
-                ref="videoVolumeThumbEl"
-                min="0"
-                max="100"
-                :value="videoValues.volume.value"
-              />
+                  <input
+                    class="video-volume-input-track"
+                    ref="videoVolumeTrackEl"
+                    type="range"
+                    :value="videoValues.volume.value"
+                  />
+                  <input
+                    class="video-volume-input-thumb"
+                    @input="(e) => onChangeVolume(e)"
+                    type="range"
+                    ref="videoVolumeThumbEl"
+                    min="0"
+                    max="100"
+                    :value="videoValues.volume.value"
+                  />
+                </div>
+              </div>
+
+              <!-- TIME -->
+              <span class="video-time">
+                {{ videoValues.currentTime.value || "00:00" }} /
+                {{ videoValues.durationTime.value || "00:00" }}
+              </span>
             </div>
-            <!-- TIME -->
-            <span class="video-time">
-              {{ videoValues.currentTime.value || "00:00" }} /
-              {{ videoValues.durationTime.value || "00:00" }}
-            </span>
+
+            <div class="video-controls-right">
+              <!-- SETTINGS -->
+              <detail-video-popup-container>
+                <button class="video-controls-button">
+                  <icon-base
+                    :viewBox="'0 0 36 36'"
+                    :width="'46px'"
+                    :height="'40px'"
+                    class="video-controls-icon"
+                  >
+                    <icon-video-settings />
+                  </icon-base>
+                </button>
+                <detail-video-popup-item :left="'-12px'" :vDirection="'top'">
+                  Settings
+                </detail-video-popup-item>
+              </detail-video-popup-container>
+              <!-- Mini Player -->
+              <detail-video-popup-container>
+                <button class="video-controls-button">
+                  <icon-base
+                    :viewBox="'0 0 36 36'"
+                    :width="'46px'"
+                    :height="'40px'"
+                    class="video-controls-icon"
+                  >
+                    <icon-mini-player />
+                  </icon-base>
+                </button>
+                <detail-video-popup-item :left="'-18px'" :vDirection="'top'">
+                  Miniplayer
+                </detail-video-popup-item>
+              </detail-video-popup-container>
+              <!-- Small/Large View -->
+              <detail-video-popup-container>
+                <button
+                  v-show="videoValues.viewMode.value === 'large'"
+                  class="video-controls-button"
+                >
+                  <icon-base
+                    :viewBox="'0 0 36 36'"
+                    :width="'46px'"
+                    :height="'40px'"
+                    class="video-controls-icon"
+                  >
+                    <icon-small-view />
+                  </icon-base>
+                </button>
+                <button
+                  v-show="videoValues.viewMode.value === 'default'"
+                  class="video-controls-button"
+                >
+                  <icon-base
+                    :viewBox="'0 0 36 36'"
+                    :width="'46px'"
+                    :height="'40px'"
+                    class="video-controls-icon"
+                  >
+                    <icon-large-view />
+                  </icon-base>
+                </button>
+                <detail-video-popup-item :left="'-25px'" :vDirection="'top'">
+                  {{
+                    videoValues.viewMode.value === "large"
+                      ? "Large view"
+                      : "Default view"
+                  }}
+                </detail-video-popup-item>
+              </detail-video-popup-container>
+              <!-- Full/Normal Screen -->
+              <detail-video-popup-container>
+                <button
+                  v-show="videoValues.fullscreen.value"
+                  class="video-controls-button video-screen-button"
+                >
+                  <icon-base
+                    :viewBox="'0 0 36 36'"
+                    :width="'46px'"
+                    :height="'40px'"
+                    class="video-controls-icon"
+                  >
+                    <icon-normal-screen />
+                  </icon-base>
+                </button>
+                <button
+                  v-show="!videoValues.fullscreen.value"
+                  class="video-controls-button video-screen-button"
+                >
+                  <icon-base
+                    :viewBox="'0 0 36 36'"
+                    :width="'46px'"
+                    :height="'40px'"
+                    class="video-controls-icon"
+                  >
+                    <icon-full-screen />
+                  </icon-base>
+                </button>
+                <detail-video-popup-item
+                  :hDirection="'left'"
+                  :vDirection="'top'"
+                >
+                  {{
+                    videoValues.fullscreen.value
+                      ? "Exit full screen"
+                      : "Full screen"
+                  }}
+                </detail-video-popup-item>
+              </detail-video-popup-container>
+            </div>
           </div>
         </div>
         <video
@@ -154,7 +283,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from "vue";
+import { defineComponent, onMounted, reactive, ref, toRefs } from "vue";
 
 // COMPONENTS
 import Layout from "@/components/Layout/Layout.vue";
@@ -169,6 +298,12 @@ import IconNextVideo from "@/components/Icon/Icons/NextVideo.vue";
 import IconVolumeMax from "@/components/Icon/Icons/VolumeMax.vue";
 import IconVolumeMin from "@/components/Icon/Icons/VolumeMin.vue";
 import IconVolumeMute from "@/components/Icon/Icons/VolumeMute.vue";
+import IconVideoSettings from "@/components/Icon/Icons/VideoSettings.vue";
+import IconMiniPlayer from "@/components/Icon/Icons/MiniPlayer.vue";
+import IconSmallView from "@/components/Icon/Icons/SmallView.vue";
+import IconLargeView from "@/components/Icon/Icons/LargeView.vue";
+import IconFullScreen from "@/components/Icon/Icons/FullScreen.vue";
+import IconNormalScreen from "@/components/Icon/Icons/NormalScreen.vue";
 
 // UTILS
 import { secondsToHMS } from "@/utils/secondsToHMS";
@@ -188,6 +323,12 @@ export default defineComponent({
     IconVolumeMax,
     IconVolumeMin,
     IconVolumeMute,
+    IconVideoSettings,
+    IconMiniPlayer,
+    IconSmallView,
+    IconLargeView,
+    IconFullScreen,
+    IconNormalScreen,
   },
   setup() {
     interface VideoValues {
@@ -197,6 +338,9 @@ export default defineComponent({
       volumeLevel: "max" | "min" | "mute";
       isVideoPlaying: boolean;
       volume: number;
+      volumeMouseOver: boolean;
+      viewMode: "large" | "default";
+      fullscreen: boolean;
     }
     const videoValuesReactive = reactive<VideoValues>({
       currentTime: "",
@@ -205,6 +349,9 @@ export default defineComponent({
       isVideoPlaying: true,
       volumeLevel: "max",
       volume: 50,
+      volumeMouseOver: false,
+      viewMode: "default",
+      fullscreen: false,
     });
     const videoValues = toRefs<VideoValues>(videoValuesReactive);
 
@@ -301,7 +448,12 @@ export default defineComponent({
     };
 
     // VOLUME BEGIN
+
     const onChangeVolume = () => {
+      setVolumeLevel();
+    };
+
+    const setVolumeLevel = () => {
       const videoVolumeThumb = <HTMLInputElement>videoVolumeThumbEl.value;
       const newVolume = Number(videoVolumeThumb.value);
       videoValuesReactive.volume = newVolume;
@@ -320,23 +472,48 @@ export default defineComponent({
       return (videoValuesReactive.volumeLevel = "mute");
     };
 
+    const setVolumeInputValue = (newValue: number | string) => {
+      const videoVolumeThumb = <HTMLInputElement>videoVolumeThumbEl.value;
+      const videoVolumeTrack = <HTMLInputElement>videoVolumeTrackEl.value;
+      const newVolume = String(newValue);
+
+      videoVolumeThumb.value = newVolume;
+      videoVolumeTrack.value = newVolume;
+    };
+
+    onMounted(() => {
+      return (videoEl.value!.volume =
+        Number(videoVolumeTrackEl.value!.value) / 100);
+    });
+
     const onToggleMute = () => {
       const video = videoEl.value as HTMLVideoElement;
       const volume = video.volume;
       if (videoValuesReactive.volumeLevel !== "mute") {
-        localStorage.setItem("muteBeforeVolumeLevel", String(video.volume));
+        localStorage.setItem("muteBeforeVolumeLevel", String(volume));
         video.volume = 0;
+        setVolumeInputValue(0);
         onChangeVolume();
         return;
       }
-      if (!localStorage.getItem("muteBeforeVolumeLevel")) {
-        return;
-      }
       video.volume = Number(localStorage.getItem("muteBeforeVolumeLevel"));
+      const newVolumeInputValue = String(
+        Number(localStorage.getItem("muteBeforeVolumeLevel")) * 100
+      );
+      setVolumeInputValue(newVolumeInputValue);
       localStorage.removeItem("muteBeforeVolumeLevel");
       onChangeVolume();
       return;
     };
+
+    const onVolumeMouseOver = () => {
+      return (videoValuesReactive.volumeMouseOver = true);
+    };
+
+    const onVolumeMouseOut = () => {
+      return (videoValuesReactive.volumeMouseOver = false);
+    };
+
     // VOLUME END
     return {
       onTimeUpdate,
@@ -353,6 +530,8 @@ export default defineComponent({
       onHoverProgressBar,
       onChangeVolume,
       onToggleMute,
+      onVolumeMouseOver,
+      onVolumeMouseOut,
       onTogglePlayWithButton,
     };
   },
@@ -422,6 +601,14 @@ export default defineComponent({
       & .video-controls {
         display: flex;
         align-items: center;
+        justify-content: space-between;
+
+        & .video-controls-left,
+        &.video-controls-right {
+          display: flex;
+          align-items: center;
+        }
+
         & .video-controls-icon {
           fill: var(--video-controls-icon-color);
         }
@@ -433,75 +620,113 @@ export default defineComponent({
         }
 
         .base-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           width: 40px;
           height: 40px;
           padding: 0;
         }
 
-        & .video-volume,
-        & .video-next-video {
+        & .video-controls-button {
           @extend .base-button;
         }
 
-        & .video-volume-input-container {
-          position: relative;
-          width: 64px;
-          margin-bottom: 10px;
+        & .video-volume-container {
+          display: flex;
+          align-items: center;
+          & .video-volume-input-container {
+            position: relative;
+            margin-bottom: 10px;
+            transition: width 0.2s;
 
-          & input {
-            -webkit-appearance: none;
-            width: 64px;
-            height: 5px;
-            background: transparent;
-            position: absolute;
-            top: 0;
-            left: 0;
-          }
+            & input {
+              -webkit-appearance: none;
+              height: 5px;
+              background: transparent;
+              position: absolute;
+              top: 0;
+              left: 0;
+              transition: width 0.2s;
+            }
 
-          & input::-webkit-slider-thumb {
-            -webkit-appearance: none;
-          }
+            &.volume-mouseover-active {
+              width: 64px;
+              visibility: visible;
+              & input {
+                width: 100%;
+              }
+            }
+            &.volume-mouseover-deactive {
+              width: 0px;
+              visibility: hidden;
+              & input {
+                width: 100%;
+              }
+            }
 
-          & input:focus {
-            outline: none;
-          }
+            & input::-webkit-slider-thumb {
+              -webkit-appearance: none;
+            }
 
-          & input::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 3px;
-          }
+            & input::-webkit-slider-runnable-track {
+              width: 100%;
+              height: 3px;
+            }
+            & input::-webkit-slider-thumb {
+              -webkit-appearance: none;
+            }
 
-          & .video-volume-input-track {
-            pointer-events: none;
-          }
+            & input::-moz-range-track {
+              width: 100%;
+              height: 3px;
+            }
 
-          & .video-volume-input-track::-webkit-slider-runnable-track {
-            background: var(--video-pb-bg);
-            border-radius: 6px;
-            overflow: hidden;
-          }
+            & input:focus {
+              outline: none;
+            }
 
-          & .video-volume-input-track::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            background: transparent;
-            height: 1px;
-            width: 1px;
-            box-shadow: -600px 0 0 600px var(--video-volume-range);
-          }
+            & .video-volume-input-track {
+              pointer-events: none;
+            }
 
-          & .video-volume-input-thumb::-webkit-slider-runnable-track {
-            background: transparent;
-            cursor: pointer;
-          }
+            & .video-volume-input-track::-webkit-slider-runnable-track {
+              background: var(--video-pb-bg);
+              border-radius: 6px;
+              overflow: hidden;
+            }
 
-          & .video-volume-input-thumb::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            border-radius: 20px;
-            height: 13px;
-            width: 13px;
-            background: var(--video-volume-range);
-            cursor: pointer;
-            margin: -5px 0px 0px 0px;
+            & .video-volume-input-track::-moz-range-track {
+              background: var(--video-pb-bg);
+              border-radius: 6px;
+              overflow: hidden;
+            }
+
+            & .video-volume-input-track::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              background: transparent;
+              height: 1px;
+              width: 1px;
+              box-shadow: -600px 0 0 600px var(--video-volume-range);
+            }
+
+            & .video-volume-input-thumb::-webkit-slider-runnable-track {
+              background: transparent;
+              cursor: pointer;
+            }
+            & .video-volume-input-thumb::-moz-range-track {
+              cursor: pointer;
+            }
+
+            & .video-volume-input-thumb::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              border-radius: 20px;
+              height: 13px;
+              width: 13px;
+              background: var(--video-volume-range);
+              cursor: pointer;
+              margin: -5px 0px 0px 0px;
+            }
           }
         }
 
@@ -511,6 +736,11 @@ export default defineComponent({
           font-size: 13px;
           line-height: 39px;
           margin-left: 10px;
+          transition: transform 0.2s;
+        }
+
+        & .video-screen-button {
+          margin-right: 15px;
         }
       }
     }
