@@ -161,21 +161,250 @@
 
             <div class="video-controls-right">
               <!-- SETTINGS -->
-              <detail-video-popup-container>
-                <button class="video-controls-button">
-                  <icon-base
-                    :viewBox="'0 0 36 36'"
-                    :width="'46px'"
-                    :height="'40px'"
-                    class="video-controls-icon"
+              <card-options-container>
+                <detail-video-popup-container>
+                  <button
+                    @click="onSettingsToggle(true)"
+                    class="video-controls-button"
                   >
-                    <icon-video-settings />
-                  </icon-base>
-                </button>
-                <detail-video-popup-item :left="'-12px'" :vDirection="'top'">
-                  Settings
-                </detail-video-popup-item>
-              </detail-video-popup-container>
+                    <icon-base
+                      :viewBox="'0 0 36 36'"
+                      :width="'46px'"
+                      :height="'40px'"
+                      class="video-controls-icon video-settings"
+                      :class="{
+                        'video-settings-visible':
+                          videoValues.settingsVisible.value,
+                      }"
+                    >
+                      <icon-video-settings />
+                    </icon-base>
+                  </button>
+                  <detail-video-popup-item :left="'-12px'" :vDirection="'top'">
+                    Settings
+                  </detail-video-popup-item>
+                </detail-video-popup-container>
+                <card-options-item
+                  :left="'-100px'"
+                  :visible="videoValues.settingsVisible.value"
+                  :onclose="() => onSettingsToggle(false)"
+                  :contentLeft="
+                    settingsValues.isSubmenuOpen.value ? '-100%' : '0px'
+                  "
+                >
+                  <card-options-button
+                    @click="onOpenPlaybackSpeedMenu()"
+                    margin-top
+                  >
+                    <template #left> Playback speed </template>
+                    <template #right>
+                      {{
+                        videoValues.playbackRate.value === 1
+                          ? "Normal"
+                          : videoValues.playbackRate.value
+                      }}
+                    </template>
+                  </card-options-button>
+                  <card-options-button margin-bottom>
+                    <template #left> Quality </template>
+                    <template #right> 1080p </template>
+                  </card-options-button>
+                  <template #menu>
+                    <div v-show="settingsValues.isPlaybackSpeedMenuOpen.value">
+                      <card-options-header-button
+                        :onBack="() => onClosePlaybackSpeedMenu()"
+                        >Playback speed</card-options-header-button
+                      >
+                      <card-options-button
+                        @click="setVideoSpeed(0.25)"
+                        margin-top
+                        :showArrow="false"
+                      >
+                        <template #left>
+                          <div class="card-speed-select-container">
+                            <div
+                              :style="{
+                                visibility:
+                                  videoValues.playbackRate.value === 0.25
+                                    ? 'visible'
+                                    : 'hidden',
+                              }"
+                              class="card-speed-select-icon"
+                            >
+                              <icon-base :width="'20px'" :height="'20px'">
+                                <icon-approved />
+                              </icon-base>
+                            </div>
+                            <div class="card-speed-select-text">0.25</div>
+                          </div>
+                        </template>
+                      </card-options-button>
+                      <card-options-button
+                        @click="setVideoSpeed(0.5)"
+                        :showArrow="false"
+                      >
+                        <template #left>
+                          <div class="card-speed-select-container">
+                            <div
+                              :style="{
+                                visibility:
+                                  videoValues.playbackRate.value === 0.5
+                                    ? 'visible'
+                                    : 'hidden',
+                              }"
+                              class="card-speed-select-icon"
+                            >
+                              <icon-base :width="'20px'" :height="'20px'">
+                                <icon-approved />
+                              </icon-base>
+                            </div>
+                            <div class="card-speed-select-text">0.5</div>
+                          </div>
+                        </template>
+                      </card-options-button>
+                      <card-options-button
+                        @click="setVideoSpeed(0.75)"
+                        :showArrow="false"
+                      >
+                        <template #left>
+                          <div class="card-speed-select-container">
+                            <div
+                              :style="{
+                                visibility:
+                                  videoValues.playbackRate.value === 0.75
+                                    ? 'visible'
+                                    : 'hidden',
+                              }"
+                              class="card-speed-select-icon"
+                            >
+                              <icon-base :width="'20px'" :height="'20px'">
+                                <icon-approved />
+                              </icon-base>
+                            </div>
+                            <div class="card-speed-select-text">0.75</div>
+                          </div>
+                        </template>
+                      </card-options-button>
+                      <card-options-button
+                        @click="setVideoSpeed(1)"
+                        :showArrow="false"
+                      >
+                        <template #left>
+                          <div class="card-speed-select-container">
+                            <div
+                              :style="{
+                                visibility:
+                                  videoValues.playbackRate.value === 1
+                                    ? 'visible'
+                                    : 'hidden',
+                              }"
+                              class="card-speed-select-icon"
+                            >
+                              <icon-base :width="'20px'" :height="'20px'">
+                                <icon-approved />
+                              </icon-base>
+                            </div>
+                            <div class="card-speed-select-text">Normal</div>
+                          </div>
+                        </template>
+                      </card-options-button>
+                      <card-options-button
+                        @click="setVideoSpeed(1.25)"
+                        :showArrow="false"
+                      >
+                        <template #left>
+                          <div class="card-speed-select-container">
+                            <div
+                              :style="{
+                                visibility:
+                                  videoValues.playbackRate.value === 1.25
+                                    ? 'visible'
+                                    : 'hidden',
+                              }"
+                              class="card-speed-select-icon"
+                            >
+                              <icon-base :width="'20px'" :height="'20px'">
+                                <icon-approved />
+                              </icon-base>
+                            </div>
+                            <div class="card-speed-select-text">1.25</div>
+                          </div>
+                        </template>
+                      </card-options-button>
+                      <card-options-button
+                        @click="setVideoSpeed(1.5)"
+                        :showArrow="false"
+                      >
+                        <template #left>
+                          <div class="card-speed-select-container">
+                            <div
+                              :style="{
+                                visibility:
+                                  videoValues.playbackRate.value === 1.5
+                                    ? 'visible'
+                                    : 'hidden',
+                              }"
+                              class="card-speed-select-icon"
+                            >
+                              <icon-base :width="'20px'" :height="'20px'">
+                                <icon-approved />
+                              </icon-base>
+                            </div>
+                            <div class="card-speed-select-text">1.5</div>
+                          </div>
+                        </template>
+                      </card-options-button>
+                      <card-options-button
+                        @click="setVideoSpeed(1.75)"
+                        :showArrow="false"
+                      >
+                        <template #left>
+                          <div class="card-speed-select-container">
+                            <div
+                              :style="{
+                                visibility:
+                                  videoValues.playbackRate.value === 1.75
+                                    ? 'visible'
+                                    : 'hidden',
+                              }"
+                              class="card-speed-select-icon"
+                            >
+                              <icon-base :width="'20px'" :height="'20px'">
+                                <icon-approved />
+                              </icon-base>
+                            </div>
+                            <div class="card-speed-select-text">1.75</div>
+                          </div>
+                        </template>
+                      </card-options-button>
+                      <card-options-button
+                        @click="setVideoSpeed(2)"
+                        margin-bottom
+                        :showArrow="false"
+                      >
+                        <template #left>
+                          <div class="card-speed-select-container">
+                            <div
+                              :style="{
+                                visibility:
+                                  videoValues.playbackRate.value === 2
+                                    ? 'visible'
+                                    : 'hidden',
+                              }"
+                              class="card-speed-select-icon"
+                            >
+                              <icon-base :width="'20px'" :height="'20px'">
+                                <icon-approved />
+                              </icon-base>
+                            </div>
+                            <div class="card-speed-select-text">2</div>
+                          </div>
+                        </template>
+                      </card-options-button>
+                    </div>
+                  </template>
+                </card-options-item>
+              </card-options-container>
               <!-- Mini Player -->
               <detail-video-popup-container>
                 <button class="video-controls-button">
@@ -289,6 +518,10 @@ import { defineComponent, onMounted, reactive, ref, toRefs } from "vue";
 import Layout from "@/components/Layout/Layout.vue";
 import DetailVideoPopupContainer from "@/components/Popup/DetailVideoPopupContainer.vue";
 import DetailVideoPopupItem from "@/components/Popup/DetailVideoPopupItem.vue";
+import CardOptionsContainer from "@/components/Card/CardOptions/CardOptionsContainer.vue";
+import CardOptionsItem from "@/components/Card/CardOptions/CardOptionsItem.vue";
+import CardOptionsButton from "@/components/Input/Button/Card/CardOptions/CardOptionsButton.vue";
+import CardOptionsHeaderButton from "@/components/Input/Button/Card/CardOptions/CardOptionsHeaderButton.vue";
 
 // ICONS
 import IconBase from "@/components/Icon/BaseIcon.vue";
@@ -304,6 +537,7 @@ import IconSmallView from "@/components/Icon/Icons/SmallView.vue";
 import IconLargeView from "@/components/Icon/Icons/LargeView.vue";
 import IconFullScreen from "@/components/Icon/Icons/FullScreen.vue";
 import IconNormalScreen from "@/components/Icon/Icons/NormalScreen.vue";
+import IconApproved from "@/components/Icon/Icons/Approved.vue";
 
 // UTILS
 import { secondsToHMS } from "@/utils/secondsToHMS";
@@ -315,6 +549,10 @@ export default defineComponent({
     Layout,
     DetailVideoPopupContainer,
     DetailVideoPopupItem,
+    CardOptionsContainer,
+    CardOptionsItem,
+    CardOptionsButton,
+    CardOptionsHeaderButton,
     // ICONS
     IconBase,
     IconPlay,
@@ -329,6 +567,7 @@ export default defineComponent({
     IconLargeView,
     IconFullScreen,
     IconNormalScreen,
+    IconApproved,
   },
   setup() {
     interface VideoValues {
@@ -341,6 +580,8 @@ export default defineComponent({
       volumeMouseOver: boolean;
       viewMode: "large" | "default";
       fullscreen: boolean;
+      settingsVisible: boolean;
+      playbackRate: 0.25 | 0.5 | 0.75 | 1 | 1.25 | 1.5 | 2;
     }
     const videoValuesReactive = reactive<VideoValues>({
       currentTime: "",
@@ -352,8 +593,21 @@ export default defineComponent({
       volumeMouseOver: false,
       viewMode: "default",
       fullscreen: false,
+      settingsVisible: false,
+      playbackRate: 1,
     });
     const videoValues = toRefs<VideoValues>(videoValuesReactive);
+
+    interface SettingsValues {
+      isSubmenuOpen: boolean;
+      isPlaybackSpeedMenuOpen: boolean;
+    }
+
+    const settingsValuesReactive = reactive<SettingsValues>({
+      isSubmenuOpen: false,
+      isPlaybackSpeedMenuOpen: false,
+    });
+    const settingsValues = toRefs<SettingsValues>(settingsValuesReactive);
 
     const videoEl = ref<HTMLVideoElement>();
     const videoProgressedBarEl = ref<HTMLSpanElement>();
@@ -515,6 +769,34 @@ export default defineComponent({
     };
 
     // VOLUME END
+
+    // SETTINGS BEGIN
+    const onSettingsToggle = (visible: boolean) => {
+      return (videoValuesReactive.settingsVisible = visible);
+    };
+
+    // SETTINGS END
+
+    // PLAYBACK SPEED BEGIN
+    const onOpenPlaybackSpeedMenu = () => {
+      settingsValuesReactive.isSubmenuOpen = true;
+      settingsValuesReactive.isPlaybackSpeedMenuOpen = true;
+      return;
+    };
+    const onClosePlaybackSpeedMenu = () => {
+      settingsValuesReactive.isSubmenuOpen = false;
+      settingsValuesReactive.isPlaybackSpeedMenuOpen = false;
+      return;
+    };
+
+    const setVideoSpeed = (
+      speed: 0.25 | 0.5 | 0.75 | 1 | 1.25 | 1.5 | 2
+    ): void => {
+      const video = videoEl.value as HTMLVideoElement;
+      video.playbackRate = speed;
+      videoValuesReactive.playbackRate = speed;
+    };
+    // PLAYBACK SPEED END
     return {
       onTimeUpdate,
       videoEl,
@@ -525,6 +807,7 @@ export default defineComponent({
       videoVolumeTrackEl,
       videoVolumeThumbEl,
       videoValues,
+      settingsValues,
       onTogglePlay,
       onChangeTime,
       onHoverProgressBar,
@@ -533,6 +816,10 @@ export default defineComponent({
       onVolumeMouseOver,
       onVolumeMouseOut,
       onTogglePlayWithButton,
+      onSettingsToggle,
+      onOpenPlaybackSpeedMenu,
+      onClosePlaybackSpeedMenu,
+      setVideoSpeed,
     };
   },
 });
@@ -741,6 +1028,33 @@ export default defineComponent({
 
         & .video-screen-button {
           margin-right: 15px;
+        }
+
+        & .video-settings {
+          transition: transform 0.2s;
+          transform: rotateZ(0deg);
+        }
+
+        & .video-settings-visible {
+          transform: rotateZ(37deg);
+        }
+
+        & .card-speed-select-container {
+          display: flex;
+          align-items: center;
+
+          & .card-speed-select-icon {
+            margin: 0 7px 0 0;
+            & svg {
+              fill: var(--white-always);
+            }
+          }
+
+          & .card-speed-select-text {
+            color: var(--card-options-text-color);
+            font-size: 13px;
+            font-weight: 500;
+          }
         }
       }
     }
