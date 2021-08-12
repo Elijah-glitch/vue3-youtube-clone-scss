@@ -1,6 +1,11 @@
 <template>
-  <div class="layout">
-    <div class="navbar">
+  <div
+    class="layout"
+    :class="{
+      'layout-hide-scrollbar': hideLayoutScrollBar,
+    }"
+  >
+    <div class="navbar" v-show="showNavbar">
       <div
         class="navbar-searchSmallSize"
         :active="isSmallSearchActive ? 'active' : 'deactive'"
@@ -814,7 +819,12 @@
           <span>Library</span>
         </a>
       </div>
-      <div class="content-container">
+      <div
+        class="content-container"
+        :class="{
+          'content-container-show-navbar': showNavbar,
+        }"
+      >
         <slot />
       </div>
     </div>
@@ -941,6 +951,14 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    showNavbar: {
+      type: Boolean,
+      default: true,
+    },
+    hideLayoutScrollBar: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup() {
     const notificationTexts = ref<Array<string>>([
@@ -1020,6 +1038,12 @@ export default defineComponent({
 .layout {
   overflow-x: hidden;
   min-height: 100vh;
+
+  &.layout-hide-scrollbar {
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+  }
   & .icon {
     z-index: 1;
   }
@@ -1281,7 +1305,10 @@ export default defineComponent({
 
     & .content-container {
       width: 100%;
-      margin-top: var(--height-of-navbar);
+
+      &.content-container-show-navbar {
+        margin-top: var(--height-of-navbar);
+      }
     }
 
     .sidebar-large-drawer-base {
