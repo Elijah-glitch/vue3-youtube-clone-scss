@@ -3,6 +3,7 @@ body {
   --body-bg-color: #f8f9f8;
   //DEFAULT COLORS
   --white: #606161;
+  --white-always: #fff;
   --yt-red: #ff0101;
   // TEXT
   --text-color: #030303;
@@ -68,6 +69,9 @@ body {
   // CARD
   --card-img-time-bg: rgba(0, 0, 0, 0.8);
   --card-img-time-color: #ffffff;
+  --card-options-bg: rgba(28, 28, 28, 0.9);
+  --card-options-text-color: #eee;
+  --card-options-button-hover-bg: rgba(255, 255, 255, 0.1);
 
   // POPUP
   --popup-detail-bg: #616161;
@@ -91,6 +95,7 @@ body.dark-mode {
   //DEFAULT COLORS
   --white: #ffffff;
   --yt-red: #ff0101;
+  --white-always: #fff;
   // TEXT
   --text-color: #ffffff;
   --link-color: #3da0f4;
@@ -150,6 +155,9 @@ body.dark-mode {
   // CARD
   --card-img-time-bg: rgba(0, 0, 0, 0.8);
   --card-img-time-color: #ffffff;
+  --card-options-bg: rgba(28, 28, 28, 0.9);
+  --card-options-text-color: #eee;
+  --card-options-button-hover-bg: rgba(255, 255, 255, 0.1);
 
   // POPUP
   --popup-detail-bg: #616161;
