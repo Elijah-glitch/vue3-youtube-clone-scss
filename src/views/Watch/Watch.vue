@@ -1,7 +1,17 @@
 <template>
-  <layout :sidebarBlock="false">
+  <layout
+    :hideLayoutScrollBar="videoValues.fullscreen.value"
+    :showNavbar="!videoValues.fullscreen.value"
+    :sidebarBlock="false"
+  >
     <div class="container">
-      <div class="video-container" @click="(e) => onTogglePlay(e)">
+      <div
+        class="video-container"
+        :class="{
+          'video-container-fullscreen': videoValues.fullscreen.value,
+        }"
+        @click="(e) => onTogglePlay(e)"
+      >
         <div class="video-menu-container">
           <div
             class="video-progressbar-container"
@@ -10,6 +20,7 @@
             @click="(e) => onChangeTime(e)"
           >
             <span ref="videoProgressedBarEl" class="video-progressed"></span>
+            <span ref="videoFetchedBarEl" class="video-fetched"></span>
             <span ref="videoProgressPoint" class="video-progress-point"></span>
             <span ref="videoProgressTime" class="video-progress-time">{{
               videoValues.videoHoverTime.value
@@ -462,6 +473,7 @@
                 <button
                   v-show="videoValues.fullscreen.value"
                   class="video-controls-button video-screen-button"
+                  @click="toggleFullScreen(false)"
                 >
                   <icon-base
                     :viewBox="'0 0 36 36'"
@@ -475,6 +487,7 @@
                 <button
                   v-show="!videoValues.fullscreen.value"
                   class="video-controls-button video-screen-button"
+                  @click="toggleFullScreen(true)"
                 >
                   <icon-base
                     :viewBox="'0 0 36 36'"
@@ -500,11 +513,14 @@
           </div>
         </div>
         <video
+          preload="metadata"
           ref="videoEl"
           autoplay
           src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
           class="video"
           @timeupdate="onTimeUpdate()"
+          @dblclick="toggleFullScreen()"
+          @progress="onProgress()"
         />
       </div>
     </div>
@@ -611,6 +627,7 @@ export default defineComponent({
 
     const videoEl = ref<HTMLVideoElement>();
     const videoProgressedBarEl = ref<HTMLSpanElement>();
+    const videoFetchedBarEl = ref<HTMLSpanElement>();
     const videoProgressBarEl = ref<HTMLElement>();
     const videoProgressPoint = ref<HTMLElement>();
     const videoProgressTime = ref<HTMLElement>();
@@ -654,6 +671,22 @@ export default defineComponent({
       currentTime();
       progressedBarWidth();
       progressBarPoint();
+    };
+
+    const onProgress = () => {
+      const video = videoEl.value as HTMLVideoElement;
+      var range = 0;
+      var bf = video.buffered;
+      var time = video.currentTime;
+
+      while (!(bf.start(range) <= time && time <= bf.end(range))) {
+        range += 1;
+      }
+      var loadedPercentage = ((bf.end(range) / video.duration) * 100).toFixed(
+        2
+      );
+
+      videoFetchedBarEl.value!.style.width = `${loadedPercentage}%`;
     };
 
     const onHoverProgressBar = (e: MouseEvent) => {
@@ -772,6 +805,8 @@ export default defineComponent({
 
     // SETTINGS BEGIN
     const onSettingsToggle = (visible: boolean) => {
+      settingsValuesReactive.isSubmenuOpen = false;
+      settingsValuesReactive.isPlaybackSpeedMenuOpen = false;
       return (videoValuesReactive.settingsVisible = visible);
     };
 
@@ -797,11 +832,32 @@ export default defineComponent({
       videoValuesReactive.playbackRate = speed;
     };
     // PLAYBACK SPEED END
+
+    // FULL/NORMAL SCREEN BEGIN
+    const toggleFullScreen = (value: boolean) => {
+      if (value !== undefined) {
+        if (value) {
+          document.body.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+        return (videoValuesReactive.fullscreen = value);
+      }
+      if (videoValuesReactive.fullscreen) {
+        document.exitFullscreen();
+      } else {
+        document.body.requestFullscreen();
+      }
+
+      return (videoValuesReactive.fullscreen = !videoValuesReactive.fullscreen);
+    };
+    // FULL/NORMAL SCREEN END
     return {
       onTimeUpdate,
       videoEl,
       videoProgressBarEl,
       videoProgressedBarEl,
+      videoFetchedBarEl,
       videoProgressPoint,
       videoProgressTime,
       videoVolumeTrackEl,
@@ -811,6 +867,7 @@ export default defineComponent({
       onTogglePlay,
       onChangeTime,
       onHoverProgressBar,
+      onProgress,
       onChangeVolume,
       onToggleMute,
       onVolumeMouseOver,
@@ -820,6 +877,7 @@ export default defineComponent({
       onOpenPlaybackSpeedMenu,
       onClosePlaybackSpeedMenu,
       setVideoSpeed,
+      toggleFullScreen,
     };
   },
 });
@@ -833,6 +891,14 @@ export default defineComponent({
     height: calc((9 / 16) * 100vw);
     max-height: calc(100vh - 169px);
     background: var(--video-bg);
+
+    &.video-container-fullscreen {
+      body::-webkit-scrollbar {
+        display: none !important;
+      }
+      height: 100vh !important;
+      max-height: unset !important;
+    }
 
     & .video-menu-container {
       position: absolute;
@@ -864,6 +930,15 @@ export default defineComponent({
           left: 0;
           height: var(--progressbar-height);
           background: var(--yt-red);
+          z-index: 2;
+        }
+        & .video-fetched {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: var(--progressbar-height);
+          background: var(--video-fetched-bar-color);
+          z-index: 1;
         }
         & .video-progress-point {
           display: none;
@@ -872,6 +947,7 @@ export default defineComponent({
           height: 13px;
           width: 13px;
           border-radius: 50%;
+          z-index: 3;
           background: var(--yt-red);
         }
 
@@ -1062,6 +1138,9 @@ export default defineComponent({
     & .video {
       width: 100%;
       height: 100%;
+      &::-webkit-media-controls-enclosure {
+        display: none !important;
+      }
     }
   }
 }
