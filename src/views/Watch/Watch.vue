@@ -11,8 +11,16 @@
           'video-container-fullscreen': videoValues.fullscreen.value,
         }"
         @click="(e) => onTogglePlay(e)"
+        @mouseout="onMouseOutVideoContainer()"
       >
-        <div class="video-menu-container">
+        <div
+          class="video-menu-container"
+          :class="{
+            'video-menu-container-visible': videoValues.showControls.value,
+            'video-menu-container-hidden': !videoValues.showControls.value,
+          }"
+          @mousemove="onHoverVideo()"
+        >
           <div
             class="video-progressbar-container"
             ref="videoProgressBarEl"
@@ -521,6 +529,7 @@
           @timeupdate="onTimeUpdate()"
           @dblclick="toggleFullScreen()"
           @progress="onProgress()"
+          @mousemove="onHoverVideo()"
         />
       </div>
     </div>
@@ -598,6 +607,7 @@ export default defineComponent({
       fullscreen: boolean;
       settingsVisible: boolean;
       playbackRate: 0.25 | 0.5 | 0.75 | 1 | 1.25 | 1.5 | 2;
+      showControls: boolean;
     }
     const videoValuesReactive = reactive<VideoValues>({
       currentTime: "",
@@ -611,6 +621,7 @@ export default defineComponent({
       fullscreen: false,
       settingsVisible: false,
       playbackRate: 1,
+      showControls: true,
     });
     const videoValues = toRefs<VideoValues>(videoValuesReactive);
 
@@ -852,6 +863,57 @@ export default defineComponent({
       return (videoValuesReactive.fullscreen = !videoValuesReactive.fullscreen);
     };
     // FULL/NORMAL SCREEN END
+
+    // SHOW/HIDE VIDEO CONTROL BEGIN
+    var timeOut: any;
+    var onStopDelay = 3000;
+
+    const showCursor = () => {
+      return (document.body.style.cursor = "initial");
+    };
+
+    const hideCursor = () => {
+      return (document.body.style.cursor = "none");
+    };
+
+    const toggleVisibleVideoControls = () => {
+      if (!videoValuesReactive.isVideoPlaying) {
+        showCursor();
+        return (videoValuesReactive.showControls = true);
+      }
+      hideCursor();
+      return (videoValuesReactive.showControls = false);
+    };
+
+    onMounted(() => {
+      timeOut = setTimeout(() => {
+        toggleVisibleVideoControls();
+      }, onStopDelay);
+    });
+
+    const onHoverVideo = () => {
+      clearTimeout(timeOut);
+
+      if (!videoValuesReactive.showControls) {
+        showCursor();
+        videoValuesReactive.showControls = true;
+      }
+
+      // on stop mouse moving
+      timeOut = setTimeout(() => {
+        toggleVisibleVideoControls();
+      }, onStopDelay);
+    };
+
+    const onMouseOutVideoContainer = () => {
+      showCursor();
+      if (videoValuesReactive.isVideoPlaying) {
+        return (videoValuesReactive.showControls = false);
+      }
+
+      return (videoValuesReactive.showControls = true);
+    };
+    // SHOW/HIDE VIDEO CONTROL END
     return {
       onTimeUpdate,
       videoEl,
@@ -876,6 +938,8 @@ export default defineComponent({
       onSettingsToggle,
       onOpenPlaybackSpeedMenu,
       onClosePlaybackSpeedMenu,
+      onHoverVideo,
+      onMouseOutVideoContainer,
       setVideoSpeed,
       toggleFullScreen,
     };
@@ -905,6 +969,14 @@ export default defineComponent({
       width: 100%;
       bottom: 0;
       z-index: var(--video-menu-z);
+      transition: opacity 0.2s;
+
+      &.video-menu-container-visible {
+        opacity: 1 !important;
+      }
+      &.video-menu-container-hidden {
+        opacity: 0 !important;
+      }
 
       & .video-progressbar-container {
         --progressbar-height: 3px;
