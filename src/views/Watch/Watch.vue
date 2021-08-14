@@ -12,14 +12,47 @@
         }"
         @click="(e) => onTogglePlay(e)"
         @mouseout="onMouseOutVideoContainer()"
+        @mousemove="onHoverVideo()"
       >
+        <div class="video-interaction-container">
+          <span
+            class="video-interaction-center"
+            :class="{
+              'video-play-progress': videoValues.isVideoPlaying.value,
+            }"
+          >
+            <icon-base
+              :viewBox="'0 0 36 36'"
+              :height="'40px'"
+              :width="'40px'"
+              class="video-interaction-icon"
+            >
+              <icon-play />
+            </icon-base>
+          </span>
+          <span
+            class="video-interaction-center"
+            :class="{
+              'video-pause-progress': !videoValues.isVideoPlaying.value,
+            }"
+          >
+            <icon-base
+              :viewBox="'0 0 36 36'"
+              :height="'40px'"
+              :width="'40px'"
+              class="video-interaction-icon"
+            >
+              <icon-pause />
+            </icon-base>
+          </span>
+        </div>
+
         <div
           class="video-menu-container"
           :class="{
             'video-menu-container-visible': videoValues.showControls.value,
             'video-menu-container-hidden': !videoValues.showControls.value,
           }"
-          @mousemove="onHoverVideo()"
         >
           <div
             class="video-progressbar-container"
@@ -529,7 +562,6 @@
           @timeupdate="onTimeUpdate()"
           @dblclick="toggleFullScreen()"
           @progress="onProgress()"
-          @mousemove="onHoverVideo()"
         />
       </div>
     </div>
@@ -956,6 +988,50 @@ export default defineComponent({
     max-height: calc(100vh - 169px);
     background: var(--video-bg);
 
+    & .video-interaction-container {
+      width: 100%;
+      position: absolute;
+      top: 48%;
+
+      & .video-interaction-icon {
+        fill: var(--video-icon-color);
+      }
+
+      & .video-interaction-center {
+        position: absolute;
+        left: 49%;
+        display: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        background: var(--video-interaction-bg);
+        opacity: 0;
+
+        &.video-play-progress {
+          display: flex;
+          animation: scaleOpacity 0.7s;
+        }
+
+        &.video-pause-progress {
+          display: flex;
+          animation: scaleOpacity 0.7s;
+        }
+
+        @keyframes scaleOpacity {
+          0% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(2.2);
+            opacity: 0;
+          }
+        }
+      }
+    }
+
     &.video-container-fullscreen {
       body::-webkit-scrollbar {
         display: none !important;
@@ -1045,7 +1121,7 @@ export default defineComponent({
         }
 
         & .video-controls-icon {
-          fill: var(--video-controls-icon-color);
+          fill: var(--video-icon-color);
         }
 
         & .video-play-pause {
