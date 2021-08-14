@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
+import video from "./Video";
 
 export default createStore({
-  modules: {},
+  modules: { video },
 });
