@@ -3,6 +3,7 @@
     class="video-container"
     :class="{
       'video-container-fullscreen': isFullscreen,
+      'video-container-default-view': viewMode === 'default',
     }"
     @click="(e) => onTogglePlay(e)"
     @mouseout="onMouseOutVideoContainer()"
@@ -40,7 +41,10 @@
         </icon-base>
       </span>
     </div>
-
+    <div
+      class="video-gradient-bottom"
+      v-show="videoValues.showControls.value"
+    ></div>
     <div
       class="video-menu-container"
       :class="{
@@ -465,7 +469,8 @@
           <!-- Small/Large View -->
           <detail-video-popup-container>
             <button
-              v-show="videoValues.viewMode.value === 'large'"
+              @click="toggleViewMode()"
+              v-show="viewMode === 'large'"
               class="video-controls-button"
             >
               <icon-base
@@ -478,8 +483,9 @@
               </icon-base>
             </button>
             <button
-              v-show="videoValues.viewMode.value === 'default'"
+              v-show="viewMode === 'default'"
               class="video-controls-button"
+              @click="toggleViewMode()"
             >
               <icon-base
                 :viewBox="'0 0 36 36'"
@@ -491,11 +497,7 @@
               </icon-base>
             </button>
             <detail-video-popup-item :left="'-25px'" :vDirection="'top'">
-              {{
-                videoValues.viewMode.value === "large"
-                  ? "Large view"
-                  : "Default view"
-              }}
+              {{ viewMode === "large" ? "Large view" : "Default view" }}
             </detail-video-popup-item>
           </detail-video-popup-container>
           <!-- Full/Normal Screen -->
@@ -553,6 +555,7 @@ import {
   computed,
   defineComponent,
   onMounted,
+  onUnmounted,
   reactive,
   ref,
   toRefs,
@@ -625,7 +628,6 @@ export default defineComponent({
       isVideoPlaying: boolean;
       volume: number;
       volumeMouseOver: boolean;
-      viewMode: "large" | "default";
       settingsVisible: boolean;
       playbackRate: 0.25 | 0.5 | 0.75 | 1 | 1.25 | 1.5 | 2;
       showControls: boolean;
@@ -638,7 +640,6 @@ export default defineComponent({
       volumeLevel: "max",
       volume: 50,
       volumeMouseOver: false,
-      viewMode: "default",
       settingsVisible: false,
       playbackRate: 1,
       showControls: true,
@@ -728,6 +729,9 @@ export default defineComponent({
       const hms = secondsToHMS(seconds);
       videoValuesReactive.videoHoverTime = hms;
 
+      console.log(e.clientX);
+      console.log();
+
       // Set left value of progress bar time show element
       videoProgressTime.value!.style.left = `${
         e.clientX - videoProgressTime.value!.offsetWidth
@@ -742,6 +746,7 @@ export default defineComponent({
       }
       if (videoValuesReactive.isVideoPlaying) {
         videoEl.value?.pause();
+        onHoverVideo();
         return (videoValuesReactive.isVideoPlaying = false);
       }
       videoEl.value?.play();
@@ -864,25 +869,59 @@ export default defineComponent({
     };
     // PLAYBACK SPEED END
 
+    // LARGE/DEFAULT VIEW BEGIN
+    const toggleViewMode = () => {
+      store.dispatch("toggleViewModeState");
+      onTimeUpdate();
+    };
+    // LARGE/DEFAULT VIEW END
+
     // FULL/NORMAL SCREEN BEGIN
-    const toggleFullScreen = (value: boolean) => {
+
+    // If esc pressed, fullscreen state not changing.
+    var isNotEscPressed = false;
+
+    const toggleFullScreen = (value: boolean | undefined) => {
+      isNotEscPressed = true;
       const fullscreenState = store.state["video"].isFullscreen;
       if (value !== undefined) {
         if (value) {
+          document.body.style.overflow = "hidden";
           document.body.requestFullscreen();
         } else {
+          document.body.style.overflow = "inherit";
           document.exitFullscreen();
         }
-        return store.dispatch("changeFullscreenState", value);
+        store.dispatch("changeFullscreenState", value);
+        return;
       }
       if (fullscreenState) {
+        document.body.style.overflow = "inherit";
         document.exitFullscreen();
       } else {
+        document.body.style.overflow = "hidden";
         document.body.requestFullscreen();
       }
-
-      return store.dispatch("changeFullscreenState", !fullscreenState);
+      store.dispatch("changeFullscreenState", !fullscreenState);
+      return;
     };
+
+    const toggleFullScreenEvent = (): void => {
+      if (!isNotEscPressed) {
+        document.body.style.overflow = "inherit";
+        store.dispatch("changeFullscreenState", false);
+      }
+      onTimeUpdate();
+      isNotEscPressed = false;
+    };
+
+    onMounted(() => {
+      document.addEventListener("fullscreenchange", toggleFullScreenEvent);
+    });
+
+    onUnmounted(() => {
+      document.removeEventListener("fullscreenchange", toggleFullScreenEvent);
+    });
     // FULL/NORMAL SCREEN END
 
     // SHOW/HIDE VIDEO CONTROL BEGIN
@@ -963,15 +1002,18 @@ export default defineComponent({
       onMouseOutVideoContainer,
       setVideoSpeed,
       toggleFullScreen,
+      toggleViewMode,
 
       // STORE
       isFullscreen: computed(() => store.state["video"].isFullscreen),
+      viewMode: computed(() => store.state["video"].viewMode),
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/mediaQueries/mediaQueries.scss";
 .container {
   & .video-container {
     position: relative;
@@ -979,6 +1021,25 @@ export default defineComponent({
     height: calc((9 / 16) * 100vw);
     max-height: calc(100vh - 169px);
     background: var(--video-bg);
+    min-height: 360px;
+
+    &.video-container-default-view {
+      // max-height: calc(100vh - (56px + 24px + 136px + 54px));
+      // max-width: calc((100vh - (56px + 24px + 136px)) * (16 / 9));
+      height: 100%;
+      min-width: 436px;
+      max-width: 1280px;
+      @include MQ1020 {
+        width: 100%;
+      }
+    }
+
+    &.video-container-fullscreen {
+      height: 100vh !important;
+      width: 100vw !important;
+      max-height: unset !important;
+      max-width: unset !important;
+    }
 
     & .video-interaction-container {
       width: 100%;
@@ -1024,12 +1085,13 @@ export default defineComponent({
       }
     }
 
-    &.video-container-fullscreen {
-      body::-webkit-scrollbar {
-        display: none !important;
-      }
-      height: 100vh !important;
-      max-height: unset !important;
+    & .video-gradient-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 145px;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAACSCAYAAACE56BkAAAAAXNSR0IArs4c6QAAAWBJREFUKFM90Psr3nEYxvHPZ2wOm5mzGTPmbHM+nxkzx5TWSpKSlNZSkpKk1lpJWklKklpaLX+kXg+PX67nuu7rfd+fb0+IIYQQw8NPCDEmwhOSoktIKnlKniUlpkHSLWdwGXYzxefiC1xCssSX2mwPZXvvFZejyH2UPC6fFLhSACkkRa4UK167QkKJ+EZRmpRYBn4rlmvLce+8VsFVaisdeK+twlVz1ZAaUhtiDHWKOnC9WYPYaK1R/CB+tNYEaTJrttYCaVW0QtpIu3c7cB1iJ9fFdScl9kB6/et9TvW50q8dIINkCDLEDUNG7iWGMGo2Rj6ZjZuNOzBh9tna5L3EEL5wU7hpr02LM2SWzEHmtQviIvfV537jlrTLjq5wq4o1D62DN9zbVHwnP3Bbim27O+BdcU+7Dz6AHDrwE/JL8ZsckWPtieKPtVPcmeJcvOAuza7Ea/Bfb9xw/8z+c7d3tQ0kbe55nG0AAAAASUVORK5CYII=");
     }
 
     & .video-menu-container {
@@ -1105,11 +1167,14 @@ export default defineComponent({
         display: flex;
         align-items: center;
         justify-content: space-between;
+        flex-wrap: nowrap;
+        background: var(--video-controls-bg);
 
         & .video-controls-left,
         &.video-controls-right {
           display: flex;
           align-items: center;
+          flex-wrap: nowrap;
         }
 
         & .video-controls-icon {
@@ -1138,6 +1203,7 @@ export default defineComponent({
         & .video-volume-container {
           display: flex;
           align-items: center;
+          flex-wrap: nowrap;
           & .video-volume-input-container {
             position: relative;
             margin-bottom: 10px;

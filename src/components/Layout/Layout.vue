@@ -1311,6 +1311,10 @@ export default defineComponent({
       }
     }
 
+    .opacity-bg {
+      z-index: var(--sidebar-drawer-bg-z);
+    }
+
     .sidebar-large-drawer-base {
       position: absolute;
       transition: transform 0.2s;

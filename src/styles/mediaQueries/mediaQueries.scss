@@ -34,6 +34,12 @@
   }
 }
 
+@mixin MQ1020 {
+  @media screen and (max-width: 1020px) {
+    @content;
+  }
+}
+
 @mixin MQMaxMin1144 {
   @media screen and (max-width: 1144px) and (min-width: 890px) {
     @content;

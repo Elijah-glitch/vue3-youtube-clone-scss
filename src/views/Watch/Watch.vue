@@ -4,8 +4,20 @@
     :showNavbar="!isFullscreen"
     :sidebarBlock="false"
   >
-    <div class="container">
-      <video-comp />
+    <div
+      class="container"
+      :class="{
+        'container-large-view': viewMode === 'large' || isFullscreen,
+      }"
+    >
+      <div class="grid-container">
+        <div class="grid-video-container">
+          <video-comp />
+        </div>
+        <div class="grid-video-details">s</div>
+        <div class="grid-comment-container">s</div>
+        <div class="grid-recommend-container">s</div>
+      </div>
     </div>
   </layout>
 </template>
@@ -52,16 +64,108 @@ export default defineComponent({
     const store = useStore();
 
     return {
+      // STORE
       isFullscreen: computed(() => store.state["video"].isFullscreen),
+      viewMode: computed(() => store.state["video"].viewMode),
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/mediaQueries/mediaQueries.scss";
 .container {
   display: flex;
-  justify-content: center;
-  width: 100%;
+  overflow: hidden;
+  margin: 0 20px;
+
+  &.container-large-view {
+    width: 100%;
+    margin: 0;
+    & .grid-container {
+      grid-template-areas:
+        "video video"
+        "details recommend"
+        "comment recommend";
+
+      & .grid-video-container {
+        width: 100vw;
+        justify-self: center;
+        padding: 0;
+        margin: 0;
+      }
+
+      & .grid-comment-container,
+      .grid-recommend-container,
+      .grid-video-details {
+        margin: 0 24px;
+      }
+    }
+  }
+
+  & .grid-video-container {
+    grid-area: video;
+    margin: 24px 24px 0 0;
+  }
+
+  & .grid-video-details {
+    grid-area: details;
+    margin: 24px 24px 0 0;
+  }
+
+  & .grid-recommend-container {
+    grid-area: recommend;
+    margin: 24px 24px 0 0;
+  }
+
+  & .grid-comment-container {
+    grid-area: comment;
+    margin: 24px 24px 0 0;
+  }
+
+  & .grid-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns:
+      minmax(436px, calc((100vh - (136px + 25px + 24px)) * (16 / 9)))
+      minmax(300px, 402px);
+    justify-content: center;
+
+    grid-template-rows: auto;
+    grid-template-areas:
+      "video recommend"
+      "details recommend"
+      "comment recommend";
+  }
+
+  @include MQ1020 {
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr;
+
+      grid-template-rows: auto;
+      grid-template-areas:
+        "video"
+        "details"
+        "recommend"
+        "comment" !important;
+    }
+
+    .grid-video-container,
+    .grid-video-details,
+    .grid-comment-container {
+      margin: 0;
+      padding: 0;
+    }
+    .grid-recommend-container {
+      padding: none;
+    }
+
+    .grid-video-container {
+      justify-self: center;
+      margin-right: 0;
+      margin-top: 24px;
+    }
+  }
 }
 </style>
