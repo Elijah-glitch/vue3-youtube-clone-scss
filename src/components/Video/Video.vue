@@ -729,13 +729,10 @@ export default defineComponent({
       const hms = secondsToHMS(seconds);
       videoValuesReactive.videoHoverTime = hms;
 
-      console.log(e.clientX);
-      console.log();
-
       // Set left value of progress bar time show element
-      videoProgressTime.value!.style.left = `${
-        e.clientX - videoProgressTime.value!.offsetWidth
-      }px`;
+      videoProgressTime.value!.style.transform = `translateX(${
+        e.offsetX - videoProgressTime.value!.offsetWidth / 2
+      }px)`;
     };
 
     // PROGRESS BAR AND TIME END
