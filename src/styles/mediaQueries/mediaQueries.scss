@@ -4,6 +4,12 @@
   }
 }
 
+@mixin MQ585 {
+  @media screen and (max-width: 585px) {
+    @content;
+  }
+}
+
 @mixin MQ656 {
   @media screen and (max-width: 656px) {
     @content;

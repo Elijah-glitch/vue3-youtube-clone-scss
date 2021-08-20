@@ -4,19 +4,14 @@
     v-show="visible"
     ref="dropdownItem"
     :direction="direction"
+    :directionV="directionV"
   >
     <slot />
   </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  onMounted,
-  PropType,
-  watch,
-} from "@vue/runtime-core";
+import { defineComponent, ref, PropType, watch } from "@vue/runtime-core";
 
 export default defineComponent({
   name: "DropdownItem",
@@ -25,6 +20,10 @@ export default defineComponent({
       required: true,
       type: String as PropType<"left" | "right">,
       default: "right",
+    },
+    directionV: {
+      type: String as PropType<"top" | "bottom">,
+      default: "bottom",
     },
     visible: {
       type: Boolean,
@@ -74,7 +73,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .dropdown-item-base {
   position: absolute;
-  top: 100%;
   background-color: var(--dropdown-bg);
   z-index: 3;
 }
@@ -86,5 +84,13 @@ export default defineComponent({
 .dropdown-item[direction="right"] {
   @extend .dropdown-item-base;
   left: 0;
+}
+
+.dropdown-item[directionV="top"] {
+  bottom: 100%;
+}
+
+.dropdown-item[directionV="bottom"] {
+  top: 100%;
 }
 </style>

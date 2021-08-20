@@ -42,6 +42,16 @@
       </span>
     </div>
     <div
+      class="video-title"
+      :class="{
+        'video-title-visible': videoValues.showControls.value && isFullscreen,
+        'video-title-hidden': !videoValues.showControls.value || !isFullscreen,
+      }"
+    >
+      Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit
+      aliquet elit, eget tincidunt nibh pulvinar a.
+    </div>
+    <div
       class="video-gradient-bottom"
       v-show="videoValues.showControls.value"
     ></div>
@@ -1089,6 +1099,28 @@ export default defineComponent({
       width: 100%;
       height: 145px;
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAACSCAYAAACE56BkAAAAAXNSR0IArs4c6QAAAWBJREFUKFM90Psr3nEYxvHPZ2wOm5mzGTPmbHM+nxkzx5TWSpKSlNZSkpKk1lpJWklKklpaLX+kXg+PX67nuu7rfd+fb0+IIYQQw8NPCDEmwhOSoktIKnlKniUlpkHSLWdwGXYzxefiC1xCssSX2mwPZXvvFZejyH2UPC6fFLhSACkkRa4UK167QkKJ+EZRmpRYBn4rlmvLce+8VsFVaisdeK+twlVz1ZAaUhtiDHWKOnC9WYPYaK1R/CB+tNYEaTJrttYCaVW0QtpIu3c7cB1iJ9fFdScl9kB6/et9TvW50q8dIINkCDLEDUNG7iWGMGo2Rj6ZjZuNOzBh9tna5L3EEL5wU7hpr02LM2SWzEHmtQviIvfV537jlrTLjq5wq4o1D62DN9zbVHwnP3Bbim27O+BdcU+7Dz6AHDrwE/JL8ZsckWPtieKPtVPcmeJcvOAuza7Ea/Bfb9xw/8z+c7d3tQ0kbe55nG0AAAAASUVORK5CYII=");
+    }
+
+    & .video-title {
+      font-size: 27px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      line-height: 35px;
+      margin: 18px 0 0 16px;
+      position: absolute;
+      top: 0;
+      width: 95%;
+
+      color: var(--white-always);
+
+      &.video-title-visible {
+        opacity: 1 !important;
+      }
+
+      &.video-title-hidden {
+        opacity: 0 !important;
+      }
     }
 
     & .video-menu-container {
