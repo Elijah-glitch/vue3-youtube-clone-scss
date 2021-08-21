@@ -732,17 +732,20 @@ export default defineComponent({
     };
 
     const onHoverProgressBar = (e: MouseEvent) => {
+      const offsetLeftProgress =
+        videoProgressBarEl.value!.getBoundingClientRect().left;
+      const leftX = e.screenX - offsetLeftProgress;
       const seconds =
-        ((e.clientX - 12) / videoProgressBarEl.value!.clientWidth) *
+        (leftX / videoProgressBarEl.value!.clientWidth) *
         videoEl.value!.duration;
 
       const hms = secondsToHMS(seconds);
       videoValuesReactive.videoHoverTime = hms;
 
       // Set left value of progress bar time show element
-      videoProgressTime.value!.style.transform = `translateX(${
-        e.offsetX - videoProgressTime.value!.offsetWidth / 2
-      }px)`;
+      videoProgressTime.value!.style.left = `${
+        leftX - videoProgressTime.value!.offsetWidth / 2
+      }px`;
     };
 
     // PROGRESS BAR AND TIME END
