@@ -94,7 +94,37 @@
               </div>
             </div>
           </div>
-          <div class="video-detail-channel"></div>
+          <div class="video-detail-channel">
+            <div class="video-channel">
+              <div class="video-channel-left">
+                <div class="video-channel-pp">
+                  <img src="@/assets/pp2.jpg" />
+                </div>
+                <div class="video-channel-name-sub">
+                  <span class="video-channel-name">Albert Einstein</span>
+                  <span class="video-channel-sub">3.14K subscribers</span>
+                </div>
+              </div>
+              <div class="video-channel-right">
+                <primary-button>
+                  <text-one type-first>SUBSCRIBE</text-one>
+                </primary-button>
+              </div>
+            </div>
+            <div class="video-channel-desc">
+              <span class="video-desc">
+                Albert Einstein, (born March 14, 1879, Ulm, Württemberg,
+                Germany—died April 18, 1955, Princeton, New Jersey, U.S.),
+                German-born physicist who developed the special and general
+                theories of relativity and won the Nobel Prize for Physics in
+                1921 for his explanation of the photoelectric effect. Einstein
+                is generally considered the most influential physicist of the
+                20th century.
+              </span>
+
+              <span class="video-desc-show"> SHOW MORE </span>
+            </div>
+          </div>
         </div>
         <div class="grid-comment-container">s</div>
         <div class="grid-recommend-container">s</div>
@@ -117,6 +147,8 @@ import DropdownLinkMain from "@/components/Input/Button/Dropdown/DropdownLinkMai
 import DetailPopupContainer from "@/components/Popup/DetailPopupContainer.vue";
 import DetailPopupItem from "@/components/Popup/DetailPopupItem.vue";
 import VideoComp from "@/components/Video/Video.vue";
+import TextOne from "@/components/Text/TextOne.vue";
+import PrimaryButton from "@/components/Input/Button/Primary/PrimaryButton.vue";
 
 // UTILS
 import {
@@ -150,6 +182,8 @@ export default defineComponent({
     DetailPopupContainer,
     DetailPopupItem,
     VideoComp,
+    TextOne,
+    PrimaryButton,
     // ICONS
     BaseIcon,
     IconThreeDotV,
@@ -401,6 +435,73 @@ export default defineComponent({
 
         & .video-more {
           margin-left: 8px;
+        }
+      }
+    }
+
+    & .video-detail-channel {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid var(--border-color);
+
+      & .video-channel {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 16px 0 12px 0;
+
+        & .video-channel-left {
+          display: flex;
+          align-items: center;
+          & .video-channel-pp {
+            padding-right: 16px;
+            & img {
+              width: 48px;
+              height: 48px;
+              border-radius: 50%;
+            }
+          }
+          & .video-channel-name-sub {
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
+            & span {
+              display: inline-block;
+            }
+
+            & .video-channel-name {
+              font-size: 15px;
+              font-weight: 500;
+            }
+
+            & .video-channel-sub {
+              margin-top: 3px;
+              font-size: 13px;
+              color: var(--textone-type-second-color);
+            }
+          }
+        }
+      }
+
+      & .video-channel-desc {
+        display: flex;
+        flex-direction: column;
+        margin: 0 0 16px 64px;
+
+        & .video-desc {
+          max-height: 60px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: pre-line;
+          font-size: 15px;
+          line-height: 20px;
+        }
+
+        & .video-desc-show {
+          margin-top: 8px;
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--textone-type-second-color);
         }
       }
     }
