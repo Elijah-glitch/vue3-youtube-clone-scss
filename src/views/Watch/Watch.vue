@@ -125,6 +125,18 @@
               <span class="video-desc-show"> SHOW MORE </span>
             </div>
           </div>
+          <div class="video-comment-container">
+            <div class="comment-count-sort">
+              <div class="comment-count">4 Comments</div>
+              <div class="comment-sort">
+                <base-icon><icon-sort /></base-icon> SORT BY
+              </div>
+            </div>
+            <div class="comment-input">
+              <img src="@/assets/pp.png" />
+              <text-input />
+            </div>
+          </div>
         </div>
         <div class="grid-comment-container">s</div>
         <div class="grid-recommend-container">s</div>
@@ -149,6 +161,7 @@ import DetailPopupItem from "@/components/Popup/DetailPopupItem.vue";
 import VideoComp from "@/components/Video/Video.vue";
 import TextOne from "@/components/Text/TextOne.vue";
 import PrimaryButton from "@/components/Input/Button/Primary/PrimaryButton.vue";
+import TextInput from "@/components/Input/TextInput/TextInput.vue";
 
 // UTILS
 import {
@@ -166,6 +179,7 @@ import IconFlag from "@/components/Icon/Icons/Flag.vue";
 import IconTranscript from "@/components/Icon/Icons/Transcript.vue";
 import IconSaveToPlaylist from "@/components/Icon/Icons/SaveToPlaylist.vue";
 import IconShare from "@/components/Icon/Icons/Share.vue";
+import IconSort from "@/components/Icon/Icons/Sort.vue";
 
 export default defineComponent({
   name: "Watch",
@@ -184,6 +198,7 @@ export default defineComponent({
     VideoComp,
     TextOne,
     PrimaryButton,
+    TextInput,
     // ICONS
     BaseIcon,
     IconThreeDotV,
@@ -194,6 +209,7 @@ export default defineComponent({
     IconTranscript,
     IconSaveToPlaylist,
     IconShare,
+    IconSort,
   },
   setup() {
     const store = useStore();
@@ -502,6 +518,41 @@ export default defineComponent({
           font-size: 13px;
           font-weight: 500;
           color: var(--textone-type-second-color);
+        }
+      }
+    }
+
+    & .video-comment-container {
+      & .comment-count-sort {
+        display: flex;
+        align-items: center;
+        margin: 24px 0;
+
+        & .comment-count {
+          font-size: 17px;
+          margin-right: 32px;
+        }
+
+        & .comment-sort {
+          display: flex;
+          align-items: center;
+
+          & svg {
+            fill: var(--icon-color-two);
+          }
+        }
+      }
+
+      & .comment-input {
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+
+        & img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          margin-right: 16px;
         }
       }
     }
