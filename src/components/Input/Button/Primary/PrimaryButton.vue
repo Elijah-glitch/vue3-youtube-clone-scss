@@ -1,5 +1,7 @@
 <template>
-  <button @click="onClick()" class="button"><slot /></button>
+  <button @click="onClick()" class="button">
+    <span><slot /></span>
+  </button>
 </template>
 
 <script lang="ts">
@@ -23,5 +25,24 @@ export default defineComponent({
   justify-content: center;
   background: var(--yt-red);
   padding: 10px 16px;
+
+  & span {
+    display: inline-block;
+    font-weight: 500;
+  }
+
+  &[blue] {
+    background: var(--blue-bg);
+    & span {
+      color: var(--blue-text-color);
+    }
+
+    &[disable="true"] {
+      background: var(--blue-disable-bg);
+      & span {
+        color: var(--blue-disable-text-color);
+      }
+    }
+  }
 }
 </style>
