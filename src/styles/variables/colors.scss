@@ -26,6 +26,7 @@ body {
   --search-icon-color: #828282;
   --search-icon-hover-color: #373737;
   --icon-color: #919190;
+  --icon-color-two: rgb(3, 3, 3);
   --icon-hover-color: #616160;
 
   // SEARCH BOX
@@ -89,6 +90,17 @@ body {
   --video-volume-range: #fff;
   --video-fetched-bar-color: rgba(255, 255, 255, 0.5);
   --video-interaction-bg: rgba(0, 0, 0, 0.5);
+
+  // TEXT INPUT
+  --text-input-border-bottom-color: rgba(0, 0, 0, 0.1);
+  --text-input-border-bottom-active-color: #aaa;
+  --text-input-border-bottom-focus-color: #020203;
+
+  // INPUT PRIMARY BUTTON
+  --blue-bg: #3ea7fe;
+  --blue-disable-bg: rgba(0, 0, 0, 0.05);
+  --blue-text-color: #fff;
+  --blue-disable-text-color: rgb(144, 144, 144);
 }
 
 body.dark-mode {
@@ -116,6 +128,7 @@ body.dark-mode {
   --search-icon-color: #6f6f6f;
   --search-icon-hover-color: #868687;
   --icon-color: #909090;
+  --icon-color-two: #fff;
   --icon-hover-color: #ffffff;
 
   // SEARCH BOX
@@ -177,4 +190,15 @@ body.dark-mode {
   --video-volume-range: #fff;
   --video-fetched-bar-color: rgba(255, 255, 255, 0.5);
   --video-interaction-bg: rgba(0, 0, 0, 0.5);
+
+  // TEXT INPUT
+  --text-input-border-bottom-color: rgba(255, 255, 255, 0.1);
+  --text-input-border-bottom-active-color: #5b5a5a;
+  --text-input-border-bottom-focus-color: #fefeff;
+
+  // INPUT PRIMARY BUTTON
+  --blue-bg: #3ea7fe;
+  --blue-disable-bg: rgba(255, 255, 255, 0.1);
+  --blue-text-color: rgb(3, 3, 3);
+  --blue-disable-text-color: rgb(113, 113, 113);
 }
