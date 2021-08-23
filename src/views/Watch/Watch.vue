@@ -125,6 +125,8 @@
               <span class="video-desc-show"> SHOW MORE </span>
             </div>
           </div>
+        </div>
+        <div class="grid-comment-container">
           <div class="video-comment-container">
             <div class="comment-count-sort">
               <div class="comment-count">4 Comments</div>
@@ -137,8 +139,26 @@
               <text-input />
             </div>
           </div>
+
+          <div class="video-comments">
+            <comment />
+            <div class="spacer"></div>
+            <comment
+              :comment="'Nulla quis lorem ut libero malesuada feugiat. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Proin eget tortor risus. Cras ultricies ligula sed magna dictum porta.'"
+              :ppName="'isaac-newton'"
+              :name="'Isaac Newton'"
+            />
+            <div class="spacer"></div>
+            <comment :ppName="'dennis-ritchie'" :name="'Dennis Ritchie'" />
+            <div class="spacer"></div>
+            <comment
+              :comment="'Nulla quis lorem ut libero malesuada feugiat. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.'"
+              :ppName="'galileo-galilei'"
+              :name="'Galileo Galilei'"
+            />
+            <div class="spacer"></div>
+          </div>
         </div>
-        <div class="grid-comment-container">s</div>
         <div class="grid-recommend-container">s</div>
       </div>
     </div>
@@ -162,6 +182,7 @@ import VideoComp from "@/components/Video/Video.vue";
 import TextOne from "@/components/Text/TextOne.vue";
 import PrimaryButton from "@/components/Input/Button/Primary/PrimaryButton.vue";
 import TextInput from "@/components/Input/TextInput/TextInput.vue";
+import Comment from "@/components/Comment/Comment.vue";
 
 // UTILS
 import {
@@ -199,6 +220,7 @@ export default defineComponent({
     TextOne,
     PrimaryButton,
     TextInput,
+    Comment,
     // ICONS
     BaseIcon,
     IconThreeDotV,
@@ -521,12 +543,22 @@ export default defineComponent({
         }
       }
     }
+  }
+
+  & .grid-recommend-container {
+    grid-area: recommend;
+    margin: 24px 24px 0 0;
+  }
+
+  & .grid-comment-container {
+    grid-area: comment;
+    margin: 24px 24px 0 0;
 
     & .video-comment-container {
       & .comment-count-sort {
         display: flex;
         align-items: center;
-        margin: 24px 0;
+        margin: 0 0 24px 0;
 
         & .comment-count {
           font-size: 17px;
@@ -556,16 +588,13 @@ export default defineComponent({
         }
       }
     }
-  }
+    & .video-comments {
+      margin-top: 30px;
 
-  & .grid-recommend-container {
-    grid-area: recommend;
-    margin: 24px 24px 0 0;
-  }
-
-  & .grid-comment-container {
-    grid-area: comment;
-    margin: 24px 24px 0 0;
+      & .spacer {
+        margin-top: 10px;
+      }
+    }
   }
 
   & .grid-container {
