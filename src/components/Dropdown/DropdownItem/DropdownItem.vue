@@ -1,7 +1,7 @@
 <template>
   <div
     class="dropdown-item"
-    v-show="visible"
+    :visible="visible"
     ref="dropdownItem"
     :direction="direction"
     :directionV="directionV"
@@ -74,7 +74,7 @@ export default defineComponent({
 .dropdown-item-base {
   position: absolute;
   background-color: var(--dropdown-bg);
-  z-index: 3;
+  z-index: 5;
 }
 .dropdown-item[direction="left"] {
   @extend .dropdown-item-base;
@@ -92,5 +92,13 @@ export default defineComponent({
 
 .dropdown-item[directionV="bottom"] {
   top: 100%;
+}
+
+.dropdown-item[visible="true"] {
+  visibility: visible;
+}
+
+.dropdown-item[visible="false"] {
+  visibility: hidden;
 }
 </style>
