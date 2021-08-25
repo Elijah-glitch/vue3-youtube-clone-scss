@@ -5,7 +5,7 @@
     :sidebarBlock="false"
   >
     <div
-      class="container"
+      class="container-watch"
       :class="{
         'container-large-view': viewMode === 'large' || isFullscreen,
       }"
@@ -159,14 +159,103 @@
             <div class="spacer"></div>
           </div>
         </div>
-        <div class="grid-recommend-container">s</div>
+        <div class="grid-recommend-container">
+          <div
+            v-for="(item, index) in videos"
+            :key="index"
+            class="recommend-item"
+          >
+            <card-video-img
+              :src="`https://source.unsplash.com/random/1280x720?sig=${
+                index + 1
+              }`"
+              :time="`${generateNumber(1, 15)}:${generateNumber(10, 59)}`"
+              class="recommend-video-img"
+            />
+            <div class="recommend-item-middle">
+              <span class="recommend-item-title">
+                {{ item.title }}
+              </span>
+              <span class="recommend-item-channel">
+                {{ item.channelName }}
+              </span>
+              <div class="recommend-item-watch-date">
+                <span class="recommend-item-watch">
+                  {{ generateNumber(1, 850) }}K views
+                </span>
+                <span class="recommend-item-date">
+                  {{ generateNumber(12, 28) }} days ago
+                </span>
+              </div>
+            </div>
+            <div class="recommend-options">
+              <dropdown-container>
+                <transparent-button
+                  class="recommend-options-button"
+                  :rippleEffect="true"
+                  @click="recommendOptionsOpen(index)"
+                >
+                  <base-icon><icon-three-dot-v /></base-icon>
+                </transparent-button>
+                <dropdown-item
+                  :onclose="() => recommendOptionsClose(index)"
+                  :visible="
+                    recommendOptionsValues.recommendMenuVisible.value[index]
+                  "
+                  :direction="'left'"
+                  :directionV="
+                    recommendOptionsValues.recommendMenuDirectionV.value
+                  "
+                  class="recommend-options-dropdown"
+                >
+                  <dropdown-link-main margin-top>
+                    <base-icon class="dropdown-link-main-icon"
+                      ><icon-add-to-queue />
+                    </base-icon>
+                    <span class="dropdown-link-main-text"> Add to queue </span>
+                  </dropdown-link-main>
+                  <dropdown-link-main>
+                    <base-icon class="dropdown-link-main-icon"
+                      ><icon-clock />
+                    </base-icon>
+                    <span class="dropdown-link-main-text">
+                      Save to Watch later
+                    </span>
+                  </dropdown-link-main>
+                  <dropdown-link-main margin-bottom border-bottom>
+                    <base-icon class="dropdown-link-main-icon"
+                      ><icon-save-to-playlist />
+                    </base-icon>
+                    <span class="dropdown-link-main-text">
+                      Save to playlist
+                    </span>
+                  </dropdown-link-main>
+                  <dropdown-link-main margin-top>
+                    <base-icon class="dropdown-link-main-icon"
+                      ><icon-forbidden />
+                    </base-icon>
+                    <span class="dropdown-link-main-text">
+                      Not interested
+                    </span>
+                  </dropdown-link-main>
+                  <dropdown-link-main margin-bottom>
+                    <base-icon class="dropdown-link-main-icon"
+                      ><icon-flag />
+                    </base-icon>
+                    <span class="dropdown-link-main-text"> Report </span>
+                  </dropdown-link-main>
+                </dropdown-item>
+              </dropdown-container>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </layout>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, toRefs } from "vue";
+import { computed, defineComponent, reactive, ref, toRefs } from "vue";
 import { useStore } from "vuex";
 
 // COMPONENTS
@@ -183,6 +272,7 @@ import TextOne from "@/components/Text/TextOne.vue";
 import PrimaryButton from "@/components/Input/Button/Primary/PrimaryButton.vue";
 import TextInput from "@/components/Input/TextInput/TextInput.vue";
 import Comment from "@/components/Comment/Comment.vue";
+import CardVideoImg from "@/components/Card/CardVideo/CardVideoImg.vue";
 
 // UTILS
 import {
@@ -201,6 +291,9 @@ import IconTranscript from "@/components/Icon/Icons/Transcript.vue";
 import IconSaveToPlaylist from "@/components/Icon/Icons/SaveToPlaylist.vue";
 import IconShare from "@/components/Icon/Icons/Share.vue";
 import IconSort from "@/components/Icon/Icons/Sort.vue";
+import IconAddToQueue from "@/components/Icon/Icons/AddToQueue.vue";
+import IconClock from "@/components/Icon/Icons/Clock.vue";
+import IconForbidden from "@/components/Icon/Icons/Forbidden.vue";
 
 export default defineComponent({
   name: "Watch",
@@ -221,6 +314,7 @@ export default defineComponent({
     PrimaryButton,
     TextInput,
     Comment,
+    CardVideoImg,
     // ICONS
     BaseIcon,
     IconThreeDotV,
@@ -232,9 +326,128 @@ export default defineComponent({
     IconSaveToPlaylist,
     IconShare,
     IconSort,
+    IconAddToQueue,
+    IconClock,
+    IconForbidden,
   },
   setup() {
     const store = useStore();
+
+    interface Videos {
+      title: string;
+      photo: string;
+      channelName: string;
+    }
+    const videos = ref<Array<Videos>>([
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "charles-darwin.jpg",
+        channelName: "Charles Darwin",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "dennis-ritchie.jpg",
+        channelName: "Dennis Ritchie",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "galileo-galilei.jpg",
+        channelName: "Galileo Galilei",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "isaac-newton.jpg",
+        channelName: "Isaac Newton",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "marie-curie.png",
+        channelName: "Marie Curie",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "nikola-tesla.jpg",
+        channelName: "Nikola Tesla",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "charles-darwin.jpg",
+        channelName: "Charles Darwin",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "dennis-ritchie.jpg",
+        channelName: "Dennis Ritchie",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "galileo-galilei.jpg",
+        channelName: "Galileo Galilei",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "isaac-newton.jpg",
+        channelName: "Isaac Newton",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "marie-curie.png",
+        channelName: "Marie Curie",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "nikola-tesla.jpg",
+        channelName: "Nikola Tesla",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "charles-darwin.jpg",
+        channelName: "Charles Darwin",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "dennis-ritchie.jpg",
+        channelName: "Dennis Ritchie",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "galileo-galilei.jpg",
+        channelName: "Galileo Galilei",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "isaac-newton.jpg",
+        channelName: "Isaac Newton",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "marie-curie.png",
+        channelName: "Marie Curie",
+      },
+      {
+        title:
+          "Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.",
+        photo: "nikola-tesla.jpg",
+        channelName: "Nikola Tesla",
+      },
+    ]);
 
     interface IVideoOptionsValues {
       moreMenuDirectionH: "left" | "right";
@@ -263,7 +476,6 @@ export default defineComponent({
         const isHaveBottomSpace = isBottomBlankHaveEnoughSpace(
           videoMoreDropdownEl as HTMLElement
         );
-        console.log(isHaveBottomSpace);
 
         videoOptionsValuesR.moreMenuDirectionH = isHaveRightSpace
           ? "right"
@@ -278,10 +490,50 @@ export default defineComponent({
     };
     // VIDEO OPTIONS END
 
+    // RECOMMEND OPTIONS BEGIN
+    interface IRecommendOptionsValues {
+      recommendMenuDirectionV: "top" | "bottom";
+      recommendMenuVisible: Array<boolean>;
+    }
+    const recommendOptionsValuesR = reactive<IRecommendOptionsValues>({
+      recommendMenuDirectionV: "bottom",
+      recommendMenuVisible: Array(videos.value.length).fill(false),
+    });
+
+    const recommendOptionsValues = toRefs<IRecommendOptionsValues>(
+      recommendOptionsValuesR
+    );
+
+    const recommendOptionsOpen = (index: number) => {
+      recommendOptionsValuesR.recommendMenuVisible[index] = true;
+
+      const recommendOptionsDropdownEl = document.getElementsByClassName(
+        "recommend-options-dropdown"
+      )[index];
+      const recommendOptionsButtonEl = document.getElementsByClassName(
+        "recommend-options-button"
+      )[index];
+      recommendOptionsValuesR.recommendMenuDirectionV =
+        isBottomBlankHaveEnoughSpace(
+          recommendOptionsDropdownEl as HTMLElement,
+          recommendOptionsButtonEl as HTMLElement
+        )
+          ? "bottom"
+          : "top";
+    };
+    const recommendOptionsClose = (index: number) => {
+      recommendOptionsValuesR.recommendMenuVisible[index] = false;
+    };
+    // RECOMMEND OPTIONS END
+
     return {
       videoOptionsValues,
       videoMoreOpen,
       videoMoreClose,
+      videos,
+      recommendOptionsValues,
+      recommendOptionsOpen,
+      recommendOptionsClose,
       // STORE
       isFullscreen: computed(() => store.state["video"].isFullscreen),
       viewMode: computed(() => store.state["video"].viewMode),
@@ -290,9 +542,9 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "@/styles/mediaQueries/mediaQueries.scss";
-.container {
+.container-watch {
   display: flex;
   overflow: hidden;
   // margin: 0 20px;
@@ -362,11 +614,13 @@ export default defineComponent({
   & .grid-video-container {
     grid-area: video;
     margin: 24px 24px 0 0;
+    height: fit-content;
   }
 
   & .grid-video-details {
     grid-area: details;
     margin: 24px 24px 0 0;
+    align-self: start;
 
     & .video-details-title {
       font-size: 19px;
@@ -548,11 +802,82 @@ export default defineComponent({
   & .grid-recommend-container {
     grid-area: recommend;
     margin: 24px 24px 0 0;
+
+    & .recommend-item {
+      display: flex;
+      margin-top: 8px;
+
+      &:hover {
+        & .recommend-options {
+          & .recommend-options-button {
+            visibility: visible;
+          }
+        }
+      }
+
+      & .recommend-video-img {
+        & img {
+          width: 168px;
+          height: 94px;
+        }
+        width: 168px;
+        height: 94px;
+        margin-right: 8px;
+      }
+
+      & .recommend-item-middle {
+        display: flex;
+        flex-direction: column;
+        margin-top: 4px;
+        width: 100%;
+        & .recommend-item-title {
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: normal;
+          line-height: 20px;
+          height: 40px;
+          margin-bottom: 4px;
+        }
+
+        & .recommend-item-channel,
+        & .recommend-item-watch,
+        & .recommend-item-date {
+          font-size: 13px;
+          color: var(--textone-type-second-color);
+        }
+
+        & .recommend-item-watch-date {
+          display: flex;
+          margin-top: 4px;
+
+          & .recommend-item-watch::after {
+            content: "•";
+            margin: 0 4px;
+          }
+        }
+      }
+
+      & .recommend-options {
+        & .recommend-options-button {
+          visibility: hidden;
+
+          &:focus {
+            visibility: visible;
+          }
+        }
+
+        & .recommend-options-dropdown {
+          width: 215px;
+        }
+      }
+    }
   }
 
   & .grid-comment-container {
     grid-area: comment;
     margin: 24px 24px 0 0;
+    grid-auto-columns: max-content;
 
     & .video-comment-container {
       & .comment-count-sort {
@@ -604,8 +929,7 @@ export default defineComponent({
       minmax(640px, calc((100vh - (136px + 25px + 24px)) * (16 / 9)))
       minmax(300px, 402px);
     justify-content: center;
-
-    grid-template-rows: auto;
+    grid-template-rows: max-content max-content;
     grid-template-areas:
       "video recommend"
       "details recommend"
@@ -634,6 +958,7 @@ export default defineComponent({
     }
     .grid-recommend-container {
       padding: none;
+      margin-top: 24px;
     }
 
     .grid-video-container {
@@ -645,6 +970,10 @@ export default defineComponent({
 
     .grid-video-details {
       margin-top: 22px;
+    }
+
+    & .grid-comment-container {
+      margin-top: 15px;
     }
   }
 }
