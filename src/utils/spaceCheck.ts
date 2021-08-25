@@ -17,17 +17,15 @@ export const isRightBlankHaveEnoughSpace = (
 /** Check blank of bottom to the element. */
 export const isBottomBlankHaveEnoughSpace = (
   targetElement: HTMLElement,
-  elementHeight?: number
+  buttonElement?: HTMLElement
 ) => {
   const screenHeight = window.innerHeight;
-  const offsetBottom = targetElement.getBoundingClientRect().bottom;
-  //   console.log(screenWidth, "screenWidth");
-  //   console.log(offsetLeft, "offsetLeft");
-  //   console.log(elementWidth, "elementWidth");
-  if (
-    screenHeight - offsetBottom >=
-    (elementHeight || targetElement.clientHeight)
-  ) {
+  const offsetBottom = (buttonElement || targetElement).getBoundingClientRect()
+    .bottom;
+  // console.log(targetElement.clientHeight);
+  // console.log(screenHeight, "screenHeight");
+  // console.log(offsetBottom, "offsetBottom");
+  if (screenHeight - offsetBottom >= targetElement.clientHeight) {
     return true;
   }
   return false;
