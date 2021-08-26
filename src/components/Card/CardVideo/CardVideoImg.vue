@@ -1,12 +1,14 @@
 <template>
   <div class="card-video-img-container">
     <div class="card-video-time">{{ time }}</div>
-    <img :src="src" />
+    <img ref="cardVideoImgRef" v-show="!imgIsLoading" :src="src" />
+    <div class="card-video-skeleton" v-show="imgIsLoading"></div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent, onMounted, ref } from "@vue/runtime-core";
+import { isImgLoading } from "@/utils/isImgLoading";
 export default defineComponent({
   name: "CardVideoImg",
   props: {
@@ -18,6 +20,26 @@ export default defineComponent({
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const cardVideoImgRef = ref<HTMLImageElement>();
+    const imgIsLoading = ref<boolean>(false);
+    onMounted(() => {
+      const imgEl = cardVideoImgRef.value as HTMLImageElement;
+
+      const checkImg = () => {
+        isImgLoading(imgEl)
+          ? (imgIsLoading.value = true)
+          : (imgIsLoading.value = false);
+      };
+
+      checkImg();
+
+      imgEl.addEventListener("load", () => {
+        checkImg();
+      });
+    });
+    return { cardVideoImgRef, imgIsLoading };
   },
 });
 </script>
@@ -40,6 +62,12 @@ export default defineComponent({
 
   & img {
     width: 100%;
+  }
+
+  & .card-video-skeleton {
+    width: 100%;
+    background: var(--border-color);
+    height: 180px;
   }
 }
 </style>
