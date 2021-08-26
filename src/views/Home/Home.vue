@@ -7,28 +7,34 @@
           :key="item.title"
           class="video-card-item"
         >
-          <card-video-img
-            :src="`https://source.unsplash.com/random/1280x720?sig=${
-              index + 1
-            }`"
-            :time="`${generateNumber(1, 15)}:${generateNumber(10, 59)}`"
-          />
-
+          <router-link to="/watch">
+            <card-video-img
+              :src="`https://source.unsplash.com/random/1280x720?sig=${
+                index + 1
+              }`"
+              :time="`${generateNumber(1, 15)}:${generateNumber(10, 59)}`"
+            />
+          </router-link>
           <div class="video-card-title">
-            <div class="video-card-title-left">
-              <avatar-main
-                :height="'36px'"
-                :width="'36px'"
-                :src="item.photo"
-                :alt="item.title"
-              />
-            </div>
+            <router-link to="/watch">
+              <div class="video-card-title-left">
+                <avatar-main
+                  :height="'36px'"
+                  :width="'36px'"
+                  :src="item.photo"
+                  :alt="item.title"
+                />
+              </div>
+            </router-link>
 
             <div class="video-card-title-right">
               <div class="video-card-title-right-row1">
-                <h4>
-                  {{ item.title }}
-                </h4>
+                <router-link to="/watch">
+                  <h4>
+                    {{ item.title }}
+                  </h4>
+                </router-link>
+
                 <dropdown-container>
                   <transparent-button
                     :rippleEffect="true"
@@ -125,6 +131,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import RouterLink from "vue-router";
 import Layout from "@/components/Layout/Layout.vue";
 import CardVideoContainer from "@/components/Card/CardVideo/CardVideoContainer.vue";
 import CardVideo from "@/components/Card/CardVideo/CardVideo.vue";
@@ -185,6 +192,9 @@ export default defineComponent({
     IconSaveToPlaylist,
     IconWatch,
     IconFlag,
+
+    // ROUTER
+    RouterLink,
   },
   setup() {
     const videos = ref<Array<Videos>>([
@@ -325,6 +335,11 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   width: 100%;
+
+  & > a {
+    display: contents;
+  }
+
   & .video-card-container {
     // THESE VALUES SET IN STYLES BREAKPOINTS FILE
     margin: 24px 0 0 0;
