@@ -593,6 +593,10 @@ export default defineComponent({
         margin: 0 24px;
       }
 
+      & .grid-comment-container {
+        margin: 0 24px 0 0;
+      }
+
       & .grid-video-details {
         margin: 20px 0 0 0;
       }
@@ -878,6 +882,7 @@ export default defineComponent({
     grid-area: comment;
     margin: 24px 24px 0 0;
     grid-auto-columns: max-content;
+    margin-left: 0;
 
     & .video-comment-container {
       & .comment-count-sort {
@@ -942,7 +947,7 @@ export default defineComponent({
       grid-template-columns: 1fr;
       width: calc(100% - 40px);
 
-      grid-template-rows: auto;
+      grid-template-rows: max-content max-content;
       grid-template-areas:
         "video"
         "details"
@@ -966,6 +971,7 @@ export default defineComponent({
       margin: 0;
       margin-top: 24px;
       width: 100%;
+      height: 100%;
     }
 
     .grid-video-details {
