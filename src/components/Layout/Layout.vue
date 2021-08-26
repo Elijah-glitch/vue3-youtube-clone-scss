@@ -1036,7 +1036,7 @@ export default defineComponent({
 @import "@/styles/scroll/scroll.scss";
 
 .layout {
-  overflow-x: hidden;
+  overflow: hidden;
   min-height: 100vh;
 
   &.layout-hide-scrollbar {
