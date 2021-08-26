@@ -82,7 +82,7 @@
           <detail-video-popup-container>
             <button
               v-show="!videoValues.isVideoPlaying.value"
-              class="video-play-pause"
+              class="video-play-pause video-play-button"
               @click="onTogglePlayWithButton()"
             >
               <icon-base
@@ -96,7 +96,7 @@
             </button>
             <button
               v-show="videoValues.isVideoPlaying.value"
-              class="video-play-pause"
+              class="video-play-pause video-pause-button"
               @click="onTogglePlayWithButton()"
             >
               <icon-base
@@ -792,9 +792,8 @@ export default defineComponent({
       videoValuesReactive.volume = newVolume;
 
       // volumeLevel value change bug fix
-      setTimeout(() => {
-        return (videoEl.value!.volume = newVolume / 100);
-      }, 0);
+
+      videoEl.value!.volume = newVolume / 100;
 
       if (newVolume >= 50) {
         return (videoValuesReactive.volumeLevel = "max");
@@ -881,7 +880,7 @@ export default defineComponent({
 
     // LARGE/DEFAULT VIEW BEGIN
     const toggleViewMode = () => {
-      store.dispatch("toggleViewModeState");
+      store?.dispatch("toggleViewModeState");
       onTimeUpdate();
     };
     // LARGE/DEFAULT VIEW END
@@ -893,7 +892,7 @@ export default defineComponent({
 
     const toggleFullScreen = (value: boolean | undefined) => {
       isNotEscPressed = true;
-      const fullscreenState = store.state["video"].isFullscreen;
+      const fullscreenState = store?.state["video"].isFullscreen;
       if (value !== undefined) {
         if (value) {
           document.body.style.overflow = "hidden";
@@ -902,7 +901,7 @@ export default defineComponent({
           document.body.style.overflow = "inherit";
           document.exitFullscreen();
         }
-        store.dispatch("changeFullscreenState", value);
+        store?.dispatch("changeFullscreenState", value);
         return;
       }
       if (fullscreenState) {
@@ -919,7 +918,7 @@ export default defineComponent({
     const toggleFullScreenEvent = (): void => {
       if (!isNotEscPressed) {
         document.body.style.overflow = "inherit";
-        store.dispatch("changeFullscreenState", false);
+        store?.dispatch("changeFullscreenState", false);
       }
       onTimeUpdate();
       isNotEscPressed = false;
@@ -1001,6 +1000,8 @@ export default defineComponent({
       onHoverProgressBar,
       onProgress,
       onChangeVolume,
+      setVolumeLevel,
+      setVolumeInputValue,
       onToggleMute,
       onVolumeMouseOver,
       onVolumeMouseOut,
@@ -1015,8 +1016,8 @@ export default defineComponent({
       toggleViewMode,
 
       // STORE
-      isFullscreen: computed(() => store.state["video"].isFullscreen),
-      viewMode: computed(() => store.state["video"].viewMode),
+      isFullscreen: computed(() => store?.state["video"].isFullscreen),
+      viewMode: computed(() => store?.state["video"].viewMode),
     };
   },
 });
