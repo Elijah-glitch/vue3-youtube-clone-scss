@@ -1,24 +1,18 @@
-# vue-youtube-clone
+- Vue
+- SCSS
+- Responsive
+- Unit tests
 
-## Project setup
-```
-npm install
-```
+# LIVE DEMO
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+https://vue3-youtube-clone.netlify.app/
 
-### Compiles and minifies for production
-```
-npm run build
-```
+# FILE STRUCTURE
 
-### Lints and fixes files
-```
-npm run lint
-```
+![](https://github.com/MustafaEminn/vue3-youtube-clone/blob/master/github_assets/file-structure.gif?raw=true)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# CLONE SCREENSHOTS
+
+![](https://github.com/MustafaEminn/vue3-youtube-clone/blob/master/github_assets/clone1.png?raw=true)
+
+![](https://github.com/MustafaEminn/vue3-youtube-clone/blob/master/github_assets/clone2.png?raw=true)
