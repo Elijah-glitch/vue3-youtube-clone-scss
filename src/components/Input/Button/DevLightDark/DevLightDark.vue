@@ -1,13 +1,21 @@
 <template>
-  <button @click="onToggleTheme" v-if="isDev()" class="button">CHANGE</button>
+  <button
+    :class="{ dark: theme === 'dark' }"
+    @click="onToggleTheme"
+    v-if="isDev()"
+    class="button"
+  >
+    {{ theme === "dark" ? "🌞" : "🌛" }}
+  </button>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "DevLightDarkButton",
   setup() {
+    const theme = ref<"light" | "dark">("light");
     const isDev = () => {
       const VUE_APP_MODE = process.env.VUE_APP_MODE;
       if (VUE_APP_MODE === "dev") return true;
@@ -15,9 +23,15 @@ export default defineComponent({
     };
 
     const onToggleTheme = () => {
-      return document.body.classList.toggle("dark-mode");
+      document.body.classList.toggle("dark-mode");
+
+      if (theme.value === "dark") {
+        return (theme.value = "light");
+      }
+
+      return (theme.value = "dark");
     };
-    return { isDev, onToggleTheme };
+    return { isDev, onToggleTheme, theme };
   },
 });
 </script>
@@ -31,7 +45,14 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   border: none;
-  background: red;
-  padding: 8px;
+  height: 50px;
+  width: 50px;
+  font-size: 26px;
+  background: #000;
+  border-radius: 50%;
+
+  &.dark {
+    background: #fff;
+  }
 }
 </style>
