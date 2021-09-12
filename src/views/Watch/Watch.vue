@@ -159,6 +159,7 @@
             <div class="spacer"></div>
           </div>
         </div>
+
         <div class="grid-recommend-container">
           <div
             v-for="(item, index) in videos"
@@ -255,7 +256,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, toRefs } from "vue";
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  reactive,
+  ref,
+  toRefs,
+} from "vue";
 import { useStore } from "vuex";
 
 // COMPONENTS
@@ -595,6 +603,7 @@ export default defineComponent({
 
       & .grid-comment-container {
         margin: 0 24px 0 0;
+        height: 1500px;
       }
 
       & .grid-video-details {
@@ -615,10 +624,24 @@ export default defineComponent({
     }
   }
 
+  & .grid-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns:
+      minmax(640px, calc((100vh - (136px + 25px + 24px)) * (16 / 9)))
+      minmax(300px, 402px);
+    place-content: center;
+    grid-template-areas:
+      "video recommend"
+      "details recommend"
+      "comment recommend";
+  }
+
   & .grid-video-container {
     grid-area: video;
     margin: 24px 24px 0 0;
     height: fit-content;
+    align-self: start;
   }
 
   & .grid-video-details {
@@ -881,8 +904,8 @@ export default defineComponent({
   & .grid-comment-container {
     grid-area: comment;
     margin: 24px 24px 0 0;
-    grid-auto-columns: max-content;
-    margin-left: 0;
+    align-self: start;
+    height: 1200px;
 
     & .video-comment-container {
       & .comment-count-sort {
@@ -927,20 +950,6 @@ export default defineComponent({
     }
   }
 
-  & .grid-container {
-    display: grid;
-    width: 100%;
-    grid-template-columns:
-      minmax(640px, calc((100vh - (136px + 25px + 24px)) * (16 / 9)))
-      minmax(300px, 402px);
-    justify-content: center;
-    grid-template-rows: max-content max-content;
-    grid-template-areas:
-      "video recommend"
-      "details recommend"
-      "comment recommend";
-  }
-
   @include MQ1020 {
     .grid-container {
       display: grid;
@@ -980,6 +989,7 @@ export default defineComponent({
 
     & .grid-comment-container {
       margin-top: 15px;
+      height: 100%;
     }
   }
 }
