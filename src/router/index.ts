@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import Watch from "@/views/Watch/Watch.vue";
+import Home from "@/views/Home/Home.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
-    component: () =>
-      import(/* webpackChunkName: "home" */ "../views/Home/Home.vue"),
+    component: Home,
   },
   {
     path: "/watch",
     name: "Watch",
-    component: () =>
-      import(/* webpackChunkName: "watch" */ "../views/Watch/Watch.vue"),
+    component: Watch,
   },
 ];
 
