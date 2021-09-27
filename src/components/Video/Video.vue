@@ -975,6 +975,7 @@ export default defineComponent({
     };
 
     const onMouseOutVideoContainer = () => {
+      clearTimeout(timeOut);
       showCursor();
       if (videoValuesReactive.isVideoPlaying) {
         return (videoValuesReactive.showControls = false);
@@ -1038,7 +1039,6 @@ export default defineComponent({
     // max-width: calc((100vh - (56px + 24px + 136px)) * (16 / 9));
     height: 100%;
     min-width: 436px;
-    max-width: 1280px;
     @include MQ1020 {
       width: 100%;
     }
