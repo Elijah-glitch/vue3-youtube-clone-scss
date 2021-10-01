@@ -388,47 +388,46 @@ export default defineComponent({
               line-height: 20px;
               max-height: 40px;
             }
+          }
+          & .video-card-title-right-row2 {
+            margin-top: 6px;
+            & .video-channelName {
+              font-size: 15px;
+              color: var(--text-link-primary-color);
 
-            & .video-card-title-right-row2 {
-              margin-top: 6px;
-              & .video-channelName {
+              &:hover {
+                color: var(--text-link-primary-hover-color);
+              }
+            }
+
+            & .video-card-title-right-row2-bottom {
+              display: flex;
+              margin-top: 3px;
+
+              & span {
+                display: inline-block;
                 font-size: 15px;
                 color: var(--text-link-primary-color);
-
-                &:hover {
-                  color: var(--text-link-primary-hover-color);
-                }
               }
 
-              & .video-card-title-right-row2-bottom {
-                display: flex;
-                margin-top: 3px;
-
-                & span {
-                  display: inline-block;
-                  font-size: 15px;
-                  color: var(--text-link-primary-color);
-                }
-
-                .video-card-title-right-row2-bottom-text1 {
-                  &::after {
-                    content: "•";
-                    margin: 0 5px;
-                  }
+              .video-card-title-right-row2-bottom-text1 {
+                &::after {
+                  content: "•";
+                  margin: 0 5px;
                 }
               }
             }
+          }
 
-            & .video-options-dropdown {
-              width: 258px;
-            }
+          & .video-options-dropdown {
+            width: 258px;
+          }
 
-            & .options-button {
-              visibility: hidden;
+          & .options-button {
+            visibility: hidden;
 
-              &:focus {
-                visibility: visible !important;
-              }
+            &:focus {
+              visibility: visible !important;
             }
           }
         }
